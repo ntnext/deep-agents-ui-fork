@@ -11,6 +11,7 @@ import { useAuthContext } from "@/providers/Auth";
 import type { SubAgent, FileItem, TodoItem } from "./types/types";
 import styles from "./page.module.scss";
 import { Assistant } from "@langchain/langgraph-sdk";
+import { useChat } from "./hooks/useChat";
 
 export default function HomePage() {
   const { session } = useAuthContext();
@@ -86,9 +87,17 @@ export default function HomePage() {
     setFiles({});
   }, [setThreadId]);
 
+  const { messages, isLoading, sendMessage, stopStream } = useChat(
+    threadId,
+    setThreadId,
+    setTodos,
+    setFiles,
+  );
+
   return (
     <div className={styles.container}>
       <TasksFilesSidebar
+        messages={messages}
         todos={todos}
         files={files}
         activeAssistant={activeAssistant}
@@ -100,11 +109,13 @@ export default function HomePage() {
       <div className={styles.mainContent}>
         <ChatInterface
           threadId={threadId}
+          messages={messages}
+          isLoading={isLoading}
+          sendMessage={sendMessage}
+          stopStream={stopStream}
           selectedSubAgent={selectedSubAgent}
           setThreadId={setThreadId}
           onSelectSubAgent={setSelectedSubAgent}
-          onTodosUpdate={setTodos}
-          onFilesUpdate={setFiles}
           onNewThread={handleNewThread}
           isLoadingThreadState={isLoadingThreadState}
         />

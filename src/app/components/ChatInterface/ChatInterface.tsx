@@ -14,20 +14,21 @@ import { Send, Bot, LoaderCircle, SquarePen, History, X } from "lucide-react";
 import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { ThreadHistorySidebar } from "../ThreadHistorySidebar/ThreadHistorySidebar";
 import type { SubAgent, TodoItem, ToolCall } from "../../types/types";
-import { useChat } from "../../hooks/useChat";
 import styles from "./ChatInterface.module.scss";
 import { Message } from "@langchain/langgraph-sdk";
 import { extractStringFromMessageContent } from "../../utils/utils";
 
 interface ChatInterfaceProps {
   threadId: string | null;
+  messages: Message[];
+  isLoading: boolean;
   selectedSubAgent: SubAgent | null;
+  sendMessage: (message: string) => void;
+  stopStream: () => void;
   setThreadId: (
     value: string | ((old: string | null) => string | null) | null,
   ) => void;
   onSelectSubAgent: (subAgent: SubAgent) => void;
-  onTodosUpdate: (todos: TodoItem[]) => void;
-  onFilesUpdate: (files: Record<string, string>) => void;
   onNewThread: () => void;
   isLoadingThreadState: boolean;
 }
@@ -35,24 +36,19 @@ interface ChatInterfaceProps {
 export const ChatInterface = React.memo<ChatInterfaceProps>(
   ({
     threadId,
+    messages,
+    isLoading,
     selectedSubAgent,
+    sendMessage,
+    stopStream,
     setThreadId,
     onSelectSubAgent,
-    onTodosUpdate,
-    onFilesUpdate,
     onNewThread,
     isLoadingThreadState,
   }) => {
     const [input, setInput] = useState("");
     const [isThreadHistoryOpen, setIsThreadHistoryOpen] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
-    const { messages, isLoading, sendMessage, stopStream } = useChat(
-      threadId,
-      setThreadId,
-      onTodosUpdate,
-      onFilesUpdate,
-    );
 
     useEffect(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

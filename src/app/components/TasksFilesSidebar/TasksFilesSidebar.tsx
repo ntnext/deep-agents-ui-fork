@@ -15,9 +15,10 @@ import { Button } from "@/components/ui/button";
 import { OptimizationWindow } from "../OptimizationWindow/OptimizationWindow";
 import type { TodoItem, FileItem } from "../../types/types";
 import styles from "./TasksFilesSidebar.module.scss";
-import { Assistant } from "@langchain/langgraph-sdk";
+import { Assistant, Message } from "@langchain/langgraph-sdk";
 
 interface TasksFilesSidebarProps {
+  messages: Message[];
   todos: TodoItem[];
   files: Record<string, string>;
   activeAssistant: Assistant | null;
@@ -28,7 +29,7 @@ interface TasksFilesSidebarProps {
 }
 
 export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
-  ({ todos, files, activeAssistant, onFileClick, collapsed, onToggleCollapse, onAssistantUpdate }) => {
+  ({ messages, todos, files, activeAssistant, onFileClick, collapsed, onToggleCollapse, onAssistantUpdate }) => {
     const [isTrainingModeExpanded, setIsTrainingModeExpanded] = useState(false);
 
     const handleToggleTrainingMode = useCallback(() => {
@@ -175,6 +176,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
           </Tabs>
           
           <OptimizationWindow 
+            deepAgentMessages={messages}
             isExpanded={isTrainingModeExpanded}
             onToggle={handleToggleTrainingMode}
             activeAssistant={activeAssistant}

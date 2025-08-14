@@ -31,6 +31,7 @@ type OptimizerMessage = {
 }
 
 interface OptimizationWindowProps {
+    deepAgentMessages: Message[];
     isExpanded: boolean;
     onToggle: () => void;
     activeAssistant: Assistant | null;
@@ -39,7 +40,7 @@ interface OptimizationWindowProps {
 
 type DisplayMessage = UserMessage | OptimizerMessage;
 
-export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpanded, onToggle, activeAssistant, onAssistantUpdate }) => {
+export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ deepAgentMessages, isExpanded, onToggle, activeAssistant, onAssistantUpdate }) => {
   const { session } = useAuthContext();
   const [optimizerThreadId, setOptimizerThreadId] = useState<string | null>(null);
   const [feedbackInput, setFeedbackInput] = useState("");
@@ -76,13 +77,13 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpan
   const isLoading = stream.isLoading;
 
   const handleSubmitFeedback = useCallback(() => {
+    setFeedbackInput("");
+    setDisplayMessages(prev => [...prev, { type: "user", content: feedbackInput }]);
     const messageContent = assembleOptimizerInputMessage(
         activeAssistant?.config || {},
         feedbackInput,
-        stream.messages
+        deepAgentMessages
     );
-    setFeedbackInput("");
-    setDisplayMessages(prev => [...prev, { type: "user", content: feedbackInput }]);
     const humanMessage: Message = {
         id: uuidv4(),
         type: "human",
@@ -91,9 +92,9 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpan
     stream.submit({ 
         messages: [humanMessage],
         edited_config: activeAssistant?.config.configurable || {},
-        agent_messages: [],
+        agent_messages: deepAgentMessages,
     });
-  }, [feedbackInput, stream, activeAssistant]);
+  }, [feedbackInput, stream, activeAssistant, deepAgentMessages]);
 
   useEffect(() => {
     if (textareaRef.current) {
