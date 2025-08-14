@@ -24,10 +24,11 @@ interface TasksFilesSidebarProps {
   onFileClick: (file: FileItem) => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
+  onAssistantUpdate: () => void;
 }
 
 export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
-  ({ todos, files, activeAssistant, onFileClick, collapsed, onToggleCollapse }) => {
+  ({ todos, files, activeAssistant, onFileClick, collapsed, onToggleCollapse, onAssistantUpdate }) => {
     const [isTrainingModeExpanded, setIsTrainingModeExpanded] = useState(false);
 
     const handleToggleTrainingMode = useCallback(() => {
@@ -177,6 +178,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
             isExpanded={isTrainingModeExpanded}
             onToggle={handleToggleTrainingMode}
             activeAssistant={activeAssistant}
+            onAssistantUpdate={onAssistantUpdate}
           />
         </div>
       </div>

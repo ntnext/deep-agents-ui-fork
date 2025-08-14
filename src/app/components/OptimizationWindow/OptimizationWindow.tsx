@@ -34,11 +34,12 @@ interface OptimizationWindowProps {
     isExpanded: boolean;
     onToggle: () => void;
     activeAssistant: Assistant | null;
+    onAssistantUpdate: () => void;
   }
 
 type DisplayMessage = UserMessage | OptimizerMessage;
 
-export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpanded, onToggle, activeAssistant }) => {
+export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpanded, onToggle, activeAssistant, onAssistantUpdate }) => {
   const { session } = useAuthContext();
   const [optimizerThreadId, setOptimizerThreadId] = useState<string | null>(null);
   const [feedbackInput, setFeedbackInput] = useState("");
@@ -58,7 +59,6 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpan
       old_config: activeAssistant?.config.configurable || {},
       new_config: state.values.edited_config
     };
-    console.log(state.values.edited_config);
     setDisplayMessages(prev => [...prev, optimizerMessage]);
   }, [activeAssistant]);
   
@@ -110,7 +110,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpan
   }, [handleSubmitFeedback]);
 
   const handleClear = useCallback(() => {
-    // TODO: Create a new thread
+    setOptimizerThreadId(null);
     setFeedbackInput("");
     setDisplayMessages([]);
   }, []);
@@ -124,8 +124,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpan
   };
 
   const handleOptimizerMessageClick = useCallback((message: OptimizerMessage) => {
-    setSelectedOptimizerMessage(message);
-    setIsDiffDialogOpen(true);
+    if (message.status === "pending") {
+      setSelectedOptimizerMessage(message);
+      setIsDiffDialogOpen(true);
+    }
   }, []);
 
   const handleApprove = useCallback(() => {
@@ -137,17 +139,23 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpan
             : msg
         )
       );
+      handleClear();
       if (activeAssistant) {
         deploymentClient.assistants.update(activeAssistant.assistant_id, {
             config: {
                 configurable: selectedOptimizerMessage.new_config,
             },
-            });
+        }).then(() => {
+          // Wait a bit for the update to propagate
+          setTimeout(() => {
+            onAssistantUpdate();
+          }, 500);
+        });
       }
       setIsDiffDialogOpen(false);
       setSelectedOptimizerMessage(null);
     }
-  }, [selectedOptimizerMessage]);
+  }, [selectedOptimizerMessage, handleClear, activeAssistant, onAssistantUpdate]);
 
   const handleReject = useCallback(() => {
     if (selectedOptimizerMessage) {
@@ -261,6 +269,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ isExpan
                           <button 
                             className={`${styles.optimizerButton} ${styles[message.status]}`}
                             onClick={() => handleOptimizerMessageClick(message)}
+                            disabled={message.status !== "pending"}
                           >
                             <span className={styles.statusIcon}>
                               {message.status === "approved" && "✓"}

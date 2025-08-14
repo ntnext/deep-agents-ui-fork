@@ -33,11 +33,19 @@ export default function HomePage() {
     return createClient(session?.accessToken || "");
   }, [session?.accessToken]);
 
-  useEffect(() => {
-    client.assistants.get("5c3b237e-1289-43e1-b81d-08bc20ae6c4a").then((assistant) => {
+  const refreshActiveAssistant = useCallback(async () => {
+    try {
+      const assistant = await client.assistants.get(process.env.NEXT_PUBLIC_ASSISTANT_ID || "");
+      console.log("Triggered assistant update", assistant);
       setActiveAssistant(assistant);
-    });
+    } catch (error) {
+      console.error("Failed to refresh assistant:", error);
+    }
   }, [client]);
+
+  useEffect(() => {
+    refreshActiveAssistant();
+  }, [refreshActiveAssistant]);
 
   // When the threadId changes, grab the thread state from the graph server
   useEffect(() => {
@@ -87,6 +95,7 @@ export default function HomePage() {
         onFileClick={setSelectedFile}
         collapsed={sidebarCollapsed}
         onToggleCollapse={toggleSidebar}
+        onAssistantUpdate={refreshActiveAssistant}
       />
       <div className={styles.mainContent}>
         <ChatInterface
