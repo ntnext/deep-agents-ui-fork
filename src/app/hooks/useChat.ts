@@ -47,7 +47,7 @@ export function useChat(
   );
 
   const stream = useStream<StateType>({
-    assistantId: agentId,
+    assistantId: deployment.assistantId || deployment.agentId,
     client: createClient(accessToken || ""),
     reconnectOnMount: true,
     threadId: threadId ?? null,

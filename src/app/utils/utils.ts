@@ -10,3 +10,12 @@ export function extractStringFromMessageContent(message: Message): string {
           .join("")
       : "";
 }
+
+export function assembleOptimizerInputMessage(currentConfig: any, feedback: string, messages: Message[]) {
+  const messageContent = `
+  Current config: ${JSON.stringify(currentConfig)}
+  Feedback: ${feedback}
+  Messages: ${JSON.stringify(messages)}
+  `;
+  return messageContent;
+}

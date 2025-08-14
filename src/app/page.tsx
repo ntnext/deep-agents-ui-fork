@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { useQueryState } from "nuqs";
 import { ChatInterface } from "./components/ChatInterface/ChatInterface";
 import { TasksFilesSidebar } from "./components/TasksFilesSidebar/TasksFilesSidebar";
@@ -10,6 +10,7 @@ import { createClient } from "@/lib/client";
 import { useAuthContext } from "@/providers/Auth";
 import type { SubAgent, FileItem, TodoItem } from "./types/types";
 import styles from "./page.module.scss";
+import { Assistant } from "@langchain/langgraph-sdk";
 
 export default function HomePage() {
   const { session } = useAuthContext();
@@ -17,6 +18,7 @@ export default function HomePage() {
   const [selectedSubAgent, setSelectedSubAgent] = useState<SubAgent | null>(
     null,
   );
+  const [activeAssistant, setActiveAssistant] = useState<Assistant | null>(null);
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [files, setFiles] = useState<Record<string, string>>({});
@@ -26,6 +28,16 @@ export default function HomePage() {
   const toggleSidebar = useCallback(() => {
     setSidebarCollapsed((prev) => !prev);
   }, []);
+
+  const client = useMemo(() => {
+    return createClient(session?.accessToken || "");
+  }, [session?.accessToken]);
+
+  useEffect(() => {
+    client.assistants.get("5c3b237e-1289-43e1-b81d-08bc20ae6c4a").then((assistant) => {
+      setActiveAssistant(assistant);
+    });
+  }, [client]);
 
   // When the threadId changes, grab the thread state from the graph server
   useEffect(() => {
@@ -38,7 +50,6 @@ export default function HomePage() {
       }
       setIsLoadingThreadState(true);
       try {
-        const client = createClient(session.accessToken);
         const state = await client.threads.getState(threadId);
 
         if (state.values) {
@@ -58,7 +69,7 @@ export default function HomePage() {
       }
     };
     fetchThreadState();
-  }, [threadId, session?.accessToken]);
+  }, [threadId, client]);
 
   const handleNewThread = useCallback(() => {
     setThreadId(null);
@@ -72,6 +83,7 @@ export default function HomePage() {
       <TasksFilesSidebar
         todos={todos}
         files={files}
+        activeAssistant={activeAssistant}
         onFileClick={setSelectedFile}
         collapsed={sidebarCollapsed}
         onToggleCollapse={toggleSidebar}
