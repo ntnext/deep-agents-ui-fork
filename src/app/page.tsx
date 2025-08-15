@@ -19,6 +19,7 @@ export default function HomePage() {
   const [selectedSubAgent, setSelectedSubAgent] = useState<SubAgent | null>(
     null,
   );
+  const [debugMode, setDebugMode] = useState(false);
   const [activeAssistant, setActiveAssistant] = useState<Assistant | null>(null);
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [todos, setTodos] = useState<TodoItem[]>([]);
@@ -87,11 +88,12 @@ export default function HomePage() {
     setFiles({});
   }, [setThreadId]);
 
-  const { messages, isLoading, sendMessage, stopStream } = useChat(
+  const { messages, isLoading, interrupt, sendMessage, runSingleStep, continueStream, stopStream } = useChat(
     threadId,
     setThreadId,
     setTodos,
     setFiles,
+    activeAssistant,
   );
 
   return (
@@ -118,6 +120,11 @@ export default function HomePage() {
           onSelectSubAgent={setSelectedSubAgent}
           onNewThread={handleNewThread}
           isLoadingThreadState={isLoadingThreadState}
+          debugMode={debugMode}
+          setDebugMode={setDebugMode}
+          runSingleStep={runSingleStep}
+          continueStream={continueStream}
+          interrupt={interrupt}
         />
         {selectedSubAgent && (
           <SubAgentPanel

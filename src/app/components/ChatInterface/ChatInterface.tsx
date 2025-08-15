@@ -10,13 +10,15 @@ import React, {
 } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Bot, LoaderCircle, SquarePen, History, X } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Send, Bot, LoaderCircle, SquarePen, History, X, Bug } from "lucide-react";
 import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { ThreadHistorySidebar } from "../ThreadHistorySidebar/ThreadHistorySidebar";
-import type { SubAgent, TodoItem, ToolCall } from "../../types/types";
+import type { SubAgent, ToolCall } from "../../types/types";
 import styles from "./ChatInterface.module.scss";
-import { Message } from "@langchain/langgraph-sdk";
+import { Message, type Interrupt } from "@langchain/langgraph-sdk";
 import { extractStringFromMessageContent } from "../../utils/utils";
+import { v4 as uuidv4 } from "uuid";
 
 interface ChatInterfaceProps {
   threadId: string | null;
@@ -30,6 +32,11 @@ interface ChatInterfaceProps {
   ) => void;
   onSelectSubAgent: (subAgent: SubAgent) => void;
   onNewThread: () => void;
+  debugMode: boolean;
+  setDebugMode: (debugMode: boolean) => void;
+  runSingleStep: (messages: Message[]) => void;
+  continueStream: () => void;
+  interrupt: Interrupt | undefined;
   isLoadingThreadState: boolean;
 }
 
@@ -44,7 +51,12 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     setThreadId,
     onSelectSubAgent,
     onNewThread,
+    debugMode,
+    setDebugMode,
+    runSingleStep,
+    continueStream,
     isLoadingThreadState,
+    interrupt,
   }) => {
     const [input, setInput] = useState("");
     const [isThreadHistoryOpen, setIsThreadHistoryOpen] = useState(false);
@@ -59,10 +71,18 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
         e.preventDefault();
         const messageText = input.trim();
         if (!messageText || isLoading) return;
-        sendMessage(messageText);
+        if (debugMode) {
+          runSingleStep([{
+            id: uuidv4(),
+            type: "human",
+            content: messageText,
+          }]);
+        } else {
+          sendMessage(messageText);
+        }
         setInput("");
       },
-      [input, isLoading, sendMessage],
+      [input, isLoading, sendMessage, debugMode, runSingleStep],
     );
 
     const handleNewThread = useCallback(() => {
@@ -85,6 +105,19 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     const toggleThreadHistory = useCallback(() => {
       setIsThreadHistoryOpen((prev) => !prev);
     }, []);
+
+    const handleContinue = useCallback(() => {
+      continueStream();
+    }, [continueStream]);
+
+    const handleRerunStep = useCallback(() => {
+      // Resubmit without the last message
+      runSingleStep([{
+        id: messages[messages.length - 1].id!,
+        type: "remove",
+        content: "",
+      }]);
+    }, [messages, runSingleStep]);
 
     const hasMessages = messages.length > 0;
 
@@ -183,6 +216,17 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           <div className={styles.headerLeft}>
             <Bot className={styles.logo} />
             <h1 className={styles.title}>Deep Agents</h1>
+            <div className={styles.debugToggle}>
+              <Bug size={16} className={styles.debugIcon} />
+              <label htmlFor="debug-mode" className={styles.debugLabel}>
+                Debug
+              </label>
+              <Switch
+                id="debug-mode"
+                checked={debugMode}
+                onCheckedChange={setDebugMode}
+              />
+            </div>
           </div>
           <div className={styles.headerRight}>
             <Button
@@ -232,6 +276,22 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <div className={styles.loadingMessage}>
                   <LoaderCircle className={styles.spinner} />
                   <span>Working...</span>
+                </div>
+              )}
+              {interrupt && debugMode && (
+                <div className={styles.debugControls}>
+                  <Button
+                    onClick={handleContinue}
+                    className={styles.continueButton}
+                  >
+                    Continue
+                  </Button>
+                  <Button
+                    onClick={handleRerunStep}
+                    className={styles.rerunButton}
+                  >
+                    Re-run step
+                  </Button>
                 </div>
               )}
               <div ref={messagesEndRef} />

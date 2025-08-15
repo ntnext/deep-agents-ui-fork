@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useStream } from "@langchain/langgraph-sdk/react";
-import { type Message } from "@langchain/langgraph-sdk";
+import { type Message, type RemoveMessage, type Assistant } from "@langchain/langgraph-sdk";
 import { getDeployment } from "@/lib/environment/deployments";
 import { v4 as uuidv4 } from "uuid";
 import type { TodoItem } from "../types/types";
@@ -20,17 +20,11 @@ export function useChat(
   ) => void,
   onTodosUpdate: (todos: TodoItem[]) => void,
   onFilesUpdate: (files: Record<string, string>) => void,
+  activeAssistant: Assistant | null,
 ) {
   const deployment = useMemo(() => getDeployment(), []);
   const { session } = useAuthContext();
   const accessToken = session?.accessToken;
-
-  const agentId = useMemo(() => {
-    if (!deployment?.agentId) {
-      throw new Error(`No agent ID configured in environment`);
-    }
-    return deployment.agentId;
-  }, [deployment]);
 
   const handleUpdateEvent = useCallback(
     (data: { [node: string]: Partial<StateType> }) => {
@@ -47,7 +41,7 @@ export function useChat(
   );
 
   const stream = useStream<StateType>({
-    assistantId: deployment.assistantId || deployment.agentId,
+    assistantId: activeAssistant?.assistant_id || deployment.assistantId || deployment.agentId,
     client: createClient(accessToken || ""),
     reconnectOnMount: true,
     threadId: threadId ?? null,
@@ -82,6 +76,32 @@ export function useChat(
     [stream],
   );
 
+  const runSingleStep = useCallback(
+    (messages: Message[]) => {
+    stream.submit(
+      { messages: messages },
+      {
+        config: {
+          ...(activeAssistant?.config || {}),
+          recursion_limit: 100,
+        },
+        interruptBefore: ["tools"],
+      },
+    );
+  }, [stream, activeAssistant?.version]);
+
+  const continueStream = useCallback(() => {
+    stream.submit(
+      undefined,
+      {
+        config: {
+          recursion_limit: 100,
+        },
+        interruptBefore: ["tools"],
+      },
+    );
+  }, [stream]);
+
   const stopStream = useCallback(() => {
     stream.stop();
   }, [stream]);
@@ -89,7 +109,10 @@ export function useChat(
   return {
     messages: stream.messages,
     isLoading: stream.isLoading,
+    interrupt: stream.interrupt,
     sendMessage,
+    runSingleStep,
+    continueStream,
     stopStream,
   };
 }
