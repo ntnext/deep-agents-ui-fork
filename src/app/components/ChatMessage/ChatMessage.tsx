@@ -39,7 +39,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
             id: toolCall.id,
             name: toolCall.name,
             subAgentName: String(toolCall.args["subagent_type"] || ""),
-            input: toolCall.args["description"] as Record<string, unknown>,
+            input: toolCall.args,
             output: toolCall.result ? { result: toolCall.result } : undefined,
             status: toolCall.status,
           } as SubAgent;

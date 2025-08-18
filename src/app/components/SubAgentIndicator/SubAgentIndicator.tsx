@@ -39,6 +39,8 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
           <p className={styles.description}>
             {typeof subAgent.input === "string"
               ? subAgent.input
+              : subAgent.input.description && typeof subAgent.input.description === "string"
+              ? subAgent.input.description
               : JSON.stringify(subAgent.input)}
           </p>
         </div>

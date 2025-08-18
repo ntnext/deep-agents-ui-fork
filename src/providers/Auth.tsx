@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Use localStorage LANGSMITH_API_KEY for main agent
     const updateSession = () => {
-      const langsmithApiKey = localStorage.getItem("LANGSMITH_API_KEY") || "";
+      const langsmithApiKey = localStorage.getItem("LANGSMITH_API_KEY") || "demo-token";
       setSession({
         accessToken: langsmithApiKey,
       });
