@@ -13,8 +13,10 @@ import { assembleOptimizerInputMessage } from "@/app/utils/utils";
 
 type StateType = {
     messages: Message[];
+    files: {
+        [key: string]: string;
+    };
     agent_messages: Message[];
-    edited_config: any;
 }
 
 type UserMessage = {
@@ -58,7 +60,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ deepAge
       id: uuidv4(),
       status: "pending",
       old_config: activeAssistant?.config.configurable || {},
-      new_config: state.values.edited_config
+      new_config: JSON.parse(state.values.files["config.json"])
     };
     setDisplayMessages(prev => [...prev, optimizerMessage]);
   }, [activeAssistant]);
@@ -79,20 +81,18 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ deepAge
   const handleSubmitFeedback = useCallback(() => {
     setFeedbackInput("");
     setDisplayMessages(prev => [...prev, { type: "user", content: feedbackInput }]);
-    const messageContent = assembleOptimizerInputMessage(
-        activeAssistant?.config || {},
-        feedbackInput,
-        deepAgentMessages
-    );
+
     const humanMessage: Message = {
         id: uuidv4(),
         type: "human",
-        content: messageContent,
+        content: feedbackInput,
     }
     stream.submit({ 
         messages: [humanMessage],
-        edited_config: activeAssistant?.config.configurable || {},
-        agent_messages: deepAgentMessages,
+        files: {
+            "config.json": JSON.stringify(activeAssistant?.config.configurable || {}, null, 2),
+            "conversation.json": JSON.stringify(deepAgentMessages, null, 2),
+        },
     });
   }, [feedbackInput, stream, activeAssistant, deepAgentMessages]);
 
