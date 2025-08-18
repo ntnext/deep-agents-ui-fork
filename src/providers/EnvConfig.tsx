@@ -19,21 +19,23 @@ interface EnvConfigContextType {
   getEnvValue: (key: keyof EnvConfig) => string | undefined;
 }
 
-const EnvConfigContext = createContext<EnvConfigContextType | undefined>(undefined);
+const EnvConfigContext = createContext<EnvConfigContextType | undefined>(
+  undefined,
+);
 
 const REQUIRED_KEYS: Array<keyof EnvConfig> = [
   "DEPLOYMENT_URL",
-  "AGENT_ID", 
+  "AGENT_ID",
   "ASSISTANT_ID",
 ];
 
-const OPTIONAL_KEYS: Array<keyof EnvConfig> = [
-  "LANGSMITH_API_KEY",
-];
+const OPTIONAL_KEYS: Array<keyof EnvConfig> = ["LANGSMITH_API_KEY"];
 
 const ENV_KEYS: Array<keyof EnvConfig> = [...REQUIRED_KEYS, ...OPTIONAL_KEYS];
 
-export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [config, setConfig] = useState<EnvConfig | null>(null);
   const [isConfigured, setIsConfigured] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -64,7 +66,7 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       } else {
         setIsConfigured(false);
       }
-      
+
       setIsChecking(false);
     };
 
@@ -90,17 +92,19 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }
 
   return (
-    <EnvConfigContext.Provider value={{ 
-      config, 
-      isConfigured, 
-      showSettings,
-      openSettings,
-      closeSettings,
-      getEnvValue
-    }}>
+    <EnvConfigContext.Provider
+      value={{
+        config,
+        isConfigured,
+        showSettings,
+        openSettings,
+        closeSettings,
+        getEnvValue,
+      }}
+    >
       {children}
-      <EnvConfigDialog 
-        isOpen={!isConfigured || showSettings} 
+      <EnvConfigDialog
+        isOpen={!isConfigured || showSettings}
         onClose={isConfigured ? closeSettings : undefined}
         isSettings={isConfigured && showSettings}
       />

@@ -10,15 +10,30 @@ import React, {
 } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Tooltip, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { Send, Bot, LoaderCircle, SquarePen, History, Square } from "lucide-react";
+import {
+  Send,
+  Bot,
+  LoaderCircle,
+  SquarePen,
+  History,
+  Square,
+} from "lucide-react";
 import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { ThreadHistorySidebar } from "../ThreadHistorySidebar/ThreadHistorySidebar";
 import type { SubAgent, ToolCall } from "../../types/types";
 import styles from "./ChatInterface.module.scss";
 import { Checkpoint, Message, type Interrupt } from "@langchain/langgraph-sdk";
-import { extractStringFromMessageContent, isPreparingToCallTaskTool, justCalledTaskTool } from "../../utils/utils";
+import {
+  extractStringFromMessageContent,
+  isPreparingToCallTaskTool,
+  justCalledTaskTool,
+} from "../../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 
 interface ChatInterfaceProps {
@@ -28,7 +43,12 @@ interface ChatInterfaceProps {
   selectedSubAgent: SubAgent | null;
   sendMessage: (message: string) => void;
   stopStream: () => void;
-  getMessagesMetadata: (message: Message) => any;
+  getMessagesMetadata: (
+    message: Message,
+    index?: number,
+  ) =>
+    | { firstSeenState?: { parent_checkpoint?: Checkpoint | null } }
+    | undefined;
   setThreadId: (
     value: string | ((old: string | null) => string | null) | null,
   ) => void;
@@ -36,7 +56,11 @@ interface ChatInterfaceProps {
   onNewThread: () => void;
   debugMode: boolean;
   setDebugMode: (debugMode: boolean) => void;
-  runSingleStep: (messages: Message[], checkpoint?: Checkpoint, isRerunningSubagent?: boolean) => void;
+  runSingleStep: (
+    messages: Message[],
+    checkpoint?: Checkpoint,
+    isRerunningSubagent?: boolean,
+  ) => void;
   continueStream: (hasTaskToolCall?: boolean) => void;
   interrupt: Interrupt | undefined;
   isLoadingThreadState: boolean;
@@ -75,11 +99,13 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
         const messageText = input.trim();
         if (!messageText || isLoading) return;
         if (debugMode) {
-          runSingleStep([{
-            id: uuidv4(),
-            type: "human",
-            content: messageText,
-          }]);
+          runSingleStep([
+            {
+              id: uuidv4(),
+              type: "human",
+              content: messageText,
+            },
+          ]);
         } else {
           sendMessage(messageText);
         }
@@ -118,15 +144,14 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
       const hasTaskToolCall = justCalledTaskTool(messages);
       let rewindIndex = messages.length - 2;
       if (hasTaskToolCall) {
-        rewindIndex = messages.findLastIndex((message) => message.type === "ai");
+        rewindIndex = messages.findLastIndex(
+          (message) => message.type === "ai",
+        );
       }
       const meta = getMessagesMetadata(messages[rewindIndex]);
-      console.log("meta", meta);
-      const toolMessageMeta = getMessagesMetadata(messages[rewindIndex]);
-      console.log("tool message meta", toolMessageMeta);
-      const firstSeenState = toolMessageMeta.firstSeenState;
+      const firstSeenState = meta?.firstSeenState;
       const { parent_checkpoint: parentCheckpoint } = firstSeenState ?? {};
-      runSingleStep([], parentCheckpoint, hasTaskToolCall);
+      runSingleStep([], parentCheckpoint ?? undefined, hasTaskToolCall);
     }, [messages, runSingleStep, getMessagesMetadata]);
 
     const hasMessages = messages.length > 0;
@@ -137,10 +162,20 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     2. For each AI message, add the AI message, and any tool calls to the messageMap
     3. For each tool message, find the corresponding tool call in the messageMap and update the status and output
     */
-      const messageMap = new Map<string, any>();
+      const messageMap = new Map<
+        string,
+        { message: Message; toolCalls: ToolCall[] }
+      >();
       messages.forEach((message: Message) => {
         if (message.type === "ai") {
-          const toolCallsInMessage: any[] = [];
+          const toolCallsInMessage: Array<{
+            id?: string;
+            function?: { name?: string; arguments?: unknown };
+            name?: string;
+            type?: string;
+            args?: unknown;
+            input?: unknown;
+          }> = [];
           if (
             message.additional_kwargs?.tool_calls &&
             Array.isArray(message.additional_kwargs.tool_calls)
@@ -149,17 +184,24 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           } else if (message.tool_calls && Array.isArray(message.tool_calls)) {
             toolCallsInMessage.push(
               ...message.tool_calls.filter(
-                (toolCall: any) => toolCall.name !== "",
+                (toolCall: { name?: string }) => toolCall.name !== "",
               ),
             );
           } else if (Array.isArray(message.content)) {
             const toolUseBlocks = message.content.filter(
-              (block: any) => block.type === "tool_use",
+              (block: { type?: string }) => block.type === "tool_use",
             );
             toolCallsInMessage.push(...toolUseBlocks);
           }
           const toolCallsWithStatus = toolCallsInMessage.map(
-            (toolCall: any) => {
+            (toolCall: {
+              id?: string;
+              function?: { name?: string; arguments?: unknown };
+              name?: string;
+              type?: string;
+              args?: unknown;
+              input?: unknown;
+            }) => {
               const name =
                 toolCall.function?.name ||
                 toolCall.name ||
@@ -189,7 +231,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           }
           for (const [, data] of messageMap.entries()) {
             const toolCallIndex = data.toolCalls.findIndex(
-              (tc: any) => tc.id === toolCallId,
+              (tc: ToolCall) => tc.id === toolCallId,
             );
             if (toolCallIndex === -1) {
               continue;

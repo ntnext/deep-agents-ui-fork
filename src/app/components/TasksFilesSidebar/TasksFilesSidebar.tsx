@@ -1,13 +1,7 @@
 "use client";
 
 import React, { useMemo, useCallback, useState } from "react";
-import {
-  FileText,
-  CheckCircle,
-  Circle,
-  Clock,
-  Settings,
-} from "lucide-react";
+import { FileText, CheckCircle, Circle, Clock, Settings } from "lucide-react";
 import { useEnvConfig } from "@/providers/EnvConfig";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -27,12 +21,19 @@ interface TasksFilesSidebarProps {
 }
 
 export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
-  ({ messages, todos, files, activeAssistant, onFileClick, onAssistantUpdate }) => {
+  ({
+    messages,
+    todos,
+    files,
+    activeAssistant,
+    onFileClick,
+    onAssistantUpdate,
+  }) => {
     const [isTrainingModeExpanded, setIsTrainingModeExpanded] = useState(false);
     const { openSettings } = useEnvConfig();
 
     const handleToggleTrainingMode = useCallback(() => {
-      setIsTrainingModeExpanded(prev => !prev);
+      setIsTrainingModeExpanded((prev) => !prev);
     }, []);
 
     const getStatusIcon = useCallback((status: TodoItem["status"]) => {
@@ -53,7 +54,6 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
         completed: todos.filter((t) => t.status === "completed"),
       };
     }, [todos]);
-
 
     return (
       <div className={styles.sidebarContainer}>
@@ -91,7 +91,10 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                       <div className={styles.todoGroup}>
                         <h3 className={styles.groupTitle}>In Progress</h3>
                         {groupedTodos.in_progress.map((todo, index) => (
-                          <div key={`in_progress_${todo.id}_${index}`} className={styles.todoItem}>
+                          <div
+                            key={`in_progress_${todo.id}_${index}`}
+                            className={styles.todoItem}
+                          >
                             {getStatusIcon(todo.status)}
                             <span className={styles.todoContent}>
                               {todo.content}
@@ -105,7 +108,10 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                       <div className={styles.todoGroup}>
                         <h3 className={styles.groupTitle}>Pending</h3>
                         {groupedTodos.pending.map((todo, index) => (
-                          <div key={`pending_${todo.id}_${index}`} className={styles.todoItem}>
+                          <div
+                            key={`pending_${todo.id}_${index}`}
+                            className={styles.todoItem}
+                          >
                             {getStatusIcon(todo.status)}
                             <span className={styles.todoContent}>
                               {todo.content}
@@ -119,7 +125,10 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                       <div className={styles.todoGroup}>
                         <h3 className={styles.groupTitle}>Completed</h3>
                         {groupedTodos.completed.map((todo, index) => (
-                          <div key={`completed_${todo.id}_${index}`} className={styles.todoItem}>
+                          <div
+                            key={`completed_${todo.id}_${index}`}
+                            className={styles.todoItem}
+                          >
                             {getStatusIcon(todo.status)}
                             <span className={styles.todoContent}>
                               {todo.content}
@@ -159,8 +168,8 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
               </ScrollArea>
             </TabsContent>
           </Tabs>
-          
-          <OptimizationWindow 
+
+          <OptimizationWindow
             deepAgentMessages={messages}
             isExpanded={isTrainingModeExpanded}
             onToggle={handleToggleTrainingMode}

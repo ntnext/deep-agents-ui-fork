@@ -6,7 +6,6 @@ If the term "Deep Agents" is new to you, check out these videos!
 [What are Deep Agents?](https://www.youtube.com/watch?v=433SmtTc0TA)
 [Implementing Deep Agents](https://www.youtube.com/watch?v=TTMYJAw5tiA&t=701s)
 
-
 And check out this video for a walkthrough of this UI.
 
 ### Connecting to a Local LangGraph Server
@@ -28,14 +27,11 @@ NEXT_PUBLIC_AGENT_ID=<your agent ID from langgraph.json>
 NEXT_PUBLIC_LANGSMITH_API_KEY=<langsmith-api-key>
 ```
 
-
-
 Once you have your environment variables set, install all dependencies and run your app.
 
 ```bash
 npm install
 npm run dev
 ```
-
 
 Open [http://localhost:3000](http://localhost:3000) to test out your deep agent!

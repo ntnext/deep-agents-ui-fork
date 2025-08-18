@@ -38,11 +38,11 @@ export const ChatMessage = React.memo<ChatMessageProps>(
           return {
             id: toolCall.id,
             name: toolCall.name,
-            subAgentName: toolCall.args["subagent_type"],
-            input: toolCall.args["description"],
-            output: toolCall.result,
+            subAgentName: String(toolCall.args["subagent_type"] || ""),
+            input: toolCall.args["description"] as Record<string, unknown>,
+            output: toolCall.result ? { result: toolCall.result } : undefined,
             status: toolCall.status,
-          };
+          } as SubAgent;
         });
     }, [toolCalls]);
 
@@ -51,15 +51,9 @@ export const ChatMessage = React.memo<ChatMessageProps>(
     }, [subAgents]);
 
     useEffect(() => {
-      if (
-        subAgents.some(
-          (subAgent: SubAgent) => subAgent.id === selectedSubAgent?.id,
-        )
-      ) {
+      if (subAgents.some((subAgent) => subAgent.id === selectedSubAgent?.id)) {
         onSelectSubAgent(
-          subAgents.find(
-            (subAgent: SubAgent) => subAgent.id === selectedSubAgent?.id,
-          )!,
+          subAgents.find((subAgent) => subAgent.id === selectedSubAgent?.id)!,
         );
       }
     }, [selectedSubAgent, onSelectSubAgent, subAgentsString]);
@@ -98,7 +92,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
           )}
           {!isUser && subAgents.length > 0 && (
             <div className={styles.subAgents}>
-              {subAgents.map((subAgent: SubAgent) => (
+              {subAgents.map((subAgent) => (
                 <SubAgentIndicator
                   key={subAgent.id}
                   subAgent={subAgent}

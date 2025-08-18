@@ -22,7 +22,9 @@ export default function HomePage() {
     null,
   );
   const [debugMode, setDebugMode] = useState(false);
-  const [activeAssistant, setActiveAssistant] = useState<Assistant | null>(null);
+  const [activeAssistant, setActiveAssistant] = useState<Assistant | null>(
+    null,
+  );
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [files, setFiles] = useState<Record<string, string>>({});
@@ -90,13 +92,16 @@ export default function HomePage() {
     setFiles({});
   }, [setThreadId]);
 
-  const { messages, isLoading, interrupt, getMessagesMetadata, sendMessage, runSingleStep, continueStream, stopStream } = useChat(
-    threadId,
-    setThreadId,
-    setTodos,
-    setFiles,
-    activeAssistant,
-  );
+  const {
+    messages,
+    isLoading,
+    interrupt,
+    getMessagesMetadata,
+    sendMessage,
+    runSingleStep,
+    continueStream,
+    stopStream,
+  } = useChat(threadId, setThreadId, setTodos, setFiles, activeAssistant);
 
   return (
     <div className={styles.container}>

@@ -37,7 +37,6 @@
   margin: 0;
 }
 
-
 .headerRight {
   display: flex;
   align-items: center;
@@ -191,11 +190,15 @@
   border-radius: 12px;
   padding: $spacing-sm;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 
   &:focus-within {
     border-color: var(--color-primary);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(28, 60, 60, 0.1);
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.15),
+      0 0 0 2px rgba(28, 60, 60, 0.1);
   }
 }
 
@@ -316,7 +319,6 @@
     height: 14px;
   }
 }
-
 
 .debugControls {
   display: flex;

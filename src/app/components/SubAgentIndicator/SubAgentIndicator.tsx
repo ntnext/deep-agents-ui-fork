@@ -36,7 +36,11 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
             {getStatusIcon()}
             <span className={styles.name}>{subAgent.subAgentName}</span>
           </div>
-          <p className={styles.description}>{subAgent.input}</p>
+          <p className={styles.description}>
+            {typeof subAgent.input === "string"
+              ? subAgent.input
+              : JSON.stringify(subAgent.input)}
+          </p>
         </div>
       </button>
     );

@@ -20,5 +20,5 @@ export function getOptimizationDeployment() {
     name: "Optimizer",
     deploymentUrl: process.env.NEXT_PUBLIC_OPTIMIZATION_DEPLOYMENT_URL || "",
     agentId: process.env.NEXT_PUBLIC_OPTIMIZER_AGENT_ID || "optimizer",
-  }
+  };
 }

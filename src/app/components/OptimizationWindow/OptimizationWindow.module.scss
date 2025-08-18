@@ -93,7 +93,7 @@
 .toggleIcon {
   color: rgba(255, 255, 255, 0.8);
   transition: transform 0.2s ease;
-  
+
   &:hover {
     color: white;
   }
@@ -105,7 +105,7 @@
   flex-direction: column;
   opacity: 0;
   transition: opacity 0.3s ease 0.1s;
-  
+
   &.show {
     opacity: 1;
   }
@@ -312,7 +312,9 @@
 }
 
 @keyframes bounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0.8);
     opacity: 0.5;
   }
@@ -410,7 +412,9 @@
   border: 2px solid var(--color-border);
   border-radius: 12px;
   padding: 8px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 
   &:focus-within {
     border-color: var(--color-primary);
@@ -604,7 +608,7 @@
 .diffSection {
   display: flex;
   flex-direction: column;
-  
+
   h3 {
     margin: 0 0 12px 0;
     font-size: 16px;
@@ -625,7 +629,7 @@
   border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 16px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   font-size: 13px;
   line-height: 1.5;
   color: #e6edf3;
@@ -636,13 +640,13 @@
 
 .codeLine {
   min-height: 1.5em;
-  
+
   &.changedLine {
     background-color: rgba(255, 255, 255, 0.02);
     margin: 0 -16px;
     padding: 0 16px;
   }
-  
+
   // Word-level diff highlighting
   :global(.word-added) {
     background-color: rgba(46, 160, 67, 0.4);
@@ -651,7 +655,7 @@
     border-radius: 3px;
     font-weight: 600;
   }
-  
+
   :global(.word-removed) {
     background-color: rgba(248, 81, 73, 0.4);
     color: #ffffff;

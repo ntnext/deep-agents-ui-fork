@@ -1,12 +1,15 @@
 import { useCallback, useMemo } from "react";
 import { useStream } from "@langchain/langgraph-sdk/react";
-import { type Message, type RemoveMessage, type Assistant, type Checkpoint } from "@langchain/langgraph-sdk";
+import {
+  type Message,
+  type Assistant,
+  type Checkpoint,
+} from "@langchain/langgraph-sdk";
 import { getDeployment } from "@/lib/environment/deployments";
 import { v4 as uuidv4 } from "uuid";
 import type { TodoItem } from "../types/types";
 import { createClient } from "@/lib/client";
 import { useAuthContext } from "@/providers/Auth";
-import { type Command } from "@langchain/langgraph-sdk";
 
 type StateType = {
   messages: Message[];
@@ -42,7 +45,11 @@ export function useChat(
   );
 
   const stream = useStream<StateType>({
-    assistantId: activeAssistant?.assistant_id || deployment.assistantId || deployment.agentId || "",
+    assistantId:
+      activeAssistant?.assistant_id ||
+      deployment.assistantId ||
+      deployment.agentId ||
+      "",
     client: createClient(accessToken || ""),
     reconnectOnMount: true,
     threadId: threadId ?? null,
@@ -78,18 +85,21 @@ export function useChat(
   );
 
   const runSingleStep = useCallback(
-    (messages: Message[], checkpoint?: Checkpoint, isRerunningSubagent?: boolean) => {
+    (
+      messages: Message[],
+      checkpoint?: Checkpoint,
+      isRerunningSubagent?: boolean,
+    ) => {
       if (checkpoint) {
-        stream.submit(
-          undefined,
-          {
-            config: {
-              ...(activeAssistant?.config || {}),
-            },
-            checkpoint: checkpoint,
-            ...(isRerunningSubagent ? { interruptAfter: ["tools"] } : { interruptBefore: ["tools"] }),
-          }
-        )
+        stream.submit(undefined, {
+          config: {
+            ...(activeAssistant?.config || {}),
+          },
+          checkpoint: checkpoint,
+          ...(isRerunningSubagent
+            ? { interruptAfter: ["tools"] }
+            : { interruptBefore: ["tools"] }),
+        });
       } else {
         stream.submit(
           { messages: messages },
@@ -101,23 +111,24 @@ export function useChat(
           },
         );
       }
-  }, [stream, activeAssistant?.config]);
+    },
+    [stream, activeAssistant?.config],
+  );
 
-  const continueStream = useCallback((hasTaskToolCall?: boolean) => {
-    stream.submit(
-      undefined,
-      {
+  const continueStream = useCallback(
+    (hasTaskToolCall?: boolean) => {
+      stream.submit(undefined, {
         config: {
           ...(activeAssistant?.config || {}),
           recursion_limit: 100,
         },
-        ...(hasTaskToolCall 
-          ? { interruptAfter: ["tools"] } 
-          : { interruptBefore: ["tools"] }
-        ),
-      },
-    );
-  }, [stream]);
+        ...(hasTaskToolCall
+          ? { interruptAfter: ["tools"] }
+          : { interruptBefore: ["tools"] }),
+      });
+    },
+    [stream],
+  );
 
   const stopStream = useCallback(() => {
     stream.stop();

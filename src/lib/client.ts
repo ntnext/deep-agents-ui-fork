@@ -1,7 +1,10 @@
 import { Client } from "@langchain/langgraph-sdk";
-import { getDeployment, getOptimizationDeployment } from "./environment/deployments";
+import {
+  getDeployment,
+  getOptimizationDeployment,
+} from "./environment/deployments";
 
-export function createClient(accessToken: string, ) {
+export function createClient(accessToken: string) {
   const deployment = getDeployment();
   return new Client({
     apiUrl: deployment?.deploymentUrl || "",

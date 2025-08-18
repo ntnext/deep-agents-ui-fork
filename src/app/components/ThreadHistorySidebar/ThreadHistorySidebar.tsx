@@ -10,6 +10,7 @@ import { getDeployment } from "@/lib/environment/deployments";
 import type { Thread } from "../../types/types";
 import styles from "./ThreadHistorySidebar.module.scss";
 import { extractStringFromMessageContent } from "../../utils/utils";
+import { Message } from "@langchain/langgraph-sdk";
 
 interface ThreadHistorySidebarProps {
   open: boolean;
@@ -35,32 +36,42 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
           sortBy: "created_at",
           sortOrder: "desc",
         });
-        const threadList: Thread[] = response.map((thread: any) => {
-          let displayContent = `Thread ${thread.thread_id.slice(0, 8)}`;
-          try {
-            if (
-              thread.values &&
-              typeof thread.values === "object" &&
-              "messages" in thread.values
-            ) {
-              const messages = (thread.values as any).messages;
-              if (Array.isArray(messages) && messages.length > 0) {
-                displayContent = extractStringFromMessageContent(messages[0]);
+        const threadList: Thread[] = response.map(
+          (thread: {
+            thread_id: string;
+            values?: unknown;
+            created_at: string;
+            updated_at?: string;
+          }) => {
+            let displayContent = `Thread ${thread.thread_id.slice(0, 8)}`;
+            try {
+              if (
+                thread.values &&
+                typeof thread.values === "object" &&
+                "messages" in thread.values
+              ) {
+                const messages = (thread.values as { messages?: unknown[] })
+                  .messages;
+                if (Array.isArray(messages) && messages.length > 0) {
+                  displayContent = extractStringFromMessageContent(
+                    messages[0] as Message,
+                  );
+                }
               }
+            } catch (error) {
+              console.warn(
+                `Failed to get first message for thread ${thread.thread_id}:`,
+                error,
+              );
             }
-          } catch (error) {
-            console.warn(
-              `Failed to get first message for thread ${thread.thread_id}:`,
-              error,
-            );
-          }
-          return {
-            id: thread.thread_id,
-            title: displayContent,
-            createdAt: new Date(thread.created_at),
-            updatedAt: new Date(thread.updated_at || thread.created_at),
-          } as Thread;
-        });
+            return {
+              id: thread.thread_id,
+              title: displayContent,
+              createdAt: new Date(thread.created_at),
+              updatedAt: new Date(thread.updated_at || thread.created_at),
+            } as Thread;
+          },
+        );
         setThreads(
           threadList.sort(
             (a, b) => b.updatedAt.getTime() - a.updatedAt.getTime(),

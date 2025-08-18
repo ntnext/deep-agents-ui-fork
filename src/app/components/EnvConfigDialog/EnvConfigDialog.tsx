@@ -1,11 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import styles from "./EnvConfigDialog.module.scss";
@@ -19,13 +15,11 @@ interface EnvConfig {
 
 const REQUIRED_KEYS: Array<keyof EnvConfig> = [
   "DEPLOYMENT_URL",
-  "AGENT_ID", 
+  "AGENT_ID",
   "ASSISTANT_ID",
 ];
 
-const OPTIONAL_KEYS: Array<keyof EnvConfig> = [
-  "LANGSMITH_API_KEY",
-];
+const OPTIONAL_KEYS: Array<keyof EnvConfig> = ["LANGSMITH_API_KEY"];
 
 const ENV_KEYS: Array<keyof EnvConfig> = [...REQUIRED_KEYS, ...OPTIONAL_KEYS];
 
@@ -60,7 +54,9 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
     ASSISTANT_ID: "",
     LANGSMITH_API_KEY: "",
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof EnvConfig, boolean>>>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof EnvConfig, boolean>>
+  >({});
 
   useEffect(() => {
     const loadedConfig: Partial<EnvConfig> = {};
@@ -107,15 +103,17 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
     setErrors((prev) => ({ ...prev, [key]: false }));
   };
 
-  const canClose = isSettings || REQUIRED_KEYS.every((key) => {
-    const storedValue = localStorage.getItem(key);
-    return storedValue;
-  });
+  const canClose =
+    isSettings ||
+    REQUIRED_KEYS.every((key) => {
+      const storedValue = localStorage.getItem(key);
+      return storedValue;
+    });
 
   return (
     <Dialog open={isOpen} onOpenChange={canClose ? onClose : undefined}>
-      <DialogContent 
-        className={styles.dialog} 
+      <DialogContent
+        className={styles.dialog}
         showCloseButton={canClose}
         onInteractOutside={(e) => {
           if (!canClose) {
@@ -129,16 +127,17 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
         }}
       >
         <div className={styles.header}>
-          <DialogTitle className="sr-only">Deep Agent Configuration</DialogTitle>
+          <DialogTitle className="sr-only">
+            Deep Agent Configuration
+          </DialogTitle>
           <div className={styles.titleSection}>
             <Settings className={styles.settingsIcon} />
             <span className={styles.dialogTitle}>Deep Agent Configuration</span>
           </div>
           <p className={styles.description}>
-            {isSettings 
+            {isSettings
               ? "Update your agent configuration settings"
-              : "Please configure the required variables to continue"
-            }
+              : "Please configure the required variables to continue"}
           </p>
         </div>
         <div className={styles.form}>
@@ -146,7 +145,9 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
             <div key={key} className={styles.formGroup}>
               <label htmlFor={key} className={styles.label}>
                 {ENV_LABELS[key]}
-                {!isSettings && REQUIRED_KEYS.includes(key) && <span className={styles.required}>*</span>}
+                {!isSettings && REQUIRED_KEYS.includes(key) && (
+                  <span className={styles.required}>*</span>
+                )}
               </label>
               <input
                 id={key}
@@ -157,7 +158,9 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
                 className={`${styles.input} ${errors[key] ? styles.error : ""}`}
               />
               {errors[key] && (
-                <span className={styles.errorMessage}>This field is required</span>
+                <span className={styles.errorMessage}>
+                  This field is required
+                </span>
               )}
             </div>
           ))}
@@ -165,18 +168,15 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
 
         <div className={styles.footer}>
           {isSettings && (
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={onClose}
               className={styles.cancelButton}
             >
               Cancel
             </Button>
           )}
-          <Button 
-            onClick={handleSave}
-            className={styles.saveButton}
-          >
+          <Button onClick={handleSave} className={styles.saveButton}>
             Save Configuration
           </Button>
         </div>
