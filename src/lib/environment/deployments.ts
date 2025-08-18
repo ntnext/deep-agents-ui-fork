@@ -9,9 +9,9 @@ function getEnvValue(key: string): string | undefined {
 export function getDeployment() {
   return {
     name: "Deep Agent",
-    deploymentUrl: getEnvValue("NEXT_PUBLIC_DEPLOYMENT_URL"),
-    agentId: getEnvValue("NEXT_PUBLIC_AGENT_ID"),
-    assistantId: getEnvValue("NEXT_PUBLIC_ASSISTANT_ID"),
+    deploymentUrl: getEnvValue("DEPLOYMENT_URL"),
+    agentId: getEnvValue("AGENT_ID"),
+    assistantId: getEnvValue("ASSISTANT_ID"),
   };
 }
 
