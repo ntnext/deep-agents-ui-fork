@@ -9,12 +9,11 @@ import { createClient, createOptimizerClient } from "@/lib/client";
 import { useAuthContext } from "@/providers/Auth";
 import { Assistant, type Message } from "@langchain/langgraph-sdk";
 import { v4 as uuidv4 } from "uuid";
-import { assembleOptimizerInputMessage } from "@/app/utils/utils";
 
 type StateType = {
     messages: Message[];
     agent_messages: Message[];
-    edited_config: any;
+    files: Record<string, string>;
 }
 
 type UserMessage = {
@@ -50,7 +49,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ deepAge
   const [displayMessages, setDisplayMessages] = useState<DisplayMessage[]>([]);
   
   const deploymentClient = useMemo(() => createClient(session?.accessToken || ""), [session?.accessToken]);
-  const optimizerClient = useMemo(() => createOptimizerClient(session?.accessToken || ""), [session?.accessToken]);
+  const optimizerClient = useMemo(() => createOptimizerClient(), []);
 
   const onFinish = useCallback((state: any) => {
     const optimizerMessage: OptimizerMessage = {
@@ -58,7 +57,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ deepAge
       id: uuidv4(),
       status: "pending",
       old_config: activeAssistant?.config.configurable || {},
-      new_config: state.values.edited_config
+      new_config: JSON.parse(state.values.files["config.json"])
     };
     setDisplayMessages(prev => [...prev, optimizerMessage]);
   }, [activeAssistant]);
@@ -79,20 +78,17 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ deepAge
   const handleSubmitFeedback = useCallback(() => {
     setFeedbackInput("");
     setDisplayMessages(prev => [...prev, { type: "user", content: feedbackInput }]);
-    const messageContent = assembleOptimizerInputMessage(
-        activeAssistant?.config || {},
-        feedbackInput,
-        deepAgentMessages
-    );
     const humanMessage: Message = {
         id: uuidv4(),
         type: "human",
-        content: messageContent,
+        content: feedbackInput,
     }
     stream.submit({ 
-        messages: [humanMessage],
-        edited_config: activeAssistant?.config.configurable || {},
-        agent_messages: deepAgentMessages,
+      messages: [humanMessage],
+      files: {
+        "config.json": JSON.stringify(activeAssistant?.config.configurable || {}, null, 2),
+        "conversation.json": JSON.stringify(deepAgentMessages, null, 2),
+      },
     });
   }, [feedbackInput, stream, activeAssistant, deepAgentMessages]);
 
@@ -232,7 +228,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(({ deepAge
             onClick={onToggle}
             aria-label={isExpanded ? "Collapse Training Mode" : "Expand Training Mode"}
           >
-            <span className={styles.toggleText}>Training Mode</span>
+            <span className={styles.toggleText}>Deep Agent Optimizer</span>
             {isExpanded ? (
               <X size={16} className={styles.toggleIcon} />
             ) : (

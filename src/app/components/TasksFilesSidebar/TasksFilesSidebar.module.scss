@@ -17,34 +17,16 @@
   position: relative;
 }
 
-.sidebarCollapsed {
-  width: $sidebar-collapsed-width;
-  height: 100%;
-  background-color: var(--color-surface);
-  border-right: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.header {
+.tabsHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $spacing-md;
-  height: 60px;
-  border-bottom: 1px solid var(--color-border);
+  padding: $spacing-xs $spacing-md;
 }
 
-.title {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
-  margin: 0;
-}
-
-.toggleButton {
+.settingsButton {
   padding: $spacing-xs;
+  flex-shrink: 0;
 
   &:hover {
     background-color: var(--color-border-light);

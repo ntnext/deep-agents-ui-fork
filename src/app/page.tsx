@@ -8,6 +8,7 @@ import { SubAgentPanel } from "./components/SubAgentPanel/SubAgentPanel";
 import { FileViewDialog } from "./components/FileViewDialog/FileViewDialog";
 import { createClient } from "@/lib/client";
 import { useAuthContext } from "@/providers/Auth";
+import { useEnvConfig } from "@/providers/EnvConfig";
 import type { SubAgent, FileItem, TodoItem } from "./types/types";
 import styles from "./page.module.scss";
 import { Assistant } from "@langchain/langgraph-sdk";
@@ -15,6 +16,7 @@ import { useChat } from "./hooks/useChat";
 
 export default function HomePage() {
   const { session } = useAuthContext();
+  const { getEnvValue } = useEnvConfig();
   const [threadId, setThreadId] = useQueryState("threadId");
   const [selectedSubAgent, setSelectedSubAgent] = useState<SubAgent | null>(
     null,
@@ -24,12 +26,7 @@ export default function HomePage() {
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [files, setFiles] = useState<Record<string, string>>({});
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isLoadingThreadState, setIsLoadingThreadState] = useState(false);
-
-  const toggleSidebar = useCallback(() => {
-    setSidebarCollapsed((prev) => !prev);
-  }, []);
 
   const client = useMemo(() => {
     return createClient(session?.accessToken || "");
@@ -37,13 +34,18 @@ export default function HomePage() {
 
   const refreshActiveAssistant = useCallback(async () => {
     try {
-      const assistant = await client.assistants.get(process.env.NEXT_PUBLIC_ASSISTANT_ID || "");
+      const assistantId = getEnvValue("ASSISTANT_ID");
+      if (!assistantId) {
+        console.error("Assistant ID not configured");
+        return;
+      }
+      const assistant = await client.assistants.get(assistantId);
       console.log("Triggered assistant update", assistant);
       setActiveAssistant(assistant);
     } catch (error) {
       console.error("Failed to refresh assistant:", error);
     }
-  }, [client]);
+  }, [client, getEnvValue]);
 
   useEffect(() => {
     refreshActiveAssistant();
@@ -88,7 +90,7 @@ export default function HomePage() {
     setFiles({});
   }, [setThreadId]);
 
-  const { messages, isLoading, interrupt, sendMessage, runSingleStep, continueStream, stopStream } = useChat(
+  const { messages, isLoading, interrupt, getMessagesMetadata, sendMessage, runSingleStep, continueStream, stopStream } = useChat(
     threadId,
     setThreadId,
     setTodos,
@@ -104,8 +106,6 @@ export default function HomePage() {
         files={files}
         activeAssistant={activeAssistant}
         onFileClick={setSelectedFile}
-        collapsed={sidebarCollapsed}
-        onToggleCollapse={toggleSidebar}
         onAssistantUpdate={refreshActiveAssistant}
       />
       <div className={styles.mainContent}>
@@ -115,6 +115,7 @@ export default function HomePage() {
           isLoading={isLoading}
           sendMessage={sendMessage}
           stopStream={stopStream}
+          getMessagesMetadata={getMessagesMetadata}
           selectedSubAgent={selectedSubAgent}
           setThreadId={setThreadId}
           onSelectSubAgent={setSelectedSubAgent}

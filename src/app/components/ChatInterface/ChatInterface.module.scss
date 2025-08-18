@@ -37,23 +37,6 @@
   margin: 0;
 }
 
-.debugToggle {
-  margin-left: $spacing-xl;
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-}
-
-.debugIcon {
-  color: var(--color-text-secondary);
-}
-
-.debugLabel {
-  font-size: $font-size-sm;
-  color: var(--color-text-secondary);
-  user-select: none;
-  cursor: pointer;
-}
 
 .headerRight {
   display: flex;
@@ -136,6 +119,7 @@
   flex: 1;
   overflow-y: auto;
   padding: $spacing-lg;
+  padding-bottom: 100px; // Space for floating input
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -180,77 +164,207 @@
   animation: spin 1s linear infinite;
 }
 
+.inputContainer {
+  position: fixed;
+  bottom: 0;
+  left: $sidebar-width;
+  right: 0;
+  padding: $spacing-lg;
+  background: transparent;
+  pointer-events: none;
+  z-index: 10;
+}
+
 .inputForm {
+  width: 100%;
+  max-width: $chat-max-width;
+  margin: 0 auto;
+  pointer-events: auto;
+}
+
+.inputWrapper {
   display: flex;
+  align-items: center;
   gap: $spacing-sm;
-  padding: $spacing-md $spacing-lg;
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-background);
-  flex-shrink: 0;
+  background: var(--color-background);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  padding: $spacing-sm;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(28, 60, 60, 0.1);
+  }
 }
 
 .input {
   flex: 1;
-  padding-left: 10px;
+  padding: 6px 8px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.5;
+  outline: none;
+  height: 24px;
+
+  &::placeholder {
+    color: var(--color-text-tertiary);
+  }
+}
+
+.debugToggle {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 4px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.debugLabel {
+  font-size: $font-size-xs;
+  color: var(--color-text-secondary);
+  user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tooltip {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  font-size: $font-size-xs;
+  padding: $spacing-sm $spacing-md;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 50;
+
+  p {
+    margin: 0;
+  }
+}
+
+.tooltipArrow {
+  fill: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .sendButton {
-  padding: $spacing-sm $spacing-md;
+  padding: $spacing-sm;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .stopButton {
-  padding: $spacing-sm $spacing-md;
   background-color: var(--color-error);
   color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
 
   &:hover {
     opacity: 0.9;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
   }
 }
+
 
 .debugControls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: $spacing-md;
-  padding: $spacing-lg;
+  gap: $spacing-sm;
+  padding: $spacing-md 0;
+  margin-left: 40px;
 }
 
 .continueButton {
-  padding: $spacing-sm $spacing-lg;
-  background-color: var(--color-success);
-  color: white;
+  padding: $spacing-xs $spacing-md;
+  background-color: transparent;
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
   font-weight: $font-weight-medium;
-  border-radius: $radius-md;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
   transition: all 200ms ease;
 
   &:hover {
-    background-color: darken(#10b981, 10%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--color-success);
+    border-color: var(--color-success);
   }
 
   &:active {
-    transform: translateY(0);
+    background-color: rgba(16, 185, 129, 0.2);
   }
 }
 
 .rerunButton {
-  padding: $spacing-sm $spacing-lg;
-  background-color: #8b5cf6;
-  color: white;
+  padding: $spacing-xs $spacing-md;
+  background-color: transparent;
+  color: #8b5cf6;
+  border: 1px solid #8b5cf6;
   font-weight: $font-weight-medium;
-  border-radius: $radius-md;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
   transition: all 200ms ease;
 
   &:hover {
-    background-color: darken(#8b5cf6, 10%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+    border-color: #8b5cf6;
   }
 
   &:active {
-    transform: translateY(0);
+    background-color: rgba(139, 92, 246, 0.2);
   }
 }
 

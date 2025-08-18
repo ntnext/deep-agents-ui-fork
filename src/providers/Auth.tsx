@@ -22,10 +22,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<AuthSession | null>(null);
 
   useEffect(() => {
-    // Initialize with a default token or implement your auth logic
-    setSession({
-      accessToken: process.env.NEXT_PUBLIC_LANGSMITH_API_KEY || "demo-token",
-    });
+    // Use localStorage LANGSMITH_API_KEY for main agent
+    const updateSession = () => {
+      const langsmithApiKey = localStorage.getItem("LANGSMITH_API_KEY") || "";
+      setSession({
+        accessToken: langsmithApiKey,
+      });
+    };
+
+    updateSession();
+
+    // Listen for localStorage changes
+    const handleStorageChange = () => {
+      updateSession();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   return (

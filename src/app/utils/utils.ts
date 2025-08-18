@@ -11,11 +11,15 @@ export function extractStringFromMessageContent(message: Message): string {
       : "";
 }
 
-export function assembleOptimizerInputMessage(currentConfig: any, feedback: string, messages: Message[]) {
-  const messageContent = `
-  Current config: ${JSON.stringify(currentConfig)}
-  Feedback: ${feedback}
-  Messages: ${JSON.stringify(messages)}
-  `;
-  return messageContent;
+export function isPreparingToCallTaskTool(messages: Message[]): boolean {
+  const lastMessage = messages[messages.length - 1];
+  return lastMessage.type === "ai" && lastMessage.tool_calls?.some((call: any) => call.name === "task") || false;
 }
+
+export function justCalledTaskTool(messages: Message[]): boolean {
+  const lastAiMessage = messages.findLast((message) => message.type === "ai");
+  if (!lastAiMessage) return false;
+  const toolMessagesAfterLastAiMessage = messages.slice(messages.indexOf(lastAiMessage) + 1);
+  const taskToolCallsCompleted = toolMessagesAfterLastAiMessage.some((message) => message.type === "tool" && message.name === "task");
+  return lastAiMessage.tool_calls?.some((call: any) => call.name === "task") && taskToolCallsCompleted || false;
+} 

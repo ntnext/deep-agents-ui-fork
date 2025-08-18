@@ -9,15 +9,16 @@ import React, {
   FormEvent,
 } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Send, Bot, LoaderCircle, SquarePen, History, X, Bug } from "lucide-react";
+import { Tooltip, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { Send, Bot, LoaderCircle, SquarePen, History, Square } from "lucide-react";
 import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { ThreadHistorySidebar } from "../ThreadHistorySidebar/ThreadHistorySidebar";
 import type { SubAgent, ToolCall } from "../../types/types";
 import styles from "./ChatInterface.module.scss";
-import { Message, type Interrupt } from "@langchain/langgraph-sdk";
-import { extractStringFromMessageContent } from "../../utils/utils";
+import { Checkpoint, Message, type Interrupt } from "@langchain/langgraph-sdk";
+import { extractStringFromMessageContent, isPreparingToCallTaskTool, justCalledTaskTool } from "../../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 
 interface ChatInterfaceProps {
@@ -27,6 +28,7 @@ interface ChatInterfaceProps {
   selectedSubAgent: SubAgent | null;
   sendMessage: (message: string) => void;
   stopStream: () => void;
+  getMessagesMetadata: (message: Message) => any;
   setThreadId: (
     value: string | ((old: string | null) => string | null) | null,
   ) => void;
@@ -34,8 +36,8 @@ interface ChatInterfaceProps {
   onNewThread: () => void;
   debugMode: boolean;
   setDebugMode: (debugMode: boolean) => void;
-  runSingleStep: (messages: Message[]) => void;
-  continueStream: () => void;
+  runSingleStep: (messages: Message[], checkpoint?: Checkpoint, isRerunningSubagent?: boolean) => void;
+  continueStream: (hasTaskToolCall?: boolean) => void;
   interrupt: Interrupt | undefined;
   isLoadingThreadState: boolean;
 }
@@ -48,6 +50,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     selectedSubAgent,
     sendMessage,
     stopStream,
+    getMessagesMetadata,
     setThreadId,
     onSelectSubAgent,
     onNewThread,
@@ -107,17 +110,24 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     }, []);
 
     const handleContinue = useCallback(() => {
-      continueStream();
-    }, [continueStream]);
+      const preparingToCallTaskTool = isPreparingToCallTaskTool(messages);
+      continueStream(preparingToCallTaskTool);
+    }, [continueStream, messages]);
 
     const handleRerunStep = useCallback(() => {
-      // Resubmit without the last message
-      runSingleStep([{
-        id: messages[messages.length - 1].id!,
-        type: "remove",
-        content: "",
-      }]);
-    }, [messages, runSingleStep]);
+      const hasTaskToolCall = justCalledTaskTool(messages);
+      let rewindIndex = messages.length - 2;
+      if (hasTaskToolCall) {
+        rewindIndex = messages.findLastIndex((message) => message.type === "ai");
+      }
+      const meta = getMessagesMetadata(messages[rewindIndex]);
+      console.log("meta", meta);
+      const toolMessageMeta = getMessagesMetadata(messages[rewindIndex]);
+      console.log("tool message meta", toolMessageMeta);
+      const firstSeenState = toolMessageMeta.firstSeenState;
+      const { parent_checkpoint: parentCheckpoint } = firstSeenState ?? {};
+      runSingleStep([], parentCheckpoint, hasTaskToolCall);
+    }, [messages, runSingleStep, getMessagesMetadata]);
 
     const hasMessages = messages.length > 0;
 
@@ -187,7 +197,6 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             data.toolCalls[toolCallIndex] = {
               ...data.toolCalls[toolCallIndex],
               status: "completed" as const,
-              // TODO: Make this nicer
               result: extractStringFromMessageContent(message),
             };
             break;
@@ -215,18 +224,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
         <div className={styles.header}>
           <div className={styles.headerLeft}>
             <Bot className={styles.logo} />
-            <h1 className={styles.title}>Deep Agents</h1>
-            <div className={styles.debugToggle}>
-              <Bug size={16} className={styles.debugIcon} />
-              <label htmlFor="debug-mode" className={styles.debugLabel}>
-                Debug
-              </label>
-              <Switch
-                id="debug-mode"
-                checked={debugMode}
-                onCheckedChange={setDebugMode}
-              />
-            </div>
+            <h1 className={styles.title}>Deep Agent</h1>
           </div>
           <div className={styles.headerRight}>
             <Button
@@ -298,32 +296,63 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             </div>
           </div>
         </div>
-        <form onSubmit={handleSubmit} className={styles.inputForm}>
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-            disabled={isLoading}
-            className={styles.input}
-          />
-          {isLoading ? (
-            <Button
-              type="button"
-              onClick={stopStream}
-              className={styles.stopButton}
-            >
-              Stop
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              disabled={!input.trim()}
-              className={styles.sendButton}
-            >
-              <Send size={16} />
-            </Button>
-          )}
-        </form>
+        <div className={styles.inputContainer}>
+          <form onSubmit={handleSubmit} className={styles.inputForm}>
+            <div className={styles.inputWrapper}>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type your message..."
+                disabled={isLoading}
+                className={styles.input}
+              />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className={styles.debugToggle}>
+                      <label htmlFor="debug-mode" className={styles.debugLabel}>
+                        Debug Mode
+                      </label>
+                      <Switch
+                        id="debug-mode"
+                        checked={debugMode}
+                        onCheckedChange={setDebugMode}
+                      />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipPrimitive.Portal>
+                    <TooltipPrimitive.Content
+                      side="top"
+                      sideOffset={5}
+                      className={styles.tooltip}
+                    >
+                      <p>Run the agent step-by-step</p>
+                      <TooltipPrimitive.Arrow className={styles.tooltipArrow} />
+                    </TooltipPrimitive.Content>
+                  </TooltipPrimitive.Portal>
+                </Tooltip>
+              </TooltipProvider>
+              {isLoading ? (
+                <button
+                  type="button"
+                  onClick={stopStream}
+                  className={styles.stopButton}
+                >
+                  <Square size={14} />
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={!input.trim()}
+                  className={styles.sendButton}
+                >
+                  <Send size={16} />
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
       </div>
     );
   },

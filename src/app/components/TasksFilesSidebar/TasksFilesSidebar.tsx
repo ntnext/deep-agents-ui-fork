@@ -2,13 +2,13 @@
 
 import React, { useMemo, useCallback, useState } from "react";
 import {
-  ChevronLeft,
-  ChevronRight,
   FileText,
   CheckCircle,
   Circle,
   Clock,
+  Settings,
 } from "lucide-react";
+import { useEnvConfig } from "@/providers/EnvConfig";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -23,14 +23,13 @@ interface TasksFilesSidebarProps {
   files: Record<string, string>;
   activeAssistant: Assistant | null;
   onFileClick: (file: FileItem) => void;
-  collapsed: boolean;
-  onToggleCollapse: () => void;
   onAssistantUpdate: () => void;
 }
 
 export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
-  ({ messages, todos, files, activeAssistant, onFileClick, collapsed, onToggleCollapse, onAssistantUpdate }) => {
+  ({ messages, todos, files, activeAssistant, onFileClick, onAssistantUpdate }) => {
     const [isTrainingModeExpanded, setIsTrainingModeExpanded] = useState(false);
+    const { openSettings } = useEnvConfig();
 
     const handleToggleTrainingMode = useCallback(() => {
       setIsTrainingModeExpanded(prev => !prev);
@@ -55,44 +54,30 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
       };
     }, [todos]);
 
-    if (collapsed) {
-      return (
-        <div className={styles.sidebarCollapsed}>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onToggleCollapse}
-            className={styles.toggleButton}
-          >
-            <ChevronRight size={20} />
-          </Button>
-        </div>
-      );
-    }
 
     return (
       <div className={styles.sidebarContainer}>
         <div className={styles.sidebar}>
-          <div className={styles.header}>
-            <h2 className={styles.title}>Workspace</h2>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onToggleCollapse}
-              className={styles.toggleButton}
-            >
-              <ChevronLeft size={20} />
-            </Button>
-          </div>
           <Tabs defaultValue="tasks" className={styles.tabs}>
-            <TabsList className={styles.tabsList}>
-              <TabsTrigger value="tasks" className={styles.tabTrigger}>
-                Tasks ({todos.length})
-              </TabsTrigger>
-              <TabsTrigger value="files" className={styles.tabTrigger}>
-                Files ({Object.keys(files).length})
-              </TabsTrigger>
-            </TabsList>
+            <div className={styles.tabsHeader}>
+              <TabsList className={styles.tabsList}>
+                <TabsTrigger value="tasks" className={styles.tabTrigger}>
+                  Tasks ({todos.length})
+                </TabsTrigger>
+                <TabsTrigger value="files" className={styles.tabTrigger}>
+                  Files ({Object.keys(files).length})
+                </TabsTrigger>
+              </TabsList>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={openSettings}
+                className={styles.settingsButton}
+                title="Environment Settings"
+              >
+                <Settings size={18} />
+              </Button>
+            </div>
 
             <TabsContent value="tasks" className={styles.tabContent}>
               <ScrollArea className={styles.scrollArea}>

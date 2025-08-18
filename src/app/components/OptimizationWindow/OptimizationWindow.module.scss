@@ -12,22 +12,26 @@
   transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   height: 48px;
   overflow: hidden;
+  border: 2px solid var(--color-primary);
+  border-radius: 10px 10px 0 0;
 
   &.expanded {
     height: 50%;
-    border-top: 2px solid var(--color-border);
   }
 }
 
 .paneHeader {
   height: 48px;
   min-height: 48px;
-  background: var(--color-border-light);
-  border-bottom: 1px solid var(--color-border);
+  background: var(--color-primary);
   display: flex;
   align-items: center;
   padding: 0;
   position: relative;
+  border-radius: 8px 8px 0 0;
+  margin: 0;
+  border: none;
+  overflow: hidden;
 }
 
 .toggleButton {
@@ -36,7 +40,7 @@
   padding: 0 16px;
   background: transparent;
   border: none;
-  color: var(--color-text-primary);
+  color: white;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -46,12 +50,12 @@
   transition: background-color 0.2s;
 
   &:hover {
-    background: var(--color-border-light);
+    background: rgba(255, 255, 255, 0.1);
   }
 
   &:focus {
     outline: none;
-    background: var(--color-border-light);
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -63,7 +67,7 @@
   padding: 6px;
   background: transparent;
   border: none;
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   border-radius: 4px;
   display: flex;
@@ -73,8 +77,8 @@
   z-index: 1;
 
   &:hover {
-    background: var(--color-background);
-    color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
   }
 
   &:active {
@@ -87,11 +91,11 @@
 }
 
 .toggleIcon {
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.8);
   transition: transform 0.2s ease;
   
   &:hover {
-    color: var(--color-text-primary);
+    color: white;
   }
 }
 
