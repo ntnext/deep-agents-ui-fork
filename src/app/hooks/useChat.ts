@@ -53,7 +53,6 @@ export function useChat(
     assistantId:
       activeAssistant?.assistant_id ||
       getEnvValue(ENV_CONFIG_KEYS.ASSISTANT_ID) ||
-      getEnvValue(ENV_CONFIG_KEYS.AGENT_ID) ||
       "",
     client: createClient(deploymentUrl || "", langsmithApiKey),
     reconnectOnMount: true,

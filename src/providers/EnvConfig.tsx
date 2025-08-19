@@ -5,14 +5,12 @@ import { EnvConfigDialog } from "@/app/components/EnvConfigDialog/EnvConfigDialo
 
 interface EnvConfig {
   DEPLOYMENT_URL: string;
-  AGENT_ID: string;
   ASSISTANT_ID: string;
   LANGSMITH_API_KEY: string;
 }
 
 export const ENV_CONFIG_KEYS = {
   DEPLOYMENT_URL: "DEPLOYMENT_URL",
-  AGENT_ID: "AGENT_ID",
   ASSISTANT_ID: "ASSISTANT_ID",
   LANGSMITH_API_KEY: "LANGSMITH_API_KEY",
 } as const satisfies Record<keyof EnvConfig, keyof EnvConfig>;
@@ -33,7 +31,6 @@ const EnvConfigContext = createContext<EnvConfigContextType | undefined>(
 
 const REQUIRED_KEYS: Array<keyof EnvConfig> = [
   "DEPLOYMENT_URL",
-  "AGENT_ID",
   "ASSISTANT_ID",
 ];
 

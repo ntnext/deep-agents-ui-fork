@@ -8,14 +8,12 @@ import styles from "./EnvConfigDialog.module.scss";
 
 interface EnvConfig {
   DEPLOYMENT_URL: string;
-  AGENT_ID: string;
   ASSISTANT_ID: string;
   LANGSMITH_API_KEY: string;
 }
 
 const REQUIRED_KEYS: Array<keyof EnvConfig> = [
   "DEPLOYMENT_URL",
-  "AGENT_ID",
   "ASSISTANT_ID",
 ];
 
@@ -25,14 +23,12 @@ const ENV_KEYS: Array<keyof EnvConfig> = [...REQUIRED_KEYS, ...OPTIONAL_KEYS];
 
 const ENV_LABELS: Record<keyof EnvConfig, string> = {
   DEPLOYMENT_URL: "Agent Deployment URL",
-  AGENT_ID: "Agent ID",
   ASSISTANT_ID: "Assistant ID",
   LANGSMITH_API_KEY: "LangSmith API Key",
 };
 
 const ENV_PLACEHOLDERS: Record<keyof EnvConfig, string> = {
   DEPLOYMENT_URL: "http://127.0.0.1:2024 for locally running agents",
-  AGENT_ID: "ex. research",
   ASSISTANT_ID: "ex. asdfasdf-asdf-asdf-asdf-asdfasdfasdf",
   LANGSMITH_API_KEY: "Optional, not necessary for locally running agents",
 };
@@ -50,7 +46,6 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
 }) => {
   const [config, setConfig] = useState<EnvConfig>({
     DEPLOYMENT_URL: "",
-    AGENT_ID: "",
     ASSISTANT_ID: "",
     LANGSMITH_API_KEY: "",
   });
