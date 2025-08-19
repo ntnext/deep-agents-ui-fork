@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import { EnvConfigDialog } from "@/app/components/EnvConfigDialog/EnvConfigDialog";
 
 interface EnvConfig {
@@ -49,69 +49,83 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
   const [showSettings, setShowSettings] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
-  useEffect(() => {
-    const checkConfiguration = () => {
-      const loadedConfig: Partial<EnvConfig> = {};
-      let allConfigured = true;
-      ENV_KEYS.forEach((key) => {
-        const storedValue = localStorage.getItem(key);
-        if (storedValue) {
-          loadedConfig[key] = storedValue;
-        }
-      });
-      REQUIRED_KEYS.forEach((key) => {
-        const storedValue = localStorage.getItem(key);
-        if (!storedValue) {
-          allConfigured = false;
-        }
-      });
-      if (allConfigured) {
-        setConfig(loadedConfig as EnvConfig);
-        setIsConfigured(true);
-      } else {
-        setIsConfigured(false);
+  const checkConfiguration = useCallback(() => {
+    const loadedConfig: Partial<EnvConfig> = {};
+    let allConfigured = true;
+    ENV_KEYS.forEach((key) => {
+      const storedValue = localStorage.getItem(key);
+      if (storedValue) {
+        loadedConfig[key] = storedValue;
       }
-      setIsChecking(false);
-    };
+    });
+    REQUIRED_KEYS.forEach((key) => {
+      const storedValue = localStorage.getItem(key);
+      if (!storedValue) {
+        allConfigured = false;
+      }
+    });
+    if (allConfigured) {
+      setConfig(loadedConfig as EnvConfig);
+      setIsConfigured(true);
+    } else {
+      setIsConfigured(false);
+    }
+    setIsChecking(false);
+  }, []);
 
+  useEffect(() => {
     checkConfiguration();
+  }, [checkConfiguration]);
 
-    const handleStorageChange = () => {
-      checkConfiguration();
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key && ENV_KEYS.includes(e.key as keyof EnvConfig)) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          checkConfiguration();
+        }, 100);
+      }
     };
 
     window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [checkConfiguration]);
+
+  const getEnvValue = useCallback((key: keyof EnvConfig): string | undefined => {
+    return localStorage.getItem(key) || undefined;
   }, []);
 
-  const getEnvValue = (key: keyof EnvConfig): string | undefined => {
-    return localStorage.getItem(key) || undefined;
-  };
-
-  const getLangSmithApiKey = () => {
+  const getLangSmithApiKey = useCallback(() => {
     // NOTE: Need to return a non-falsy value for the api key
     return localStorage.getItem("LANGSMITH_API_KEY") || "filler-token";
-  };
+  }, []);
 
-  const openSettings = () => setShowSettings(true);
-  const closeSettings = () => setShowSettings(false);
+  const openSettings = useCallback(() => setShowSettings(true), []);
+  const closeSettings = useCallback(() => setShowSettings(false), []);
+
+  const contextValue = useMemo(
+    () => ({
+      config,
+      isConfigured,
+      showSettings,
+      openSettings,
+      closeSettings,
+      getEnvValue,
+      getLangSmithApiKey,
+    }),
+    [config, isConfigured, showSettings, openSettings, closeSettings, getEnvValue, getLangSmithApiKey]
+  );
 
   if (isChecking) {
     return null;
   }
 
   return (
-    <EnvConfigContext.Provider
-      value={{
-        config,
-        isConfigured,
-        showSettings,
-        openSettings,
-        closeSettings,
-        getEnvValue,
-        getLangSmithApiKey,
-      }}
-    >
+    <EnvConfigContext.Provider value={contextValue}>
       {children}
       <EnvConfigDialog
         isOpen={!isConfigured || showSettings}
