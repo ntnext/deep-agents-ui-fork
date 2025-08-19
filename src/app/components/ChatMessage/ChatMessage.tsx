@@ -56,7 +56,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
           subAgents.find((subAgent) => subAgent.id === selectedSubAgent?.id)!,
         );
       }
-    }, [selectedSubAgent, onSelectSubAgent, subAgentsString]);
+    }, [selectedSubAgent, onSelectSubAgent, subAgentsString, subAgents]);
 
     return (
       <div

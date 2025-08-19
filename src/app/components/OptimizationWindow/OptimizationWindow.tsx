@@ -12,9 +12,9 @@ import * as Diff from "diff";
 import styles from "./OptimizationWindow.module.scss";
 import { useStream } from "@langchain/langgraph-sdk/react";
 import { createClient, createOptimizerClient } from "@/lib/client";
-import { useAuthContext } from "@/providers/Auth";
 import { Assistant, type Message } from "@langchain/langgraph-sdk";
 import { v4 as uuidv4 } from "uuid";
+import { ENV_CONFIG_KEYS, useEnvConfig } from "@/providers/EnvConfig";
 
 type StateType = {
   messages: Message[];
@@ -53,7 +53,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
     activeAssistant,
     onAssistantUpdate,
   }) => {
-    const { session } = useAuthContext();
+    const { getEnvValue, getLangSmithApiKey } = useEnvConfig();
     const [optimizerThreadId, setOptimizerThreadId] = useState<string | null>(
       null,
     );
@@ -66,9 +66,17 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
       [],
     );
 
+    const deploymentUrl = useMemo(
+      () => getEnvValue(ENV_CONFIG_KEYS.DEPLOYMENT_URL),
+      [getEnvValue],
+    );
+    const langsmithApiKey = useMemo(
+      () => getLangSmithApiKey(),
+      [getLangSmithApiKey],
+    );
     const deploymentClient = useMemo(
-      () => createClient(session?.accessToken || ""),
-      [session?.accessToken],
+      () => createClient(deploymentUrl || "", langsmithApiKey),
+      [deploymentUrl, langsmithApiKey],
     );
     const optimizerClient = useMemo(() => createOptimizerClient(), []);
 
@@ -355,8 +363,6 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       }
                       return null;
                     })}
-
-                    {/* Loading message with spinner */}
                     {isLoading && (
                       <div className={styles.loadingMessage}>
                         <div className={styles.loadingContent}>
@@ -369,7 +375,6 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 </div>
               </div>
             </div>
-
             <div className={styles.paneFooter}>
               <form
                 className={styles.inputForm}
@@ -399,8 +404,6 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
             </div>
           </div>
         </div>
-
-        {/* Diff Dialog */}
         {isDiffDialogOpen && selectedOptimizerMessage && (
           <div className={styles.dialogOverlay} onClick={handleCloseDiffDialog}>
             <div

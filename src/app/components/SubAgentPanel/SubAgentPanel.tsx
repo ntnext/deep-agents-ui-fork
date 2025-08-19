@@ -72,11 +72,13 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
                 content={
                   typeof subAgent.input === "string"
                     ? subAgent.input
-                    : subAgent.input.description && typeof subAgent.input.description === "string"
-                    ? subAgent.input.description
-                    : subAgent.input.prompt && typeof subAgent.input.prompt === "string"
-                    ? subAgent.input.prompt
-                    : JSON.stringify(subAgent.input, null, 2)
+                    : subAgent.input.description &&
+                        typeof subAgent.input.description === "string"
+                      ? subAgent.input.description
+                      : subAgent.input.prompt &&
+                          typeof subAgent.input.prompt === "string"
+                        ? subAgent.input.prompt
+                        : JSON.stringify(subAgent.input, null, 2)
                 }
               />
             </div>
@@ -89,9 +91,10 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
                   content={
                     typeof subAgent.output === "string"
                       ? subAgent.output
-                      : subAgent.output.result && typeof subAgent.output.result === "string"
-                      ? subAgent.output.result
-                      : JSON.stringify(subAgent.output, null, 2)
+                      : subAgent.output.result &&
+                          typeof subAgent.output.result === "string"
+                        ? subAgent.output.result
+                        : JSON.stringify(subAgent.output, null, 2)
                   }
                 />
               </div>

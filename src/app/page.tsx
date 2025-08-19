@@ -7,16 +7,14 @@ import { TasksFilesSidebar } from "./components/TasksFilesSidebar/TasksFilesSide
 import { SubAgentPanel } from "./components/SubAgentPanel/SubAgentPanel";
 import { FileViewDialog } from "./components/FileViewDialog/FileViewDialog";
 import { createClient } from "@/lib/client";
-import { useAuthContext } from "@/providers/Auth";
-import { useEnvConfig } from "@/providers/EnvConfig";
+import { useEnvConfig, ENV_CONFIG_KEYS } from "@/providers/EnvConfig";
 import type { SubAgent, FileItem, TodoItem } from "./types/types";
 import styles from "./page.module.scss";
 import { Assistant } from "@langchain/langgraph-sdk";
 import { useChat } from "./hooks/useChat";
 
 export default function HomePage() {
-  const { session } = useAuthContext();
-  const { getEnvValue } = useEnvConfig();
+  const { getEnvValue, getLangSmithApiKey } = useEnvConfig();
   const [threadId, setThreadId] = useQueryState("threadId");
   const [selectedSubAgent, setSelectedSubAgent] = useState<SubAgent | null>(
     null,
@@ -30,19 +28,26 @@ export default function HomePage() {
   const [files, setFiles] = useState<Record<string, string>>({});
   const [isLoadingThreadState, setIsLoadingThreadState] = useState(false);
 
+  const deploymentUrl = useMemo(
+    () => getEnvValue(ENV_CONFIG_KEYS.DEPLOYMENT_URL),
+    [getEnvValue],
+  );
+  const langsmithApiKey = useMemo(
+    () => getLangSmithApiKey(),
+    [getLangSmithApiKey],
+  );
   const client = useMemo(() => {
-    return createClient(session?.accessToken || "");
-  }, [session?.accessToken]);
+    return createClient(deploymentUrl || "", langsmithApiKey);
+  }, [deploymentUrl, langsmithApiKey]);
 
   const refreshActiveAssistant = useCallback(async () => {
     try {
-      const assistantId = getEnvValue("ASSISTANT_ID");
+      const assistantId = getEnvValue(ENV_CONFIG_KEYS.ASSISTANT_ID);
       if (!assistantId) {
         console.error("Assistant ID not configured");
         return;
       }
       const assistant = await client.assistants.get(assistantId);
-      console.log("Triggered assistant update", assistant);
       setActiveAssistant(assistant);
     } catch (error) {
       console.error("Failed to refresh assistant:", error);
@@ -56,7 +61,8 @@ export default function HomePage() {
   // When the threadId changes, grab the thread state from the graph server
   useEffect(() => {
     const fetchThreadState = async () => {
-      if (!threadId || !session?.accessToken) {
+      // TODO: Potentially remove the langsmithApiKey check
+      if (!threadId || !langsmithApiKey) {
         setTodos([]);
         setFiles({});
         setIsLoadingThreadState(false);
@@ -65,7 +71,6 @@ export default function HomePage() {
       setIsLoadingThreadState(true);
       try {
         const state = await client.threads.getState(threadId);
-
         if (state.values) {
           const currentState = state.values as {
             todos?: TodoItem[];
@@ -83,7 +88,7 @@ export default function HomePage() {
       }
     };
     fetchThreadState();
-  }, [threadId, client]);
+  }, [threadId, client, langsmithApiKey]);
 
   const handleNewThread = useCallback(() => {
     setThreadId(null);

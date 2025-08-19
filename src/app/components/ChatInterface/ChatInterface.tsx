@@ -155,7 +155,6 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     }, [messages, runSingleStep, getMessagesMetadata]);
 
     const hasMessages = messages.length > 0;
-
     const processedMessages = useMemo(() => {
       /* 
     1. Loop through all messages

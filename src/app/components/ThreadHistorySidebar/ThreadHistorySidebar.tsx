@@ -5,8 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { MessageSquare, X } from "lucide-react";
 import { createClient } from "@/lib/client";
-import { useAuthContext } from "@/providers/Auth";
-import { getDeployment } from "@/lib/environment/deployments";
+import { ENV_CONFIG_KEYS, useEnvConfig } from "@/providers/EnvConfig";
 import type { Thread } from "../../types/types";
 import styles from "./ThreadHistorySidebar.module.scss";
 import { extractStringFromMessageContent } from "../../utils/utils";
@@ -23,14 +22,24 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
   ({ open, setOpen, currentThreadId, onThreadSelect }) => {
     const [threads, setThreads] = useState<Thread[]>([]);
     const [isLoadingThreadHistory, setIsLoadingThreadHistory] = useState(true);
-    const { session } = useAuthContext();
-    const deployment = useMemo(() => getDeployment(), []);
+    const { getEnvValue, getLangSmithApiKey } = useEnvConfig();
+    const deploymentUrl = useMemo(
+      () => getEnvValue(ENV_CONFIG_KEYS.DEPLOYMENT_URL),
+      [getEnvValue],
+    );
+    const langsmithApiKey = useMemo(
+      () => getLangSmithApiKey(),
+      [getLangSmithApiKey],
+    );
+    const client = useMemo(
+      () => createClient(deploymentUrl || "", langsmithApiKey),
+      [deploymentUrl, langsmithApiKey],
+    );
 
     const fetchThreads = useCallback(async () => {
-      if (!deployment?.deploymentUrl || !session?.accessToken) return;
+      if (!deploymentUrl || !langsmithApiKey) return;
       setIsLoadingThreadHistory(true);
       try {
-        const client = createClient(session.accessToken);
         const response = await client.threads.search({
           limit: 30,
           sortBy: "created_at",
@@ -82,7 +91,7 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
       } finally {
         setIsLoadingThreadHistory(false);
       }
-    }, [deployment?.deploymentUrl, session?.accessToken]);
+    }, [client, deploymentUrl, langsmithApiKey]);
 
     useEffect(() => {
       fetchThreads();

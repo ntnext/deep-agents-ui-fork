@@ -10,6 +10,13 @@ interface EnvConfig {
   LANGSMITH_API_KEY: string;
 }
 
+export const ENV_CONFIG_KEYS = {
+  DEPLOYMENT_URL: "DEPLOYMENT_URL",
+  AGENT_ID: "AGENT_ID",
+  ASSISTANT_ID: "ASSISTANT_ID",
+  LANGSMITH_API_KEY: "LANGSMITH_API_KEY",
+} as const satisfies Record<keyof EnvConfig, keyof EnvConfig>;
+
 interface EnvConfigContextType {
   config: EnvConfig | null;
   isConfigured: boolean;
@@ -17,6 +24,7 @@ interface EnvConfigContextType {
   openSettings: () => void;
   closeSettings: () => void;
   getEnvValue: (key: keyof EnvConfig) => string | undefined;
+  getLangSmithApiKey: () => string;
 }
 
 const EnvConfigContext = createContext<EnvConfigContextType | undefined>(
@@ -45,28 +53,24 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
     const checkConfiguration = () => {
       const loadedConfig: Partial<EnvConfig> = {};
       let allConfigured = true;
-
       ENV_KEYS.forEach((key) => {
         const storedValue = localStorage.getItem(key);
         if (storedValue) {
           loadedConfig[key] = storedValue;
         }
       });
-
       REQUIRED_KEYS.forEach((key) => {
         const storedValue = localStorage.getItem(key);
         if (!storedValue) {
           allConfigured = false;
         }
       });
-
       if (allConfigured) {
         setConfig(loadedConfig as EnvConfig);
         setIsConfigured(true);
       } else {
         setIsConfigured(false);
       }
-
       setIsChecking(false);
     };
 
@@ -82,6 +86,11 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const getEnvValue = (key: keyof EnvConfig): string | undefined => {
     return localStorage.getItem(key) || undefined;
+  };
+
+  const getLangSmithApiKey = () => {
+    // NOTE: Need to return a non-falsy value for the api key
+    return localStorage.getItem("LANGSMITH_API_KEY") || "filler-token";
   };
 
   const openSettings = () => setShowSettings(true);
@@ -100,6 +109,7 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
         openSettings,
         closeSettings,
         getEnvValue,
+        getLangSmithApiKey,
       }}
     >
       {children}

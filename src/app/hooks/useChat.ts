@@ -5,11 +5,10 @@ import {
   type Assistant,
   type Checkpoint,
 } from "@langchain/langgraph-sdk";
-import { getDeployment } from "@/lib/environment/deployments";
 import { v4 as uuidv4 } from "uuid";
 import type { TodoItem } from "../types/types";
 import { createClient } from "@/lib/client";
-import { useAuthContext } from "@/providers/Auth";
+import { ENV_CONFIG_KEYS, useEnvConfig } from "@/providers/EnvConfig";
 
 type StateType = {
   messages: Message[];
@@ -26,13 +25,19 @@ export function useChat(
   onFilesUpdate: (files: Record<string, string>) => void,
   activeAssistant: Assistant | null,
 ) {
-  const deployment = useMemo(() => getDeployment(), []);
-  const { session } = useAuthContext();
-  const accessToken = session?.accessToken;
+  const { getEnvValue, getLangSmithApiKey } = useEnvConfig();
+  const deploymentUrl = useMemo(
+    () => getEnvValue(ENV_CONFIG_KEYS.DEPLOYMENT_URL),
+    [getEnvValue],
+  );
+  const langsmithApiKey = useMemo(
+    () => getLangSmithApiKey(),
+    [getLangSmithApiKey],
+  );
 
   const handleUpdateEvent = useCallback(
     (data: { [node: string]: Partial<StateType> }) => {
-      Object.entries(data).forEach(([_, nodeData]) => {
+      Object.values(data).forEach((nodeData) => {
         if (nodeData?.todos) {
           onTodosUpdate(nodeData.todos);
         }
@@ -47,10 +52,10 @@ export function useChat(
   const stream = useStream<StateType>({
     assistantId:
       activeAssistant?.assistant_id ||
-      deployment.assistantId ||
-      deployment.agentId ||
+      getEnvValue(ENV_CONFIG_KEYS.ASSISTANT_ID) ||
+      getEnvValue(ENV_CONFIG_KEYS.AGENT_ID) ||
       "",
-    client: createClient(accessToken || ""),
+    client: createClient(deploymentUrl || "", langsmithApiKey),
     reconnectOnMount: true,
     threadId: threadId ?? null,
     onUpdateEvent: handleUpdateEvent,
@@ -76,12 +81,13 @@ export function useChat(
             return { ...prev, messages: newMessages };
           },
           config: {
+            ...(activeAssistant?.config || {}),
             recursion_limit: 100,
           },
         },
       );
     },
-    [stream],
+    [stream, activeAssistant?.config],
   );
 
   const runSingleStep = useCallback(
@@ -127,7 +133,7 @@ export function useChat(
           : { interruptBefore: ["tools"] }),
       });
     },
-    [stream],
+    [stream, activeAssistant?.config],
   );
 
   const stopStream = useCallback(() => {
