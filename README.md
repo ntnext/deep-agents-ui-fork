@@ -8,26 +8,20 @@ If the term "Deep Agents" is new to you, check out these videos!
 
 And check out this video for a walkthrough of this UI.
 
-### Connecting to a Local LangGraph Server
+### Optional: Optimization Setup
 
-Create a `.env.local` file and set two variables
-
-```env
-NEXT_PUBLIC_DEPLOYMENT_URL="http://127.0.0.1:2024" # Or your server URL
-NEXT_PUBLIC_AGENT_ID=<your agent ID from langgraph.json>
-```
-
-### Connecting to a Production LangGraph Deployment on LGP
-
-Create a `.env.local` file and set three variables
+You will need to connect to an optimizer graph by setting a few environment variables
 
 ```env
-NEXT_PUBLIC_DEPLOYMENT_URL="your agent server URL"
-NEXT_PUBLIC_AGENT_ID=<your agent ID from langgraph.json>
-NEXT_PUBLIC_LANGSMITH_API_KEY=<langsmith-api-key>
+NEXT_PUBLIC_OPTIMIZATION_DEPLOYMENT_URL="https://deep-agent-optimizer-5189c7b205455d77b3dbaa42c4655916.us.langgraph.app"
+NEXT_PUBLIC_LANGSMITH_API_KEY="lsv2_xxxx"
 ```
 
-Once you have your environment variables set, install all dependencies and run your app.
+This will enable the Deep Agent Optimizer in the UI
+
+### Starting the App
+
+Install all dependencies and run your app.
 
 ```bash
 npm install
@@ -35,3 +29,12 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to test out your deep agent!
+
+### Connecting to a Deep Agent
+When you open the app for the first time, you will be prompted to supply 3 required fields
+- Agent Deployment URL: The URL for the agent that you are connecting to
+- Agent ID: The ID of the agent that you're connecting to
+- Assistant ID: The ID of the assistant that you are looking to use and optimize against
+- LangSmith API Key: Only required if you are looking to use or optimize a deployed graph
+
+You can edit these at any time by clicking on the Settings cog.

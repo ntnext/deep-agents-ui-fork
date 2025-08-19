@@ -10,7 +10,10 @@ export function createClient(apiUrl: string, apiKey: string) {
   });
 }
 
-export function createOptimizerClient() {
+export function getOptimizerClient(): Client | undefined{
+  if (!process.env.NEXT_PUBLIC_OPTIMIZATION_DEPLOYMENT_URL || !process.env.NEXT_PUBLIC_LANGSMITH_API_KEY) {
+    return undefined;
+  }
   return createClient(
     process.env.NEXT_PUBLIC_OPTIMIZATION_DEPLOYMENT_URL || "",
     process.env.NEXT_PUBLIC_LANGSMITH_API_KEY || "",

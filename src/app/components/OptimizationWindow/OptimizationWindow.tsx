@@ -7,14 +7,15 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import { Expand, X, Send, RotateCcw, Loader2 } from "lucide-react";
+import { Expand, X, Send, RotateCcw, Loader2, Info } from "lucide-react";
 import * as Diff from "diff";
 import styles from "./OptimizationWindow.module.scss";
 import { useStream } from "@langchain/langgraph-sdk/react";
-import { createClient, createOptimizerClient } from "@/lib/client";
+import { createClient, getOptimizerClient } from "@/lib/client";
 import { Assistant, type Message } from "@langchain/langgraph-sdk";
 import { v4 as uuidv4 } from "uuid";
 import { ENV_CONFIG_KEYS, useEnvConfig } from "@/providers/EnvConfig";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 type StateType = {
   messages: Message[];
@@ -78,7 +79,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
       () => createClient(deploymentUrl || "", langsmithApiKey),
       [deploymentUrl, langsmithApiKey],
     );
-    const optimizerClient = useMemo(() => createOptimizerClient(), []);
+    const optimizerClient = useMemo(() => getOptimizerClient(), []);
 
     const onFinish = useCallback(
       (state: { values: { files: { [key: string]: string } } }) => {
@@ -290,15 +291,20 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
             <button
               className={styles.toggleButton}
               onClick={onToggle}
+              disabled={!optimizerClient}
               aria-label={
                 isExpanded ? "Collapse Training Mode" : "Expand Training Mode"
               }
             >
-              <span className={styles.toggleText}>Deep Agent Optimizer</span>
+              <span className={styles.toggleText}>
+                {optimizerClient ? "Deep Agent Optimizer" : "(Disabled) Deep Agent Optimizer"}
+              </span>
               {isExpanded ? (
                 <X size={16} className={styles.toggleIcon} />
               ) : (
-                <Expand size={16} className={styles.toggleIcon} />
+                optimizerClient && (
+                  <Expand size={16} className={styles.toggleIcon} />
+                )
               )}
             </button>
             {isExpanded && displayMessages.length > 0 && (
