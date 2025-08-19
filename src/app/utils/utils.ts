@@ -52,3 +52,13 @@ export function justCalledTaskTool(messages: Message[]): boolean {
     false
   );
 }
+
+
+export function prepareOptimizerMessage(feedback: string): string {
+  return `<feedback>
+${feedback}
+</feedback>
+
+Use the above feedback to update the config.json file.
+`;
+}

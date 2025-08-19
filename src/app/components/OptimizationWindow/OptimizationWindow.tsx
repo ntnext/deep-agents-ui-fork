@@ -7,7 +7,7 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import { Expand, X, Send, RotateCcw, Loader2, Info } from "lucide-react";
+import { Expand, X, Send, RotateCcw, Loader2 } from "lucide-react";
 import * as Diff from "diff";
 import styles from "./OptimizationWindow.module.scss";
 import { useStream } from "@langchain/langgraph-sdk/react";
@@ -15,7 +15,7 @@ import { createClient, getOptimizerClient } from "@/lib/client";
 import { Assistant, type Message } from "@langchain/langgraph-sdk";
 import { v4 as uuidv4 } from "uuid";
 import { ENV_CONFIG_KEYS, useEnvConfig } from "@/providers/EnvConfig";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { prepareOptimizerMessage } from "@/app/utils/utils";
 
 type StateType = {
   messages: Message[];
@@ -98,7 +98,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
     const stream = useStream<StateType>({
       client: optimizerClient,
       threadId: optimizerThreadId ?? null,
-      assistantId: "optimizer",
+      assistantId: "optimizer", // TODO: change to the optimizer assistant id
       onFinish: onFinish,
       onThreadId: setOptimizerThreadId,
       defaultHeaders: {
@@ -108,7 +108,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 
     const isLoading = stream.isLoading;
 
-    const handleSubmitFeedback = useCallback(() => {
+    const handleSubmitFeedback = useCallback((e?: React.FormEvent) => {
+      if (e) {
+        e.preventDefault();
+      }
       setFeedbackInput("");
       setDisplayMessages((prev) => [
         ...prev,
@@ -117,7 +120,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
       const humanMessage: Message = {
         id: uuidv4(),
         type: "human",
-        content: feedbackInput,
+        content: prepareOptimizerMessage(feedbackInput),
       };
       stream.submit({
         messages: [humanMessage],
