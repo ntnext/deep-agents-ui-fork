@@ -339,17 +339,17 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           />
           <div className="flex-1 flex flex-col overflow-hidden relative">
             {!hasMessages && !isLoading && !isLoadingThreadState && (
-              <div className={styles.emptyState}>
+              <div className="flex flex-col items-center justify-center h-full p-12 text-center">
                 <Bot
                   size={48}
-                  className={styles.emptyIcon}
+                  className="text-[var(--color-text-tertiary)] mb-6"
                 />
-                <h2>Start a conversation or select a thread from history</h2>
+                <h2 className="mb-2 text-[var(--color-text-primary)]">Start a conversation or select a thread from history</h2>
               </div>
             )}
             {isLoadingThreadState && (
-              <div className={styles.threadLoadingState}>
-                <LoaderCircle className={styles.threadLoadingSpinner} />
+              <div className="flex pt-[100px] justify-center h-full w-full absolute top-0 left-0 bg-[var(--color-background)] z-10">
+                <LoaderCircle className="animate-spin" />
               </div>
             )}
             <div className={styles.messagesList}>
@@ -464,6 +464,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
 
 
 
