@@ -10,7 +10,7 @@ import {
   Loader,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import styles from "./ToolCallBox.module.scss";
+import { cn } from "@/lib/utils";
 import { ToolCall } from "../../types/types";
 
 interface ToolCallBoxProps {
@@ -107,3 +107,4 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
 });
 
 ToolCallBox.displayName = "ToolCallBox";
+
