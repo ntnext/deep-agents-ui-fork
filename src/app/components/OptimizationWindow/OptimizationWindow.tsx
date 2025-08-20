@@ -304,9 +304,12 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
     return (
       <>
         <div
-          className={`${styles.optimizationWindow} ${isExpanded ? styles.expanded : ""}`}
+          className={cn(
+            "absolute bottom-0 left-0 right-0 bg-[var(--color-surface)] z-10 flex flex-col transition-[height] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] h-12 overflow-hidden border-2 border-[var(--color-primary)] rounded-t-[10px]",
+            isExpanded && "h-1/2"
+          )}
         >
-          <div className={styles.paneHeader}>
+          <div className="h-12 min-h-12 bg-[var(--color-primary)] flex items-center p-0 relative rounded-t-2 m-0 border-none overflow-hidden">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -543,4 +546,5 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
