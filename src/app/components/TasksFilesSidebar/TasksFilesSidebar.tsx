@@ -100,7 +100,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                 variant="ghost"
                 size="sm"
                 onClick={openSettings}
-                className={styles.settingsButton}
+                className="p-1 flex-shrink-0 hover:bg-[var(--color-border-light)]"
                 title="Environment Settings"
               >
                 <Settings size={18} />
@@ -222,6 +222,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
+
 
 
 
