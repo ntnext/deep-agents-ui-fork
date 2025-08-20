@@ -136,16 +136,16 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
               </Button>
             </div>
           </div>
-          <ScrollArea className={styles.scrollArea}>
+          <ScrollArea className="flex-1 overflow-y-auto">
             {isLoadingThreadHistory ? (
-              <div className={styles.loading}>Loading threads...</div>
+              <div className="flex flex-col items-center justify-center p-16 text-[var(--color-text-tertiary)] text-center">Loading threads...</div>
             ) : threads.length === 0 ? (
-              <div className={styles.empty}>
-                <MessageSquare className={styles.emptyIcon} />
+              <div className="flex flex-col items-center justify-center p-16 text-[var(--color-text-tertiary)] text-center">
+                <MessageSquare className="w-8 h-8 mb-2 opacity-50" />
                 <p>No threads yet</p>
               </div>
             ) : (
-              <div className={styles.threadList}>
+              <div className="p-2">
                 {groupedThreads.today.length > 0 && (
                   <div className={styles.group}>
                     <h4 className={styles.groupTitle}>Today</h4>
@@ -227,5 +227,6 @@ const ThreadItem = React.memo<{
 
 ThreadItem.displayName = "ThreadItem";
 ThreadHistorySidebar.displayName = "ThreadHistorySidebar";
+
 
 
