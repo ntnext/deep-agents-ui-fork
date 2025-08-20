@@ -411,7 +411,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                               }
                               disabled={message.status !== "pending"}
                             >
-                              <span className={styles.statusIcon}>
+                              <span className="text-base leading-none">
                                 {message.status === "approved" && "✓"}
                                 {message.status === "rejected" && "✗"}
                                 {message.status === "pending" && ""}
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
