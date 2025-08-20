@@ -483,7 +483,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
               className="bg-[var(--color-background)] rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className={styles.dialogHeader}>
+              <div className="flex justify-between items-center p-6 border-b border-[var(--color-border)]">
                 <h2>Configuration Changes</h2>
                 <button
                   className={styles.closeButton}
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
