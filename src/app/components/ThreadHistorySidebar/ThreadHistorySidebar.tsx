@@ -7,7 +7,7 @@ import { MessageSquare, X } from "lucide-react";
 import { createClient } from "@/lib/client";
 import { useEnvConfig } from "@/providers/EnvConfig";
 import type { Thread } from "../../types/types";
-import styles from "./ThreadHistorySidebar.module.scss";
+import { cn } from "@/lib/utils";
 import { extractStringFromMessageContent } from "../../utils/utils";
 import { Message } from "@langchain/langgraph-sdk";
 
@@ -227,3 +227,4 @@ const ThreadItem = React.memo<{
 
 ThreadItem.displayName = "ThreadItem";
 ThreadHistorySidebar.displayName = "ThreadHistorySidebar";
+
