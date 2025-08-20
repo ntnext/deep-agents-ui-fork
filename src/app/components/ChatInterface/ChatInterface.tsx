@@ -359,15 +359,15 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           </div>
         </div>
         <div className={styles.inputContainer}>
-          <form onSubmit={handleSubmit} className={styles.inputForm}>
+          <form onSubmit={handleSubmit} className={styles.inputForm} >
             <div className={styles.inputWrapper}>
               <textarea
                 ref={textareaRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Type your message..."
-                disabled={isLoading}
+                placeholder={isLoading || !!interrupt ? "Running..." : "Type your message..."}
+                disabled={isLoading || !!interrupt}
                 className={styles.input}
                 rows={1}
               />
