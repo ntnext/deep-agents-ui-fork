@@ -431,8 +431,8 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       return null;
                     })}
                     {isLoading && (
-                      <div className={styles.loadingMessage}>
-                        <div className={styles.loadingContent}>
+                      <div className="flex justify-start mb-2">
+                        <div className="flex items-center gap-2 py-2.5 px-3.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg text-sm text-[var(--color-text-secondary)]">
                           <Loader2
                             size={16}
                             className={styles.spinner}
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
