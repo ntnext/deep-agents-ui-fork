@@ -60,7 +60,10 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 
     return (
       <div
-        className={`${styles.message} ${isUser ? styles.user : styles.assistant}`}
+        className={cn(
+          "flex gap-2 w-full max-w-full overflow-x-hidden",
+          isUser ? "flex-row-reverse" : ""
+        )}
       >
         <div
           className={`${styles.avatar} ${!showAvatar ? styles.avatarHidden : ""}`}
@@ -113,4 +116,5 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 );
 
 ChatMessage.displayName = "ChatMessage";
+
 
