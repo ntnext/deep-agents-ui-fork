@@ -153,15 +153,15 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                     )}
 
                     {groupedTodos.completed.length > 0 && (
-                      <div className={styles.todoGroup}>
-                        <h3 className={styles.groupTitle}>Completed</h3>
+                      <div className="mb-6 last:mb-0">
+                        <h3 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase mb-2">Completed</h3>
                         {groupedTodos.completed.map((todo, index) => (
                           <div
                             key={`completed_${todo.id}_${index}`}
-                            className={styles.todoItem}
+                            className="flex items-start gap-2 p-2 rounded-md mb-1 last:mb-0 transition-colors duration-200"
                           >
                             {getStatusIcon(todo.status)}
-                            <span className={styles.todoContent}>
+                            <span className="flex-1 text-sm leading-normal text-[var(--color-text-primary)]">
                               {todo.content}
                             </span>
                           </div>
@@ -222,6 +222,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
+
 
 
 
