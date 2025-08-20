@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { useEnvConfig } from "@/providers/EnvConfig";
-import styles from "./EnvConfigDialog.module.scss";
+import { cn } from "@/lib/utils";
 
 interface EnvConfig {
   DEPLOYMENT_URL: string;
@@ -186,3 +186,4 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
     </Dialog>
   );
 };
+
