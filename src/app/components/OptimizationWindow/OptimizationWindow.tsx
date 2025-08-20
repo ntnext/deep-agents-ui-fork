@@ -397,7 +397,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         return (
                           <div
                             key={message.id}
-                            className={styles.optimizerMessage}
+                            className="flex justify-start mb-2"
                           >
                             <button
                               className={`${styles.optimizerButton} ${styles[message.status]}`}
@@ -549,6 +549,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
