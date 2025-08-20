@@ -352,7 +352,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <LoaderCircle className="animate-spin" />
               </div>
             )}
-            <div className={styles.messagesList}>
+            <div className="flex-1 overflow-y-auto p-6 pb-[100px]">
               {processedMessages.map((data) => (
                 <ChatMessage
                   key={data.message.id}
@@ -364,8 +364,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 />
               ))}
               {isLoading && (
-                <div className={styles.loadingMessage}>
-                  <LoaderCircle className={styles.spinner} />
+                <div className="flex items-center gap-2 p-4 text-[var(--color-text-secondary)]">
+                  <LoaderCircle className="animate-spin" />
                   <span>Working...</span>
                 </div>
               )}
@@ -464,6 +464,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
 
 
 
