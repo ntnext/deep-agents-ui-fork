@@ -28,7 +28,7 @@ import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { ThreadHistorySidebar } from "../ThreadHistorySidebar/ThreadHistorySidebar";
 import type { SubAgent, ToolCall } from "../../types/types";
 import styles from "./ChatInterface.module.scss";
-import { Checkpoint, Message, type Interrupt } from "@langchain/langgraph-sdk";
+import { AIMessage, Checkpoint, Message, type Interrupt } from "@langchain/langgraph-sdk";
 import {
   extractStringFromMessageContent,
   isPreparingToCallTaskTool,
@@ -52,7 +52,7 @@ interface ChatInterfaceProps {
   setThreadId: (
     value: string | ((old: string | null) => string | null) | null,
   ) => void;
-  onSelectSubAgent: (subAgent: SubAgent) => void;
+  onSelectSubAgent: (subAgent: SubAgent | null) => void;
   onNewThread: () => void;
   debugMode: boolean;
   setDebugMode: (debugMode: boolean) => void;
@@ -168,12 +168,17 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
         rewindIndex = messages.findLastIndex(
           (message) => message.type === "ai",
         );
+        // Clear selected subAgent when replaying deletes it
+        const aiMessageToUnwind = messages[rewindIndex] as AIMessage;
+        if (aiMessageToUnwind && aiMessageToUnwind.tool_calls && aiMessageToUnwind.tool_calls.some((toolCall) => toolCall.id === selectedSubAgent?.id)) {
+          onSelectSubAgent(null);
+        }
       }
       const meta = getMessagesMetadata(messages[rewindIndex]);
       const firstSeenState = meta?.firstSeenState;
       const { parent_checkpoint: parentCheckpoint } = firstSeenState ?? {};
       runSingleStep([], parentCheckpoint ?? undefined, hasTaskToolCall);
-    }, [messages, runSingleStep, getMessagesMetadata]);
+    }, [messages, runSingleStep, getMessagesMetadata, onSelectSubAgent, selectedSubAgent]);
 
     const hasMessages = messages.length > 0;
     const processedMessages = useMemo(() => {

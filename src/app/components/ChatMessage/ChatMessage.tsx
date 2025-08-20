@@ -14,7 +14,7 @@ interface ChatMessageProps {
   message: Message;
   toolCalls: ToolCall[];
   showAvatar: boolean;
-  onSelectSubAgent: (subAgent: SubAgent) => void;
+  onSelectSubAgent: (subAgent: SubAgent | null) => void;
   selectedSubAgent: SubAgent | null;
 }
 
