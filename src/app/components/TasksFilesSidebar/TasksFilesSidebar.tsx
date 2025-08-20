@@ -85,13 +85,13 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
               <TabsList className="m-4 bg-[var(--color-border-light)] flex gap-1 p-1 rounded-md w-[calc(100%-2rem)] h-auto justify-stretch">
                 <TabsTrigger
                   value="tasks"
-                  className={styles.tabTrigger}
+                  className="flex-1 text-sm px-4 py-2 rounded-sm bg-transparent transition-all duration-200 data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:text-[var(--color-text-primary)] data-[state=inactive]:hover:bg-[rgba(0,0,0,0.05)]"
                 >
                   Tasks ({todos.length})
                 </TabsTrigger>
                 <TabsTrigger
                   value="files"
-                  className={styles.tabTrigger}
+                  className="flex-1 text-sm px-4 py-2 rounded-sm bg-transparent transition-all duration-200 data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:text-[var(--color-text-primary)] data-[state=inactive]:hover:bg-[rgba(0,0,0,0.05)]"
                 >
                   Files ({Object.keys(files).length})
                 </TabsTrigger>
@@ -222,6 +222,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
+
 
 
 
