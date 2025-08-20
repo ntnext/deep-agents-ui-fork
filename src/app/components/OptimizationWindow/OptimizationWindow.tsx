@@ -450,7 +450,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 className="flex gap-2"
                 onSubmit={handleSubmitFeedback}
               >
-                <div className={styles.inputWrapper}>
+                <div className="flex-1 relative">
                   <textarea
                     ref={textareaRef}
                     className={styles.feedbackInput}
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
