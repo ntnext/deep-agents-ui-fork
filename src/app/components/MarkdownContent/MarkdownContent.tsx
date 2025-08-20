@@ -19,11 +19,20 @@ export const MarkdownContent = React.memo<MarkdownContentProps>(
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
-            code({ node, inline, className, children, ...props }: any) {
+            code({
+              inline,
+              className,
+              children,
+              ...props
+            }: {
+              inline?: boolean;
+              className?: string;
+              children?: React.ReactNode;
+            }) {
               const match = /language-(\w+)/.exec(className || "");
               return !inline && match ? (
                 <SyntaxHighlighter
-                  style={oneDark as any}
+                  style={oneDark}
                   language={match[1]}
                   PreTag="div"
                   className={styles.codeBlock}
@@ -39,10 +48,16 @@ export const MarkdownContent = React.memo<MarkdownContentProps>(
                 </code>
               );
             },
-            pre({ children }: any) {
+            pre({ children }: { children?: React.ReactNode }) {
               return <div className={styles.preWrapper}>{children}</div>;
             },
-            a({ href, children }: any) {
+            a({
+              href,
+              children,
+            }: {
+              href?: string;
+              children?: React.ReactNode;
+            }) {
               return (
                 <a
                   href={href}
@@ -54,20 +69,20 @@ export const MarkdownContent = React.memo<MarkdownContentProps>(
                 </a>
               );
             },
-            blockquote({ children }: any) {
+            blockquote({ children }: { children?: React.ReactNode }) {
               return (
                 <blockquote className={styles.blockquote}>
                   {children}
                 </blockquote>
               );
             },
-            ul({ children }: any) {
+            ul({ children }: { children?: React.ReactNode }) {
               return <ul className={styles.list}>{children}</ul>;
             },
-            ol({ children }: any) {
+            ol({ children }: { children?: React.ReactNode }) {
               return <ol className={styles.orderedList}>{children}</ol>;
             },
-            table({ children }: any) {
+            table({ children }: { children?: React.ReactNode }) {
               return (
                 <div className={styles.tableWrapper}>
                   <table className={styles.table}>{children}</table>
