@@ -348,7 +348,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     <TooltipPrimitive.Content
                       side="bottom"
                       sideOffset={5}
-                      className={styles.tooltip}
+                      className="px-3 py-2 bg-[var(--color-text-primary)] text-white text-sm rounded-md shadow-lg z-50"
                     >
                       <p>
                         Set Optimizer Agent Environment Variables in FE
@@ -546,6 +546,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
