@@ -537,7 +537,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   </div>
                 </div>
               </div>
-              <div className={styles.dialogActions}>
+              <div className="flex justify-end gap-3 p-6 border-t border-[var(--color-border)]">
                 <button
                   className={styles.rejectButton}
                   onClick={handleReject}
@@ -560,6 +560,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
