@@ -33,7 +33,7 @@ export default function HomePage() {
   const deploymentUrl = config?.DEPLOYMENT_URL || "";
   const langsmithApiKey = config?.LANGSMITH_API_KEY || "filler-token";
   const assistantId = config?.ASSISTANT_ID || "";
-  
+
   const client = useMemo(() => {
     return createClient(deploymentUrl, langsmithApiKey);
   }, [deploymentUrl, langsmithApiKey]);
@@ -51,7 +51,8 @@ export default function HomePage() {
       setAssistantError(null);
       toast.dismiss();
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
       setActiveAssistant(null);
       setAssistantError(errorMessage);
       toast.dismiss();

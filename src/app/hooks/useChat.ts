@@ -45,10 +45,10 @@ export function useChat(
   );
 
   // Create client with configVersion as dependency to force recreation when config changes
-  const client = useMemo(() => 
-    createClient(deploymentUrl, langsmithApiKey), 
+  const client = useMemo(
+    () => createClient(deploymentUrl, langsmithApiKey),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deploymentUrl, langsmithApiKey, configVersion]
+    [deploymentUrl, langsmithApiKey, configVersion],
   );
 
   const stream = useStream<StateType>({

@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { EnvConfigDialog } from "@/app/components/EnvConfigDialog/EnvConfigDialog";
 
 interface EnvConfig {
@@ -98,7 +105,7 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
     });
     setConfig(newConfig);
     setIsConfigured(true);
-    setConfigVersion(prev => prev + 1);
+    setConfigVersion((prev) => prev + 1);
   }, []);
 
   const openSettings = useCallback(() => setShowSettings(true), []);
@@ -114,7 +121,15 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
       closeSettings,
       updateConfig,
     }),
-    [config, isConfigured, showSettings, configVersion, openSettings, closeSettings, updateConfig]
+    [
+      config,
+      isConfigured,
+      showSettings,
+      configVersion,
+      openSettings,
+      closeSettings,
+      updateConfig,
+    ],
   );
 
   if (isChecking) {

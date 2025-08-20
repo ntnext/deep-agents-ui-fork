@@ -28,7 +28,12 @@ import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { ThreadHistorySidebar } from "../ThreadHistorySidebar/ThreadHistorySidebar";
 import type { SubAgent, ToolCall } from "../../types/types";
 import styles from "./ChatInterface.module.scss";
-import { AIMessage, Checkpoint, Message, type Interrupt } from "@langchain/langgraph-sdk";
+import {
+  AIMessage,
+  Checkpoint,
+  Message,
+  type Interrupt,
+} from "@langchain/langgraph-sdk";
 import {
   extractStringFromMessageContent,
   isPreparingToCallTaskTool,
@@ -172,7 +177,13 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
         );
         // Clear selected subAgent when replaying deletes it
         const aiMessageToUnwind = messages[rewindIndex] as AIMessage;
-        if (aiMessageToUnwind && aiMessageToUnwind.tool_calls && aiMessageToUnwind.tool_calls.some((toolCall) => toolCall.id === selectedSubAgent?.id)) {
+        if (
+          aiMessageToUnwind &&
+          aiMessageToUnwind.tool_calls &&
+          aiMessageToUnwind.tool_calls.some(
+            (toolCall) => toolCall.id === selectedSubAgent?.id,
+          )
+        ) {
           onSelectSubAgent(null);
         }
       }
@@ -180,7 +191,13 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
       const firstSeenState = meta?.firstSeenState;
       const { parent_checkpoint: parentCheckpoint } = firstSeenState ?? {};
       runSingleStep([], parentCheckpoint ?? undefined, hasTaskToolCall);
-    }, [messages, runSingleStep, getMessagesMetadata, onSelectSubAgent, selectedSubAgent]);
+    }, [
+      messages,
+      runSingleStep,
+      getMessagesMetadata,
+      onSelectSubAgent,
+      selectedSubAgent,
+    ]);
 
     const hasMessages = messages.length > 0;
     const processedMessages = useMemo(() => {
@@ -366,14 +383,18 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           </div>
         </div>
         <div className={styles.inputContainer}>
-          <form onSubmit={handleSubmit} className={styles.inputForm} >
+          <form onSubmit={handleSubmit} className={styles.inputForm}>
             <div className={styles.inputWrapper}>
               <textarea
                 ref={textareaRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={isLoading || !!interrupt ? "Running..." : "Type your message..."}
+                placeholder={
+                  isLoading || !!interrupt
+                    ? "Running..."
+                    : "Type your message..."
+                }
                 disabled={isLoading || !!interrupt || !!assistantError}
                 className={styles.input}
                 rows={1}

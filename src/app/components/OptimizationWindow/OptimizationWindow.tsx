@@ -110,32 +110,35 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 
     const isLoading = stream.isLoading;
 
-    const handleSubmitFeedback = useCallback((e?: React.FormEvent) => {
-      if (e) {
-        e.preventDefault();
-      }
-      setFeedbackInput("");
-      setDisplayMessages((prev) => [
-        ...prev,
-        { type: "user", content: feedbackInput },
-      ]);
-      const humanMessage: Message = {
-        id: uuidv4(),
-        type: "human",
-        content: prepareOptimizerMessage(feedbackInput),
-      };
-      stream.submit({
-        messages: [humanMessage],
-        files: {
-          "config.json": JSON.stringify(
-            activeAssistant?.config.configurable || {},
-            null,
-            2,
-          ),
-          "conversation.json": JSON.stringify(deepAgentMessages, null, 2),
-        },
-      });
-    }, [feedbackInput, stream, activeAssistant, deepAgentMessages]);
+    const handleSubmitFeedback = useCallback(
+      (e?: React.FormEvent) => {
+        if (e) {
+          e.preventDefault();
+        }
+        setFeedbackInput("");
+        setDisplayMessages((prev) => [
+          ...prev,
+          { type: "user", content: feedbackInput },
+        ]);
+        const humanMessage: Message = {
+          id: uuidv4(),
+          type: "human",
+          content: prepareOptimizerMessage(feedbackInput),
+        };
+        stream.submit({
+          messages: [humanMessage],
+          files: {
+            "config.json": JSON.stringify(
+              activeAssistant?.config.configurable || {},
+              null,
+              2,
+            ),
+            "conversation.json": JSON.stringify(deepAgentMessages, null, 2),
+          },
+        });
+      },
+      [feedbackInput, stream, activeAssistant, deepAgentMessages],
+    );
 
     useEffect(() => {
       if (textareaRef.current) {
@@ -164,7 +167,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 
     // Clear the optimizer window when the threadId is cleared
     const prevThreadIdRef = useRef<string | null>(threadId);
-    
+
     useEffect(() => {
       if (prevThreadIdRef.current !== null && threadId === null) {
         handleClear();
@@ -312,11 +315,15 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     onClick={onToggle}
                     disabled={!optimizerClient}
                     aria-label={
-                      isExpanded ? "Collapse Training Mode" : "Expand Training Mode"
+                      isExpanded
+                        ? "Collapse Training Mode"
+                        : "Expand Training Mode"
                     }
                   >
                     <span className={styles.toggleText}>
-                      {optimizerClient ? "Deep Agent Optimizer" : "(Disabled) Deep Agent Optimizer"}
+                      {optimizerClient
+                        ? "Deep Agent Optimizer"
+                        : "(Disabled) Deep Agent Optimizer"}
                     </span>
                     {isExpanded ? (
                       <X size={16} className={styles.toggleIcon} />
@@ -334,7 +341,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       sideOffset={5}
                       className={styles.tooltip}
                     >
-                      <p>Set Optimizer Agent Environment Variables in FE Deployment</p>
+                      <p>
+                        Set Optimizer Agent Environment Variables in FE
+                        Deployment
+                      </p>
                       <TooltipPrimitive.Arrow className={styles.tooltipArrow} />
                     </TooltipPrimitive.Content>
                   </TooltipPrimitive.Portal>

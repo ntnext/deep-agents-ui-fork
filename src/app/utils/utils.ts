@@ -53,7 +53,6 @@ export function justCalledTaskTool(messages: Message[]): boolean {
   );
 }
 
-
 export function prepareOptimizerMessage(feedback: string): string {
   return `<feedback>
 ${feedback}
