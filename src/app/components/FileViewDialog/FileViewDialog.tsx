@@ -90,19 +90,19 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
         open={true}
         onOpenChange={onClose}
       >
-        <DialogContent className={styles.dialog}>
+        <DialogContent className="max-w-[80vw] w-[900px] max-h-[80vh] flex flex-col bg-[var(--color-background)] p-6">
           <DialogTitle className="sr-only">{file.path}</DialogTitle>
-          <div className={styles.header}>
-            <div className={styles.titleSection}>
-              <FileText className={styles.fileIcon} />
-              <span className={styles.fileName}>{file.path}</span>
+          <div className="flex justify-between items-center gap-4 pb-4 mb-4 border-b border-[var(--color-border)]">
+            <div className="flex items-center gap-2 min-w-0">
+              <FileText className="w-5 h-5 text-[var(--color-text-secondary)] flex-shrink-0" />
+              <span className="text-base font-medium text-[var(--color-text-primary)] overflow-hidden text-ellipsis whitespace-nowrap">{file.path}</span>
             </div>
-            <div className={styles.actions}>
+            <div className="flex gap-1 flex-shrink-0">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleCopy}
-                className={styles.actionButton}
+                className="flex items-center gap-1 px-2 py-1 mr-1 hover:bg-[var(--color-border-light)]"
               >
                 <Copy size={16} />
                 Copy
@@ -111,7 +111,7 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
                 variant="ghost"
                 size="sm"
                 onClick={handleDownload}
-                className={styles.actionButton}
+                className="flex items-center gap-1 px-2 py-1 mr-1 hover:bg-[var(--color-border-light)]"
               >
                 <Download size={16} />
                 Download
@@ -152,4 +152,5 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
 );
 
 FileViewDialog.displayName = "FileViewDialog";
+
 
