@@ -79,7 +79,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
         <div className="w-full h-full bg-[var(--color-surface)] border-r border-[var(--color-border)] flex flex-col relative">
           <Tabs
             defaultValue="tasks"
-            className={styles.tabs}
+            className="flex-1 flex flex-col overflow-hidden"
           >
             <div className={styles.tabsHeader}>
               <TabsList className={styles.tabsList}>
@@ -222,5 +222,6 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
+
 
 
