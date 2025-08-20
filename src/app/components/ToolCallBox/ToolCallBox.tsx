@@ -44,13 +44,13 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
   const statusIcon = useMemo(() => {
     switch (status) {
       case "completed":
-        return <CheckCircle className={styles.statusCompleted} />;
+        return <CheckCircle className="text-[var(--color-success)] w-[14px] h-[14px]" />;
       case "error":
-        return <AlertCircle className={styles.statusError} />;
+        return <AlertCircle className="text-[var(--color-error)] w-[14px] h-[14px]" />;
       case "pending":
-        return <Loader className={styles.statusRunning} />;
+        return <Loader className="text-[var(--color-primary)] w-[14px] h-[14px] animate-spin" />;
       default:
-        return <Terminal className={styles.statusDefault} />;
+        return <Terminal className="text-[var(--color-text-secondary)] w-[14px] h-[14px]" />;
     }
   }, [status]);
 
@@ -107,4 +107,5 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
 });
 
 ToolCallBox.displayName = "ToolCallBox";
+
 
