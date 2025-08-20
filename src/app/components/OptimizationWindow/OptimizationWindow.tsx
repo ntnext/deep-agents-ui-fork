@@ -545,7 +545,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   Reject Changes
                 </button>
                 <button
-                  className={styles.approveButton}
+                  className="px-4 py-2 bg-[rgba(34,197,94,0.1)] text-[#059669] border border-[rgba(34,197,94,0.3)] rounded-md font-medium transition-all duration-200 hover:bg-[rgba(34,197,94,0.2)]"
                   onClick={handleApprove}
                 >
                   Approve Changes
@@ -560,6 +560,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
