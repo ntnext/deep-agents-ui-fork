@@ -394,7 +394,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             onSubmit={handleSubmit}
             className="flex flex-col gap-4 max-w-4xl mx-auto"
           >
-            <div className={styles.inputWrapper}>
+            <div className="flex items-end gap-4 p-4 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg">
               <textarea
                 ref={textareaRef}
                 value={input}
@@ -406,7 +406,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                     : "Type your message..."
                 }
                 disabled={isLoading || !!interrupt || !!assistantError}
-                className={styles.input}
+                className="flex-1 resize-none border-none outline-none bg-transparent text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] min-h-[24px] max-h-[120px] leading-6"
                 rows={1}
               />
               <TooltipProvider>
@@ -464,6 +464,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
 
 
 
