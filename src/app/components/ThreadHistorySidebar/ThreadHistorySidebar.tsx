@@ -51,8 +51,9 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
             values?: unknown;
             created_at: string;
             updated_at?: string;
+            status?: string;
           }) => {
-            let displayContent = `Thread ${thread.thread_id.slice(0, 8)}`;
+            let displayContent = thread.status === "busy" ? "Current Thread" : `Thread ${thread.thread_id.slice(0, 8)}`;
             try {
               if (
                 thread.values &&
@@ -61,7 +62,7 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
               ) {
                 const messages = (thread.values as { messages?: unknown[] })
                   .messages;
-                if (Array.isArray(messages) && messages.length > 0) {
+                if (Array.isArray(messages) && messages.length > 0 && thread.status !== "busy") {
                   displayContent = extractStringFromMessageContent(
                     messages[0] as Message,
                   );
