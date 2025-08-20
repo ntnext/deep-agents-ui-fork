@@ -525,7 +525,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         ).map((line, index) => (
                           <div
                             key={`new-${index}`}
-                            className={`${styles.codeLine} ${line.hasChanges ? styles.changedLine : ""}`}
+                            className={cn(
+                              "block py-1 px-2 leading-tight",
+                              line.hasChanges && "bg-[rgba(34,197,94,0.1)] border-l-4 border-[var(--color-success)]"
+                            )}
                             dangerouslySetInnerHTML={{ __html: line.newLine }}
                           />
                         ))}
@@ -557,6 +560,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
