@@ -28,15 +28,15 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
     return (
       <button
         onClick={onClick}
-        className={styles.container}
+        className="flex items-start gap-4 w-full p-4 pl-6 bg-[var(--color-avatar-bg)] border border-[var(--color-border)] rounded-md text-left transition-all duration-200 cursor-pointer hover:bg-[var(--color-subagent-hover)] hover:translate-x-0.5 hover:shadow-lg active:translate-x-0"
         aria-label={`View ${subAgent.name} details`}
       >
-        <div className={styles.content}>
-          <div className={styles.header}>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-start gap-2">
             {getStatusIcon()}
-            <span className={styles.name}>{subAgent.subAgentName}</span>
+            <span className="text-lg font-semibold text-[var(--color-text-primary)]">{subAgent.subAgentName}</span>
           </div>
-          <p className={styles.description}>
+          <p className="text-xs text-[var(--color-text-secondary)] leading-normal m-0 overflow-hidden line-clamp-2">
             {typeof subAgent.input === "string"
               ? subAgent.input
               : subAgent.input.description &&
@@ -51,5 +51,6 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
 );
 
 SubAgentIndicator.displayName = "SubAgentIndicator";
+
 
 
