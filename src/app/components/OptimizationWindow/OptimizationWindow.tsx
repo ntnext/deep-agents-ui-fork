@@ -37,6 +37,7 @@ type OptimizerMessage = {
 };
 
 interface OptimizationWindowProps {
+  threadId: string | null;
   deepAgentMessages: Message[];
   isExpanded: boolean;
   onToggle: () => void;
@@ -48,6 +49,7 @@ type DisplayMessage = UserMessage | OptimizerMessage;
 
 export const OptimizationWindow = React.memo<OptimizationWindowProps>(
   ({
+    threadId,
     deepAgentMessages,
     isExpanded,
     onToggle,
@@ -154,10 +156,21 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
     );
 
     const handleClear = useCallback(() => {
+      stream.stop();
       setOptimizerThreadId(null);
       setFeedbackInput("");
       setDisplayMessages([]);
-    }, []);
+    }, [stream, setOptimizerThreadId, setFeedbackInput, setDisplayMessages]);
+
+    // Clear the optimizer window when the threadId is cleared
+    const prevThreadIdRef = useRef<string | null>(threadId);
+    
+    useEffect(() => {
+      if (prevThreadIdRef.current !== null && threadId === null) {
+        handleClear();
+      }
+      prevThreadIdRef.current = threadId;
+    }, [threadId, handleClear]);
 
     const isUserMessage = (message: DisplayMessage): message is UserMessage => {
       return message.type === "user";

@@ -19,7 +19,7 @@ export default function HomePage() {
   const [selectedSubAgent, setSelectedSubAgent] = useState<SubAgent | null>(
     null,
   );
-  const [debugMode, setDebugMode] = useState(false);
+  const [debugMode, setDebugMode] = useState(true);
   const [activeAssistant, setActiveAssistant] = useState<Assistant | null>(
     null,
   );
@@ -111,6 +111,7 @@ export default function HomePage() {
   return (
     <div className={styles.container}>
       <TasksFilesSidebar
+        threadId={threadId}
         messages={messages}
         todos={todos}
         files={files}

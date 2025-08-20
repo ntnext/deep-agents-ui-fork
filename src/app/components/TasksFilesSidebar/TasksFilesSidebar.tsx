@@ -12,6 +12,7 @@ import styles from "./TasksFilesSidebar.module.scss";
 import { Assistant, Message } from "@langchain/langgraph-sdk";
 
 interface TasksFilesSidebarProps {
+  threadId: string | null;
   messages: Message[];
   todos: TodoItem[];
   files: Record<string, string>;
@@ -22,6 +23,7 @@ interface TasksFilesSidebarProps {
 
 export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
   ({
+    threadId,
     messages,
     todos,
     files,
@@ -170,6 +172,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
           </Tabs>
 
           <OptimizationWindow
+            threadId={threadId}
             deepAgentMessages={messages}
             isExpanded={isTrainingModeExpanded}
             onToggle={handleToggleTrainingMode}
