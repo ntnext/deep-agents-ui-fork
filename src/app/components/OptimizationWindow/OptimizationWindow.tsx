@@ -539,7 +539,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
               </div>
               <div className="flex justify-end gap-3 p-6 border-t border-[var(--color-border)]">
                 <button
-                  className={styles.rejectButton}
+                  className="px-4 py-2 bg-[rgba(239,68,68,0.1)] text-[#dc2626] border border-[rgba(239,68,68,0.3)] rounded-md font-medium transition-all duration-200 hover:bg-[rgba(239,68,68,0.2)]"
                   onClick={handleReject}
                 >
                   Reject Changes
@@ -560,6 +560,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
