@@ -61,22 +61,22 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
   const hasContent = result || Object.keys(args).length > 0;
 
   return (
-    <div className={styles.container}>
+    <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-md overflow-hidden w-fit max-w-[70vw]">
       <Button
         variant="ghost"
         size="sm"
         onClick={toggleExpanded}
-        className={styles.header}
+        className="w-full px-4 py-2 flex justify-between items-center gap-2 text-left transition-colors duration-200 hover:not(:disabled):bg-[var(--color-border-light)] disabled:cursor-default"
         disabled={!hasContent}
       >
-        <div className={styles.headerLeft}>
+        <div className="flex items-center gap-2 [&_svg]:flex-shrink-0">
           {hasContent && isExpanded ? (
             <ChevronDown size={14} />
           ) : (
             <ChevronRight size={14} />
           )}
           {statusIcon}
-          <span className={styles.toolName}>{name}</span>
+          <span className="text-sm font-medium text-[var(--color-text-primary)]">{name}</span>
         </div>
       </Button>
 
@@ -107,5 +107,6 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
 });
 
 ToolCallBox.displayName = "ToolCallBox";
+
 
 
