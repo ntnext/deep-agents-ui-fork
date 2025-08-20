@@ -447,7 +447,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
             </div>
             <div className="border-t border-[var(--color-border)] bg-[var(--color-surface)] p-4">
               <form
-                className={styles.inputForm}
+                className="flex gap-2"
                 onSubmit={handleSubmitFeedback}
               >
                 <div className={styles.inputWrapper}>
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
