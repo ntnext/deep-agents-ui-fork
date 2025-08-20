@@ -372,12 +372,15 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
           </div>
 
           <div
-            className={`${styles.contentWrapper} ${isExpanded ? styles.show : ""}`}
+            className={cn(
+              "flex-1 flex flex-col opacity-0 transition-opacity duration-300 delay-100",
+              isExpanded && "opacity-100"
+            )}
           >
-            <div className={styles.content}>
-              <div className={styles.chatContainer}>
-                <div className={styles.messagesArea}>
-                  <div className={styles.messagesScroll}>
+            <div className="flex-1 flex flex-col overflow-hidden bg-[var(--color-background)]">
+              <div className="flex-1 flex flex-col p-0 overflow-hidden bg-[var(--color-background)]">
+                <div className="flex-1 overflow-hidden m-0 bg-[var(--color-background)] border-none">
+                  <div className="h-full overflow-y-auto p-4 flex flex-col gap-3">
                     {displayMessages.map((message, index) => {
                       if (isUserMessage(message)) {
                         return (
@@ -546,6 +549,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
