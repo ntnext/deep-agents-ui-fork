@@ -33,8 +33,8 @@ NEXT_PUBLIC_LANGSMITH_API_KEY=<langsmith-api-key>
 Once you have your environment variables set, install all dependencies and run your app.
 
 ```bash
-npm install
-npm run dev
+yarn install
+yarn dev
 ```
 
 
