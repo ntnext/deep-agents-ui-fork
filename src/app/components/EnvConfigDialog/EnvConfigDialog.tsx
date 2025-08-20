@@ -133,19 +133,19 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
               : "Please configure the required variables to continue"}
           </p>
         </div>
-        <div className={styles.form}>
+        <div className="flex-1 flex flex-col gap-4 overflow-y-auto py-2">
           {ENV_KEYS.map((key) => (
             <div
               key={key}
-              className={styles.formGroup}
+              className="flex flex-col gap-2"
             >
               <label
                 htmlFor={key}
-                className={styles.label}
+                className="text-sm font-medium"
               >
                 {ENV_LABELS[key]}
                 {!isSettings && REQUIRED_KEYS.includes(key) && (
-                  <span className={styles.required}>*</span>
+                  <span className="text-red-500 ml-1">*</span>
                 )}
               </label>
               <input
@@ -154,10 +154,13 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
                 value={config[key]}
                 onChange={(e) => handleInputChange(key, e.target.value)}
                 placeholder={ENV_PLACEHOLDERS[key]}
-                className={`${styles.input} ${errors[key] ? styles.error : ""}`}
+                className={cn(
+                  "w-full text-sm rounded-sm px-4 py-2 h-9 bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] transition-all duration-200 font-sans placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:border-[var(--color-primary)] focus:bg-[var(--color-background)] hover:not(:focus):border-[var(--color-text-secondary)]",
+                  errors[key] && "border-[var(--color-error)] focus:border-[var(--color-error)] focus:shadow-[0_0_0_2px_rgba(239,68,68,0.1)]"
+                )}
               />
               {errors[key] && (
-                <span className={styles.errorMessage}>
+                <span className="text-xs text-red-500 mt-1">
                   This field is required
                 </span>
               )}
@@ -186,5 +189,6 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
     </Dialog>
   );
 };
+
 
 
