@@ -453,7 +453,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 <div className="flex-1 relative">
                   <textarea
                     ref={textareaRef}
-                    className={styles.feedbackInput}
+                    className="w-full resize-none border border-[var(--color-border)] rounded-lg px-3 py-2 text-sm bg-[var(--color-background)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] min-h-[40px] max-h-[120px]"
                     value={feedbackInput}
                     onChange={(e) => setFeedbackInput(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
