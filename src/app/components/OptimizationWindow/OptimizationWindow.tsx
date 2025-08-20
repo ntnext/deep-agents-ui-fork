@@ -445,7 +445,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 </div>
               </div>
             </div>
-            <div className={styles.paneFooter}>
+            <div className="border-t border-[var(--color-border)] bg-[var(--color-surface)] p-4">
               <form
                 className={styles.inputForm}
                 onSubmit={handleSubmitFeedback}
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
