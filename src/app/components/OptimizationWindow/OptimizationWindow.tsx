@@ -480,7 +480,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
             onClick={handleCloseDiffDialog}
           >
             <div
-              className={styles.diffDialog}
+              className="bg-[var(--color-background)] rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               <div className={styles.dialogHeader}>
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
