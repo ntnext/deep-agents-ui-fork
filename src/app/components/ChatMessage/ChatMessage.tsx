@@ -110,7 +110,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
             </div>
           )}
           {!isUser && subAgents.length > 0 && (
-            <div className={styles.subAgents}>
+            <div className="flex flex-col w-fit max-w-full gap-4">
               {subAgents.map((subAgent) => (
                 <SubAgentIndicator
                   key={subAgent.id}
@@ -127,6 +127,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 );
 
 ChatMessage.displayName = "ChatMessage";
+
 
 
 
