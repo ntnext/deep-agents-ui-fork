@@ -486,7 +486,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
               <div className="flex justify-between items-center p-6 border-b border-[var(--color-border)]">
                 <h2>Configuration Changes</h2>
                 <button
-                  className={styles.closeButton}
+                  className="p-2 hover:bg-[var(--color-border-light)] rounded-md transition-colors duration-200"
                   onClick={handleCloseDiffDialog}
                   aria-label="Close dialog"
                 >
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
