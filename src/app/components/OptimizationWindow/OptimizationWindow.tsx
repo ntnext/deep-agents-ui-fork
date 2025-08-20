@@ -354,7 +354,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         Set Optimizer Agent Environment Variables in FE
                         Deployment
                       </p>
-                      <TooltipPrimitive.Arrow className={styles.tooltipArrow} />
+                      <TooltipPrimitive.Arrow className="fill-[var(--color-text-primary)]" />
                     </TooltipPrimitive.Content>
                   </TooltipPrimitive.Portal>
                 )}
@@ -546,6 +546,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
