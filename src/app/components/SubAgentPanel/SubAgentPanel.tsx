@@ -17,13 +17,13 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
   const statusIcon = useMemo(() => {
     switch (subAgent.status) {
       case "completed":
-        return <CheckCircle className={styles.statusCompleted} />;
+        return <CheckCircle className="text-[var(--color-success)]" />;
       case "error":
-        return <AlertCircle className={styles.statusError} />;
+        return <AlertCircle className="text-[var(--color-error)]" />;
       case "pending":
-        return <Loader className={styles.statusActive} />;
+        return <Loader className="text-[var(--color-primary)] animate-spin" />;
       default:
-        return <Clock className={styles.statusPending} />;
+        return <Clock className="text-[var(--color-text-tertiary)]" />;
     }
   }, [subAgent.status]);
 
@@ -126,4 +126,5 @@ export const SubAgentPanel = React.memo(
 );
 
 SubAgentPanel.displayName = "SubAgentPanel";
+
 
