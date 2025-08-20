@@ -121,16 +121,16 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
     if (!open) return null;
 
     return (
-      <div className={styles.overlay}>
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <h3 className={styles.title}>Thread History</h3>
-            <div className={styles.headerActions}>
+      <div className="fixed top-0 right-0 h-screen w-[20vw] z-50 animate-[slideIn_300ms_ease-out]">
+        <div className="h-full flex flex-col bg-[var(--color-background)] border-l border-[var(--color-border)] shadow-xl">
+          <div className="flex justify-between items-center p-4 border-b border-[var(--color-border)] bg-[var(--color-surface)]">
+            <h3 className="text-base font-semibold m-0">Thread History</h3>
+            <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setOpen(false)}
-                className={styles.closeButton}
+                className="p-1 hover:bg-[var(--color-border-light)]"
               >
                 <X size={20} />
               </Button>
@@ -227,4 +227,5 @@ const ThreadItem = React.memo<{
 
 ThreadItem.displayName = "ThreadItem";
 ThreadHistorySidebar.displayName = "ThreadHistorySidebar";
+
 
