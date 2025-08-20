@@ -175,28 +175,28 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 
             <TabsContent
               value="files"
-              className={styles.tabContent}
+              className="flex-1 p-0 overflow-hidden"
             >
-              <ScrollArea className={styles.scrollArea}>
+              <ScrollArea className="h-full">
                 {Object.keys(files).length === 0 ? (
-                  <div className={styles.emptyState}>
-                    <p>No files yet</p>
+                  <div className="p-12 text-center text-[var(--color-text-tertiary)]">
+                    <p className="m-0 text-sm">No files yet</p>
                   </div>
                 ) : (
-                  <div className={styles.fileTree}>
+                  <div className="p-4">
                     {Object.keys(files).map((file) => (
                       <div
                         key={file}
-                        className={styles.fileItem}
+                        className="w-full mb-1 last:mb-0"
                       >
                         <div
-                          className={styles.fileRow}
+                          className="flex items-center gap-2 px-2 py-1 cursor-pointer transition-colors duration-200 hover:bg-[var(--color-border-light)] [&_svg]:flex-shrink-0 [&_svg]:text-[var(--color-text-secondary)]"
                           onClick={() =>
                             onFileClick({ path: file, content: files[file] })
                           }
                         >
                           <FileText size={16} />
-                          <span className={styles.fileName}>{file}</span>
+                          <span className="flex-1 text-sm text-[var(--color-text-primary)] overflow-hidden text-ellipsis whitespace-nowrap">{file}</span>
                         </div>
                       </div>
                     ))}
@@ -222,6 +222,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
+
 
 
 
