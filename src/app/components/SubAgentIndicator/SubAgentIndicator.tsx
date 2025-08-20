@@ -15,13 +15,13 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
     const getStatusIcon = () => {
       switch (subAgent.status) {
         case "completed":
-          return <CheckCircle className={styles.statusCompleted} />;
+          return <CheckCircle className="text-[var(--color-success)] w-[14px] h-[14px] flex-shrink-0" />;
         case "error":
-          return <AlertCircle className={styles.statusError} />;
+          return <AlertCircle className="text-[var(--color-error)] w-[14px] h-[14px] flex-shrink-0" />;
         case "pending":
-          return <Loader className={styles.statusActive} />;
+          return <Loader className="text-[var(--color-primary)] w-[14px] h-[14px] flex-shrink-0 animate-spin" />;
         default:
-          return <Clock className={styles.statusPending} />;
+          return <Clock className="text-[var(--color-text-tertiary)] w-[14px] h-[14px] flex-shrink-0" />;
       }
     };
 
@@ -51,4 +51,5 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
 );
 
 SubAgentIndicator.displayName = "SubAgentIndicator";
+
 
