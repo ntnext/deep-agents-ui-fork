@@ -463,7 +463,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   />
                   <button
                     type="submit"
-                    className={styles.sendButton}
+                    className="px-3 py-2 bg-[var(--color-primary)] text-white border-none rounded-lg cursor-pointer flex items-center justify-center transition-all duration-200 hover:not(:disabled):bg-[var(--color-primary-dark)] disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={!feedbackInput.trim()}
                     aria-label="Send feedback"
                   >
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
