@@ -330,14 +330,14 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             </Button>
           </div>
         </div>
-        <div className={styles.content}>
+        <div className="flex-1 flex relative overflow-hidden">
           <ThreadHistorySidebar
             open={isThreadHistoryOpen}
             setOpen={setIsThreadHistoryOpen}
             currentThreadId={threadId}
             onThreadSelect={handleThreadSelect}
           />
-          <div className={styles.messagesContainer}>
+          <div className="flex-1 flex flex-col overflow-hidden relative">
             {!hasMessages && !isLoading && !isLoadingThreadState && (
               <div className={styles.emptyState}>
                 <Bot
@@ -464,5 +464,6 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
 
 
