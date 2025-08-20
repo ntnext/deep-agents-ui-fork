@@ -41,13 +41,13 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
   }, [subAgent.status]);
 
   return (
-    <div className={styles.panel}>
-      <div className={styles.header}>
-        <div className={styles.headerInfo}>
-          <Bot className={styles.agentIcon} />
+    <div className="w-96 h-full bg-[var(--color-background)] border-l border-[var(--color-border)] flex flex-col absolute right-0 top-0 z-10 shadow-lg">
+      <div className="flex justify-between items-start p-4 border-b border-[var(--color-border)] bg-[var(--color-surface)]">
+        <div className="flex gap-2 flex-1">
+          <Bot className="w-8 h-8 text-[var(--color-secondary)] flex-shrink-0" />
           <div>
-            <h3 className={styles.title}>{subAgent.subAgentName}</h3>
-            <div className={styles.status}>
+            <h3 className="text-lg font-semibold m-0 mb-1">{subAgent.subAgentName}</h3>
+            <div className="flex items-center gap-1 text-sm text-[var(--color-text-secondary)] [&_svg]:w-[14px] [&_svg]:h-[14px]">
               {statusIcon}
               <span>{statusText}</span>
             </div>
@@ -57,7 +57,7 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
           variant="ghost"
           size="sm"
           onClick={onClose}
-          className={styles.closeButton}
+          className="p-1 hover:bg-[var(--color-border-light)]"
         >
           <X size={20} />
         </Button>
@@ -126,5 +126,6 @@ export const SubAgentPanel = React.memo(
 );
 
 SubAgentPanel.displayName = "SubAgentPanel";
+
 
 
