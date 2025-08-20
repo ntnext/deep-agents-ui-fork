@@ -9,7 +9,7 @@ import { FileViewDialog } from "./components/FileViewDialog/FileViewDialog";
 import { createClient } from "@/lib/client";
 import { useEnvConfig } from "@/providers/EnvConfig";
 import type { SubAgent, FileItem, TodoItem } from "./types/types";
-import styles from "./page.module.scss";
+
 import { Assistant } from "@langchain/langgraph-sdk";
 import { useChat } from "./hooks/useChat";
 import { toast } from "sonner";
@@ -165,3 +165,4 @@ export default function HomePage() {
     </div>
   );
 }
+
