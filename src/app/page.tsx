@@ -118,7 +118,7 @@ export default function HomePage() {
   } = useChat(threadId, setThreadId, setTodos, setFiles, activeAssistant);
 
   return (
-    <div className={styles.container}>
+    <div className="flex h-screen w-screen bg-[var(--color-surface)] overflow-hidden">
       <TasksFilesSidebar
         threadId={threadId}
         messages={messages}
@@ -165,4 +165,5 @@ export default function HomePage() {
     </div>
   );
 }
+
 
