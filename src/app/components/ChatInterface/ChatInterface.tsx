@@ -306,13 +306,13 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     }, [messages]);
 
     return (
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.headerLeft}>
-            <Bot className={styles.logo} />
-            <h1 className={styles.title}>Deep Agent</h1>
+      <div className="flex flex-col h-screen w-full bg-[var(--color-background)]">
+        <div className="flex justify-between items-center px-6 py-4 h-[60px] border-b border-[var(--color-border)] bg-[var(--color-background)] flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <Bot className="w-6 h-6 text-[var(--color-primary)]" />
+            <h1 className="text-xl font-semibold m-0">Deep Agent</h1>
           </div>
-          <div className={styles.headerRight}>
+          <div className="flex items-center gap-2 [&_button:hover:not(:disabled)]:bg-[var(--color-border-light)] [&_button:disabled]:opacity-50 [&_button:disabled]:cursor-not-allowed">
             <Button
               variant="ghost"
               size="icon"
@@ -464,4 +464,5 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
 
