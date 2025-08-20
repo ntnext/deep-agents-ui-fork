@@ -86,7 +86,10 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
     }, [file.content, file.path]);
 
     return (
-      <Dialog open={true} onOpenChange={onClose}>
+      <Dialog
+        open={true}
+        onOpenChange={onClose}
+      >
         <DialogContent className={styles.dialog}>
           <DialogTitle className="sr-only">{file.path}</DialogTitle>
           <div className={styles.header}>

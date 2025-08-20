@@ -326,10 +326,16 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         : "(Disabled) Deep Agent Optimizer"}
                     </span>
                     {isExpanded ? (
-                      <X size={16} className={styles.toggleIcon} />
+                      <X
+                        size={16}
+                        className={styles.toggleIcon}
+                      />
                     ) : (
                       optimizerClient && (
-                        <Expand size={16} className={styles.toggleIcon} />
+                        <Expand
+                          size={16}
+                          className={styles.toggleIcon}
+                        />
                       )
                     )}
                   </button>
@@ -416,7 +422,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     {isLoading && (
                       <div className={styles.loadingMessage}>
                         <div className={styles.loadingContent}>
-                          <Loader2 size={16} className={styles.spinner} />
+                          <Loader2
+                            size={16}
+                            className={styles.spinner}
+                          />
                           <span>Analyzing feedback...</span>
                         </div>
                       </div>
@@ -455,7 +464,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
           </div>
         </div>
         {isDiffDialogOpen && selectedOptimizerMessage && (
-          <div className={styles.dialogOverlay} onClick={handleCloseDiffDialog}>
+          <div
+            className={styles.dialogOverlay}
+            onClick={handleCloseDiffDialog}
+          >
             <div
               className={styles.diffDialog}
               onClick={(e) => e.stopPropagation()}
@@ -509,7 +521,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 </div>
               </div>
               <div className={styles.dialogActions}>
-                <button className={styles.rejectButton} onClick={handleReject}>
+                <button
+                  className={styles.rejectButton}
+                  onClick={handleReject}
+                >
                   Reject Changes
                 </button>
                 <button

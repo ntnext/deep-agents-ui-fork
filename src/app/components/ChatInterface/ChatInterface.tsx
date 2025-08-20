@@ -321,7 +321,11 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             >
               <SquarePen size={20} />
             </Button>
-            <Button variant="ghost" size="icon" onClick={toggleThreadHistory}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleThreadHistory}
+            >
               <History size={20} />
             </Button>
           </div>
@@ -336,7 +340,10 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           <div className={styles.messagesContainer}>
             {!hasMessages && !isLoading && !isLoadingThreadState && (
               <div className={styles.emptyState}>
-                <Bot size={48} className={styles.emptyIcon} />
+                <Bot
+                  size={48}
+                  className={styles.emptyIcon}
+                />
                 <h2>Start a conversation or select a thread from history</h2>
               </div>
             )}
@@ -383,7 +390,10 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           </div>
         </div>
         <div className={styles.inputContainer}>
-          <form onSubmit={handleSubmit} className={styles.inputForm}>
+          <form
+            onSubmit={handleSubmit}
+            className={styles.inputForm}
+          >
             <div className={styles.inputWrapper}>
               <textarea
                 ref={textareaRef}
@@ -403,7 +413,10 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className={styles.debugToggle}>
-                      <label htmlFor="debug-mode" className={styles.debugLabel}>
+                      <label
+                        htmlFor="debug-mode"
+                        className={styles.debugLabel}
+                      >
                         Debug Mode
                       </label>
                       <Switch
