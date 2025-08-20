@@ -39,7 +39,9 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) to test out your deep agent!
 
 ### Connecting to a Deep Agent
+
 When you open the app for the first time, you will be prompted to supply 2 required fields
+
 - Agent Deployment URL: The URL for the agent that you are connecting to
 - Assistant ID: The ID of the assistant or agent that you are looking to use and optimize against
 - LangSmith API Key: Only required if you are looking to use or optimize a deployed graph

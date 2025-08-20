@@ -75,13 +75,22 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
     return (
       <div className={styles.sidebarContainer}>
         <div className={styles.sidebar}>
-          <Tabs defaultValue="tasks" className={styles.tabs}>
+          <Tabs
+            defaultValue="tasks"
+            className={styles.tabs}
+          >
             <div className={styles.tabsHeader}>
               <TabsList className={styles.tabsList}>
-                <TabsTrigger value="tasks" className={styles.tabTrigger}>
+                <TabsTrigger
+                  value="tasks"
+                  className={styles.tabTrigger}
+                >
                   Tasks ({todos.length})
                 </TabsTrigger>
-                <TabsTrigger value="files" className={styles.tabTrigger}>
+                <TabsTrigger
+                  value="files"
+                  className={styles.tabTrigger}
+                >
                   Files ({Object.keys(files).length})
                 </TabsTrigger>
               </TabsList>
@@ -96,7 +105,10 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
               </Button>
             </div>
 
-            <TabsContent value="tasks" className={styles.tabContent}>
+            <TabsContent
+              value="tasks"
+              className={styles.tabContent}
+            >
               <ScrollArea className={styles.scrollArea}>
                 {todos.length === 0 ? (
                   <div className={styles.emptyState}>
@@ -159,7 +171,10 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
               </ScrollArea>
             </TabsContent>
 
-            <TabsContent value="files" className={styles.tabContent}>
+            <TabsContent
+              value="files"
+              className={styles.tabContent}
+            >
               <ScrollArea className={styles.scrollArea}>
                 {Object.keys(files).length === 0 ? (
                   <div className={styles.emptyState}>
@@ -168,7 +183,10 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                 ) : (
                   <div className={styles.fileTree}>
                     {Object.keys(files).map((file) => (
-                      <div key={file} className={styles.fileItem}>
+                      <div
+                        key={file}
+                        className={styles.fileItem}
+                      >
                         <div
                           className={styles.fileRow}
                           onClick={() =>

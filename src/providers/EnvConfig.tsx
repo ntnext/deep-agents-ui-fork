@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { EnvConfigDialog } from "@/app/components/EnvConfigDialog/EnvConfigDialog";
 
 interface EnvConfig {
@@ -92,9 +99,12 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   }, [checkConfiguration]);
 
-  const getEnvValue = useCallback((key: keyof EnvConfig): string | undefined => {
-    return localStorage.getItem(key) || undefined;
-  }, []);
+  const getEnvValue = useCallback(
+    (key: keyof EnvConfig): string | undefined => {
+      return localStorage.getItem(key) || undefined;
+    },
+    [],
+  );
 
   const getLangSmithApiKey = useCallback(() => {
     // NOTE: Need to return a non-falsy value for the api key
@@ -114,7 +124,15 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
       getEnvValue,
       getLangSmithApiKey,
     }),
-    [config, isConfigured, showSettings, openSettings, closeSettings, getEnvValue, getLangSmithApiKey]
+    [
+      config,
+      isConfigured,
+      showSettings,
+      openSettings,
+      closeSettings,
+      getEnvValue,
+      getLangSmithApiKey,
+    ],
   );
 
   if (isChecking) {

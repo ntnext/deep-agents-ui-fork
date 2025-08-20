@@ -106,7 +106,10 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
     });
 
   return (
-    <Dialog open={isOpen} onOpenChange={canClose ? onClose : undefined}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={canClose ? onClose : undefined}
+    >
       <DialogContent
         className={styles.dialog}
         showCloseButton={canClose}
@@ -137,8 +140,14 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
         </div>
         <div className={styles.form}>
           {ENV_KEYS.map((key) => (
-            <div key={key} className={styles.formGroup}>
-              <label htmlFor={key} className={styles.label}>
+            <div
+              key={key}
+              className={styles.formGroup}
+            >
+              <label
+                htmlFor={key}
+                className={styles.label}
+              >
                 {ENV_LABELS[key]}
                 {!isSettings && REQUIRED_KEYS.includes(key) && (
                   <span className={styles.required}>*</span>
@@ -171,7 +180,10 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
               Cancel
             </Button>
           )}
-          <Button onClick={handleSave} className={styles.saveButton}>
+          <Button
+            onClick={handleSave}
+            className={styles.saveButton}
+          >
             Save Configuration
           </Button>
         </div>

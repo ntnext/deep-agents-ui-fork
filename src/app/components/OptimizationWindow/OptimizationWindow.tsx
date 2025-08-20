@@ -116,32 +116,35 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 
     const isLoading = stream.isLoading;
 
-    const handleSubmitFeedback = useCallback((e?: React.FormEvent) => {
-      if (e) {
-        e.preventDefault();
-      }
-      setFeedbackInput("");
-      setDisplayMessages((prev) => [
-        ...prev,
-        { type: "user", content: feedbackInput },
-      ]);
-      const humanMessage: Message = {
-        id: uuidv4(),
-        type: "human",
-        content: prepareOptimizerMessage(feedbackInput),
-      };
-      stream.submit({
-        messages: [humanMessage],
-        files: {
-          "config.json": JSON.stringify(
-            activeAssistant?.config.configurable || {},
-            null,
-            2,
-          ),
-          "conversation.json": JSON.stringify(deepAgentMessages, null, 2),
-        },
-      });
-    }, [feedbackInput, stream, activeAssistant, deepAgentMessages]);
+    const handleSubmitFeedback = useCallback(
+      (e?: React.FormEvent) => {
+        if (e) {
+          e.preventDefault();
+        }
+        setFeedbackInput("");
+        setDisplayMessages((prev) => [
+          ...prev,
+          { type: "user", content: feedbackInput },
+        ]);
+        const humanMessage: Message = {
+          id: uuidv4(),
+          type: "human",
+          content: prepareOptimizerMessage(feedbackInput),
+        };
+        stream.submit({
+          messages: [humanMessage],
+          files: {
+            "config.json": JSON.stringify(
+              activeAssistant?.config.configurable || {},
+              null,
+              2,
+            ),
+            "conversation.json": JSON.stringify(deepAgentMessages, null, 2),
+          },
+        });
+      },
+      [feedbackInput, stream, activeAssistant, deepAgentMessages],
+    );
 
     useEffect(() => {
       if (textareaRef.current) {
@@ -170,7 +173,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 
     // Clear the optimizer window when the threadId is cleared
     const prevThreadIdRef = useRef<string | null>(threadId);
-    
+
     useEffect(() => {
       if (prevThreadIdRef.current !== null && threadId === null) {
         handleClear();
@@ -318,17 +321,27 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     onClick={onToggle}
                     disabled={!optimizerClient}
                     aria-label={
-                      isExpanded ? "Collapse Training Mode" : "Expand Training Mode"
+                      isExpanded
+                        ? "Collapse Training Mode"
+                        : "Expand Training Mode"
                     }
                   >
                     <span className={styles.toggleText}>
-                      {optimizerClient ? "Deep Agent Optimizer" : "(Disabled) Deep Agent Optimizer"}
+                      {optimizerClient
+                        ? "Deep Agent Optimizer"
+                        : "(Disabled) Deep Agent Optimizer"}
                     </span>
                     {isExpanded ? (
-                      <X size={16} className={styles.toggleIcon} />
+                      <X
+                        size={16}
+                        className={styles.toggleIcon}
+                      />
                     ) : (
                       optimizerClient && (
-                        <Expand size={16} className={styles.toggleIcon} />
+                        <Expand
+                          size={16}
+                          className={styles.toggleIcon}
+                        />
                       )
                     )}
                   </button>
@@ -340,7 +353,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       sideOffset={5}
                       className={styles.tooltip}
                     >
-                      <p>Set Optimizer Agent Environment Variables in FE Deployment</p>
+                      <p>
+                        Set Optimizer Agent Environment Variables in FE
+                        Deployment
+                      </p>
                       <TooltipPrimitive.Arrow className={styles.tooltipArrow} />
                     </TooltipPrimitive.Content>
                   </TooltipPrimitive.Portal>
@@ -412,7 +428,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     {isLoading && (
                       <div className={styles.loadingMessage}>
                         <div className={styles.loadingContent}>
-                          <Loader2 size={16} className={styles.spinner} />
+                          <Loader2
+                            size={16}
+                            className={styles.spinner}
+                          />
                           <span>Analyzing feedback...</span>
                         </div>
                       </div>
@@ -451,7 +470,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
           </div>
         </div>
         {isDiffDialogOpen && selectedOptimizerMessage && (
-          <div className={styles.dialogOverlay} onClick={handleCloseDiffDialog}>
+          <div
+            className={styles.dialogOverlay}
+            onClick={handleCloseDiffDialog}
+          >
             <div
               className={styles.diffDialog}
               onClick={(e) => e.stopPropagation()}
@@ -505,7 +527,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 </div>
               </div>
               <div className={styles.dialogActions}>
-                <button className={styles.rejectButton} onClick={handleReject}>
+                <button
+                  className={styles.rejectButton}
+                  onClick={handleReject}
+                >
                   Reject Changes
                 </button>
                 <button
