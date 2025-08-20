@@ -81,19 +81,19 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
       </Button>
 
       {isExpanded && hasContent && (
-        <div className={styles.content}>
+        <div className="px-4 pb-4 border-t border-[var(--color-border-light)]">
           {Object.keys(args).length > 0 && (
-            <div className={styles.section}>
-              <h4 className={styles.sectionTitle}>Arguments</h4>
-              <pre className={styles.codeBlock}>
+            <div className="mt-4 first:mt-4">
+              <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">Arguments</h4>
+              <pre className="p-2 bg-[var(--color-background)] border border-[var(--color-border-light)] rounded-sm font-mono text-xs leading-relaxed overflow-x-auto whitespace-pre-wrap break-all m-0 scrollbar-thin scrollbar-track-[var(--color-border-light)] scrollbar-thumb-[var(--color-text-tertiary)] hover:scrollbar-thumb-[var(--color-text-secondary)] scrollbar-thumb-rounded-sm">
                 {JSON.stringify(args, null, 2)}
               </pre>
             </div>
           )}
           {result && (
-            <div className={styles.section}>
-              <h4 className={styles.sectionTitle}>Result</h4>
-              <pre className={styles.codeBlock}>
+            <div className="mt-4 first:mt-4">
+              <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">Result</h4>
+              <pre className="p-2 bg-[var(--color-background)] border border-[var(--color-border-light)] rounded-sm font-mono text-xs leading-relaxed overflow-x-auto whitespace-pre-wrap break-all m-0 scrollbar-thin scrollbar-track-[var(--color-border-light)] scrollbar-thumb-[var(--color-text-tertiary)] hover:scrollbar-thumb-[var(--color-text-secondary)] scrollbar-thumb-rounded-sm">
                 {typeof result === "string"
                   ? result
                   : JSON.stringify(result, null, 2)}
@@ -107,6 +107,7 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
 });
 
 ToolCallBox.displayName = "ToolCallBox";
+
 
 
 
