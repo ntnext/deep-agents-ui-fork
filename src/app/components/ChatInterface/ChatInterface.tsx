@@ -389,10 +389,10 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             </div>
           </div>
         </div>
-        <div className={styles.inputContainer}>
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-[var(--color-background)] border-t border-[var(--color-border)]">
           <form
             onSubmit={handleSubmit}
-            className={styles.inputForm}
+            className="flex flex-col gap-4 max-w-4xl mx-auto"
           >
             <div className={styles.inputWrapper}>
               <textarea
@@ -464,6 +464,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
 
 
 
