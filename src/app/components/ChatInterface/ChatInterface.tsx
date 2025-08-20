@@ -88,14 +88,25 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     const [input, setInput] = useState("");
     const [isThreadHistoryOpen, setIsThreadHistoryOpen] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
+    useEffect(() => {
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+        textareaRef.current.style.height =
+          Math.min(textareaRef.current.scrollHeight, 120) + "px";
+      }
+    }, [input]);
+
     const handleSubmit = useCallback(
-      (e: FormEvent) => {
-        e.preventDefault();
+      (e?: FormEvent) => {
+        if (e) {
+          e.preventDefault();
+        }
         const messageText = input.trim();
         if (!messageText || isLoading) return;
         if (debugMode) {
@@ -112,6 +123,16 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
         setInput("");
       },
       [input, isLoading, sendMessage, debugMode, runSingleStep],
+    );
+
+    const handleKeyDown = useCallback(
+      (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          handleSubmit();
+        }
+      },
+      [handleSubmit],
     );
 
     const handleNewThread = useCallback(() => {
@@ -340,13 +361,15 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
         <div className={styles.inputContainer}>
           <form onSubmit={handleSubmit} className={styles.inputForm}>
             <div className={styles.inputWrapper}>
-              <input
-                type="text"
+              <textarea
+                ref={textareaRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="Type your message..."
                 disabled={isLoading}
                 className={styles.input}
+                rows={1}
               />
               <TooltipProvider>
                 <Tooltip>
