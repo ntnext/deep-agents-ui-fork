@@ -442,7 +442,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <button
                   type="button"
                   onClick={stopStream}
-                  className={styles.stopButton}
+                  className="bg-[var(--color-error)] text-white border-none rounded-full cursor-pointer flex items-center justify-center transition-all duration-200 w-8 h-8 flex-shrink-0 hover:opacity-90 hover:scale-105 active:scale-95"
                 >
                   <Square size={14} />
                 </button>
@@ -450,7 +450,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <button
                   type="submit"
                   disabled={!input.trim() || !!assistantError}
-                  className={styles.sendButton}
+                  className="bg-[var(--color-primary)] text-white border-none rounded-full cursor-pointer flex items-center justify-center transition-all duration-200 w-8 h-8 flex-shrink-0 hover:not(:disabled):opacity-90 hover:not(:disabled):scale-105 active:not(:disabled):scale-95 disabled:opacity-40 disabled:cursor-not-allowed [&_svg]:w-4 [&_svg]:h-4"
                 >
                   <Send size={16} />
                 </button>
@@ -464,6 +464,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
 
 
 
