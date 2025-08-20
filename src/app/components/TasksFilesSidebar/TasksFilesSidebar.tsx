@@ -113,11 +113,11 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
             >
               <ScrollArea className="h-full">
                 {todos.length === 0 ? (
-                  <div className={styles.emptyState}>
-                    <p>No tasks yet</p>
+                  <div className="p-12 text-center text-[var(--color-text-tertiary)]">
+                    <p className="m-0 text-sm">No tasks yet</p>
                   </div>
                 ) : (
-                  <div className={styles.todoGroups}>
+                  <div className="p-4">
                     {groupedTodos.in_progress.length > 0 && (
                       <div className={styles.todoGroup}>
                         <h3 className={styles.groupTitle}>In Progress</h3>
@@ -222,6 +222,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
+
 
 
 
