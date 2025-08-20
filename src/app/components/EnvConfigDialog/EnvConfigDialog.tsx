@@ -106,7 +106,7 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
       onOpenChange={canClose ? onClose : undefined}
     >
       <DialogContent
-        className={styles.dialog}
+        className="max-w-[600px] w-[600px] max-h-[80vh] flex flex-col bg-[var(--color-background)] p-6"
         showCloseButton={canClose}
         onInteractOutside={(e) => {
           if (!canClose) {
@@ -119,15 +119,15 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
           }
         }}
       >
-        <div className={styles.header}>
+        <div className="flex flex-col gap-2 pb-4 mb-4 border-b border-[var(--color-border)]">
           <DialogTitle className="sr-only">
             Deep Agent Configuration
           </DialogTitle>
-          <div className={styles.titleSection}>
-            <Settings className={styles.settingsIcon} />
-            <span className={styles.dialogTitle}>Deep Agent Configuration</span>
+          <div className="flex items-center gap-2 min-w-0">
+            <Settings className="w-5 h-5 text-[var(--color-text-secondary)] flex-shrink-0" />
+            <span className="text-lg font-semibold text-[var(--color-text-primary)] overflow-hidden text-ellipsis whitespace-nowrap">Deep Agent Configuration</span>
           </div>
-          <p className={styles.description}>
+          <p className="text-sm text-[var(--color-text-secondary)] m-0 leading-normal">
             {isSettings
               ? "Update your agent configuration settings"
               : "Please configure the required variables to continue"}
@@ -186,4 +186,5 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
     </Dialog>
   );
 };
+
 
