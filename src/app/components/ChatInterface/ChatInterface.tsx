@@ -27,7 +27,7 @@ import {
 import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { ThreadHistorySidebar } from "../ThreadHistorySidebar/ThreadHistorySidebar";
 import type { SubAgent, ToolCall } from "../../types/types";
-import styles from "./ChatInterface.module.scss";
+import { cn } from "@/lib/utils";
 import {
   AIMessage,
   Checkpoint,
@@ -464,3 +464,4 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
