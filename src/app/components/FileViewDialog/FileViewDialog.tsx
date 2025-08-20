@@ -119,10 +119,10 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
             </div>
           </div>
 
-          <ScrollArea className={styles.contentArea}>
+          <ScrollArea className="flex-1 max-h-[60vh] overflow-auto bg-[var(--color-surface)] rounded-md p-4 scrollbar-thin scrollbar-w-2 scrollbar-h-2 scrollbar-track-[var(--color-border-light)] scrollbar-track-rounded-sm scrollbar-thumb-[var(--color-text-tertiary)] scrollbar-thumb-rounded-sm hover:scrollbar-thumb-[var(--color-text-secondary)]">
             {file.content ? (
               isMarkdown ? (
-                <div className={styles.markdownWrapper}>
+                <div className="p-6 bg-[var(--color-background)] rounded-md">
                   <MarkdownContent content={file.content} />
                 </div>
               ) : (
@@ -140,8 +140,8 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
                 </SyntaxHighlighter>
               )
             ) : (
-              <div className={styles.emptyContent}>
-                <p>File is empty</p>
+              <div className="flex items-center justify-center p-16 text-[var(--color-text-tertiary)]">
+                <p className="m-0 text-sm">File is empty</p>
               </div>
             )}
           </ScrollArea>
@@ -152,5 +152,6 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
 );
 
 FileViewDialog.displayName = "FileViewDialog";
+
 
 
