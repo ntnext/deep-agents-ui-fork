@@ -79,7 +79,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
               <Bot className="w-4 h-4 text-[var(--color-secondary)]" />
             ))}
         </div>
-        <div className={styles.content}>
+        <div className="flex-[0_1_auto] min-w-0 max-w-[70%]">
           {hasContent && (
             <div className={styles.bubble}>
               {isUser ? (
@@ -120,6 +120,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 );
 
 ChatMessage.displayName = "ChatMessage";
+
 
 
 
