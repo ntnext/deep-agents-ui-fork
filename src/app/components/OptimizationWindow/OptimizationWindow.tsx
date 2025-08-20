@@ -362,7 +362,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
             </TooltipProvider>
             {isExpanded && displayMessages.length > 0 && (
               <button
-                className={styles.clearButton}
+                className="absolute right-12 top-1/2 -translate-y-1/2 p-1.5 bg-transparent border-none text-[rgba(255,255,255,0.7)] cursor-pointer rounded flex items-center justify-center transition-all duration-200 z-[1] hover:bg-[rgba(255,255,255,0.1)] hover:text-white active:scale-95"
                 onClick={handleClear}
                 aria-label="Clear conversation"
               >
@@ -546,6 +546,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
