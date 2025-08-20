@@ -515,10 +515,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       </div>
                     </div>
                   </div>
-                  <div className={styles.diffSection}>
+                  <div className="flex flex-col">
                     <h3>Proposed Configuration</h3>
-                    <div className={styles.codeSection}>
-                      <div className={styles.diffCodeBlock}>
+                    <div className="flex-1 overflow-hidden">
+                      <div className="h-full overflow-auto bg-[var(--color-surface)] border border-[var(--color-border)] rounded-md p-4 font-mono text-sm">
                         {createSideBySideDiff(
                           selectedOptimizerMessage.old_config,
                           selectedOptimizerMessage.new_config,
@@ -557,6 +557,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
