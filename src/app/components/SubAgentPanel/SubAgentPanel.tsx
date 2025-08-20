@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MarkdownContent } from "../MarkdownContent/MarkdownContent";
 import type { SubAgent } from "../../types/types";
-import styles from "./SubAgentPanel.module.scss";
+import { cn } from "@/lib/utils";
 
 interface SubAgentPanelProps {
   subAgent: SubAgent;
@@ -126,3 +126,4 @@ export const SubAgentPanel = React.memo(
 );
 
 SubAgentPanel.displayName = "SubAgentPanel";
+
