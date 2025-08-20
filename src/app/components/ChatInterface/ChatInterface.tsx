@@ -370,16 +370,16 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 </div>
               )}
               {interrupt && debugMode && (
-                <div className={styles.debugControls}>
+                <div className="flex items-center gap-2 py-4 ml-10">
                   <Button
                     onClick={handleContinue}
-                    className={styles.continueButton}
+                    className="px-1 py-4 bg-transparent text-[var(--color-success)] border border-[var(--color-success)] font-medium rounded-sm text-sm transition-all duration-200 hover:bg-[rgba(16,185,129,0.1)] hover:text-[var(--color-success)] hover:border-[var(--color-success)] active:bg-[rgba(16,185,129,0.2)]"
                   >
                     Continue
                   </Button>
                   <Button
                     onClick={handleRerunStep}
-                    className={styles.rerunButton}
+                    className="px-1 py-4 bg-transparent text-[#8b5cf6] border border-[#8b5cf6] font-medium rounded-sm text-sm transition-all duration-200 hover:bg-[rgba(139,92,246,0.1)] hover:text-[#8b5cf6] hover:border-[#8b5cf6] active:bg-[rgba(139,92,246,0.2)]"
                   >
                     Re-run step
                   </Button>
@@ -464,6 +464,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
 
 
 
