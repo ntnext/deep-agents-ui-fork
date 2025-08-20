@@ -44,13 +44,21 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
   const statusIcon = useMemo(() => {
     switch (status) {
       case "completed":
-        return <CheckCircle className="text-[var(--color-success)] w-[14px] h-[14px]" />;
+        return (
+          <CheckCircle className="h-[14px] w-[14px] text-[var(--color-success)]" />
+        );
       case "error":
-        return <AlertCircle className="text-[var(--color-error)] w-[14px] h-[14px]" />;
+        return (
+          <AlertCircle className="h-[14px] w-[14px] text-[var(--color-error)]" />
+        );
       case "pending":
-        return <Loader className="text-[var(--color-primary)] w-[14px] h-[14px] animate-spin" />;
+        return (
+          <Loader className="h-[14px] w-[14px] animate-spin text-[var(--color-primary)]" />
+        );
       default:
-        return <Terminal className="text-[var(--color-text-secondary)] w-[14px] h-[14px]" />;
+        return (
+          <Terminal className="h-[14px] w-[14px] text-[var(--color-text-secondary)]" />
+        );
     }
   }, [status]);
 
@@ -61,12 +69,12 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
   const hasContent = result || Object.keys(args).length > 0;
 
   return (
-    <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-md overflow-hidden w-fit max-w-[70vw]">
+    <div className="w-fit max-w-[70vw] overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]">
       <Button
         variant="ghost"
         size="sm"
         onClick={toggleExpanded}
-        className="w-full px-4 py-2 flex justify-between items-center gap-2 text-left transition-colors duration-200 hover:not(:disabled):bg-[var(--color-border-light)] disabled:cursor-default"
+        className="hover:not(:disabled):bg-[var(--color-border-light)] flex w-full items-center justify-between gap-2 px-4 py-2 text-left transition-colors duration-200 disabled:cursor-default"
         disabled={!hasContent}
       >
         <div className="flex items-center gap-2 [&_svg]:flex-shrink-0">
@@ -76,24 +84,30 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
             <ChevronRight size={14} />
           )}
           {statusIcon}
-          <span className="text-sm font-medium text-[var(--color-text-primary)]">{name}</span>
+          <span className="text-sm font-medium text-[var(--color-text-primary)]">
+            {name}
+          </span>
         </div>
       </Button>
 
       {isExpanded && hasContent && (
-        <div className="px-4 pb-4 border-t border-[var(--color-border-light)]">
+        <div className="border-t border-[var(--color-border-light)] px-4 pb-4">
           {Object.keys(args).length > 0 && (
             <div className="mt-4 first:mt-4">
-              <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">Arguments</h4>
-              <pre className="p-2 bg-[var(--color-background)] border border-[var(--color-border-light)] rounded-sm font-mono text-xs leading-relaxed overflow-x-auto whitespace-pre-wrap break-all m-0 scrollbar-thin scrollbar-track-[var(--color-border-light)] scrollbar-thumb-[var(--color-text-tertiary)] hover:scrollbar-thumb-[var(--color-text-secondary)] scrollbar-thumb-rounded-sm">
+              <h4 className="mb-2 text-xs font-semibold tracking-wider text-[var(--color-text-secondary)] uppercase">
+                Arguments
+              </h4>
+              <pre className="scrollbar-thin scrollbar-track-[var(--color-border-light)] scrollbar-thumb-[var(--color-text-tertiary)] hover:scrollbar-thumb-[var(--color-text-secondary)] scrollbar-thumb-rounded-sm m-0 overflow-x-auto rounded-sm border border-[var(--color-border-light)] bg-[var(--color-background)] p-2 font-mono text-xs leading-relaxed break-all whitespace-pre-wrap">
                 {JSON.stringify(args, null, 2)}
               </pre>
             </div>
           )}
           {result && (
             <div className="mt-4 first:mt-4">
-              <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">Result</h4>
-              <pre className="p-2 bg-[var(--color-background)] border border-[var(--color-border-light)] rounded-sm font-mono text-xs leading-relaxed overflow-x-auto whitespace-pre-wrap break-all m-0 scrollbar-thin scrollbar-track-[var(--color-border-light)] scrollbar-thumb-[var(--color-text-tertiary)] hover:scrollbar-thumb-[var(--color-text-secondary)] scrollbar-thumb-rounded-sm">
+              <h4 className="mb-2 text-xs font-semibold tracking-wider text-[var(--color-text-secondary)] uppercase">
+                Result
+              </h4>
+              <pre className="scrollbar-thin scrollbar-track-[var(--color-border-light)] scrollbar-thumb-[var(--color-text-tertiary)] hover:scrollbar-thumb-[var(--color-text-secondary)] scrollbar-thumb-rounded-sm m-0 overflow-x-auto rounded-sm border border-[var(--color-border-light)] bg-[var(--color-background)] p-2 font-mono text-xs leading-relaxed break-all whitespace-pre-wrap">
                 {typeof result === "string"
                   ? result
                   : JSON.stringify(result, null, 2)}
@@ -107,8 +121,3 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
 });
 
 ToolCallBox.displayName = "ToolCallBox";
-
-
-
-
-

@@ -10,7 +10,6 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { MarkdownContent } from "../MarkdownContent/MarkdownContent";
 import type { FileItem } from "../../types/types";
 
-
 interface FileViewDialogProps {
   file: FileItem;
   onClose: () => void;
@@ -90,19 +89,21 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
         open={true}
         onOpenChange={onClose}
       >
-        <DialogContent className="max-w-[80vw] w-[900px] max-h-[80vh] flex flex-col bg-[var(--color-background)] p-6">
+        <DialogContent className="flex max-h-[80vh] w-[900px] max-w-[80vw] flex-col bg-[var(--color-background)] p-6">
           <DialogTitle className="sr-only">{file.path}</DialogTitle>
-          <div className="flex justify-between items-center gap-4 pb-4 mb-4 border-b border-[var(--color-border)]">
-            <div className="flex items-center gap-2 min-w-0">
-              <FileText className="w-5 h-5 text-[var(--color-text-secondary)] flex-shrink-0" />
-              <span className="text-base font-medium text-[var(--color-text-primary)] overflow-hidden text-ellipsis whitespace-nowrap">{file.path}</span>
+          <div className="mb-4 flex items-center justify-between gap-4 border-b border-[var(--color-border)] pb-4">
+            <div className="flex min-w-0 items-center gap-2">
+              <FileText className="h-5 w-5 flex-shrink-0 text-[var(--color-text-secondary)]" />
+              <span className="overflow-hidden text-base font-medium text-ellipsis whitespace-nowrap text-[var(--color-text-primary)]">
+                {file.path}
+              </span>
             </div>
-            <div className="flex gap-1 flex-shrink-0">
+            <div className="flex flex-shrink-0 gap-1">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleCopy}
-                className="flex items-center gap-1 px-2 py-1 mr-1 hover:bg-[var(--color-border-light)]"
+                className="mr-1 flex items-center gap-1 px-2 py-1 hover:bg-[var(--color-border-light)]"
               >
                 <Copy size={16} />
                 Copy
@@ -111,7 +112,7 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
                 variant="ghost"
                 size="sm"
                 onClick={handleDownload}
-                className="flex items-center gap-1 px-2 py-1 mr-1 hover:bg-[var(--color-border-light)]"
+                className="mr-1 flex items-center gap-1 px-2 py-1 hover:bg-[var(--color-border-light)]"
               >
                 <Download size={16} />
                 Download
@@ -119,10 +120,10 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
             </div>
           </div>
 
-          <ScrollArea className="flex-1 max-h-[60vh] overflow-auto bg-[var(--color-surface)] rounded-md p-4 scrollbar-thin scrollbar-w-2 scrollbar-h-2 scrollbar-track-[var(--color-border-light)] scrollbar-track-rounded-sm scrollbar-thumb-[var(--color-text-tertiary)] scrollbar-thumb-rounded-sm hover:scrollbar-thumb-[var(--color-text-secondary)]">
+          <ScrollArea className="scrollbar-thin scrollbar-w-2 scrollbar-h-2 scrollbar-track-[var(--color-border-light)] scrollbar-track-rounded-sm scrollbar-thumb-[var(--color-text-tertiary)] scrollbar-thumb-rounded-sm hover:scrollbar-thumb-[var(--color-text-secondary)] max-h-[60vh] flex-1 overflow-auto rounded-md bg-[var(--color-surface)] p-4">
             {file.content ? (
               isMarkdown ? (
-                <div className="p-6 bg-[var(--color-background)] rounded-md">
+                <div className="rounded-md bg-[var(--color-background)] p-6">
                   <MarkdownContent content={file.content} />
                 </div>
               ) : (
@@ -152,7 +153,3 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
 );
 
 FileViewDialog.displayName = "FileViewDialog";
-
-
-
-

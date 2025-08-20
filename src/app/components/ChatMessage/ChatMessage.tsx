@@ -61,43 +61,47 @@ export const ChatMessage = React.memo<ChatMessageProps>(
     return (
       <div
         className={cn(
-          "flex gap-2 w-full max-w-full overflow-x-hidden",
-          isUser ? "flex-row-reverse" : ""
+          "flex w-full max-w-full gap-2 overflow-x-hidden",
+          isUser ? "flex-row-reverse" : "",
         )}
       >
         <div
           className={cn(
-            "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-4",
+            "mt-4 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full",
             !showAvatar && "bg-transparent",
-            isUser ? "bg-[var(--color-user-message)]" : "bg-[var(--color-avatar-bg)]"
+            isUser
+              ? "bg-[var(--color-user-message)]"
+              : "bg-[var(--color-avatar-bg)]",
           )}
         >
           {showAvatar &&
             (isUser ? (
-              <User className="w-4 h-4 text-white" />
+              <User className="h-4 w-4 text-white" />
             ) : (
-              <Bot className="w-4 h-4 text-[var(--color-secondary)]" />
+              <Bot className="h-4 w-4 text-[var(--color-secondary)]" />
             ))}
         </div>
-        <div className="flex-[0_1_auto] min-w-0 max-w-[70%]">
+        <div className="max-w-[70%] min-w-0 flex-[0_1_auto]">
           {hasContent && (
             <div
               className={cn(
-                "rounded-lg p-2 overflow-hidden break-words w-fit max-w-full mt-4",
+                "mt-4 w-fit max-w-full overflow-hidden rounded-lg p-2 break-words",
                 isUser
-                  ? "bg-[var(--color-user-message)] text-white ml-auto"
-                  : "bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)]"
+                  ? "ml-auto bg-[var(--color-user-message)] text-white"
+                  : "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)]",
               )}
             >
               {isUser ? (
-                <p className="text-sm leading-relaxed whitespace-pre-wrap m-0">{messageContent}</p>
+                <p className="m-0 text-sm leading-relaxed whitespace-pre-wrap">
+                  {messageContent}
+                </p>
               ) : (
                 <MarkdownContent content={messageContent} />
               )}
             </div>
           )}
           {hasToolCalls && (
-            <div className="mt-4 flex flex-col w-fit max-w-full">
+            <div className="mt-4 flex w-fit max-w-full flex-col">
               {toolCalls.map((toolCall: ToolCall) => {
                 if (toolCall.name === "task") return null;
                 return (
@@ -110,7 +114,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
             </div>
           )}
           {!isUser && subAgents.length > 0 && (
-            <div className="flex flex-col w-fit max-w-full gap-4">
+            <div className="flex w-fit max-w-full flex-col gap-4">
               {subAgents.map((subAgent) => (
                 <SubAgentIndicator
                   key={subAgent.id}
@@ -127,10 +131,3 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 );
 
 ChatMessage.displayName = "ChatMessage";
-
-
-
-
-
-
-

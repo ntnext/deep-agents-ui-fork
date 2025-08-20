@@ -4,7 +4,6 @@ import React from "react";
 import { CheckCircle, AlertCircle, Clock, Loader } from "lucide-react";
 import type { SubAgent } from "../../types/types";
 
-
 interface SubAgentIndicatorProps {
   subAgent: SubAgent;
   onClick: () => void;
@@ -15,28 +14,38 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
     const getStatusIcon = () => {
       switch (subAgent.status) {
         case "completed":
-          return <CheckCircle className="text-[var(--color-success)] w-[14px] h-[14px] flex-shrink-0" />;
+          return (
+            <CheckCircle className="h-[14px] w-[14px] flex-shrink-0 text-[var(--color-success)]" />
+          );
         case "error":
-          return <AlertCircle className="text-[var(--color-error)] w-[14px] h-[14px] flex-shrink-0" />;
+          return (
+            <AlertCircle className="h-[14px] w-[14px] flex-shrink-0 text-[var(--color-error)]" />
+          );
         case "pending":
-          return <Loader className="text-[var(--color-primary)] w-[14px] h-[14px] flex-shrink-0 animate-spin" />;
+          return (
+            <Loader className="h-[14px] w-[14px] flex-shrink-0 animate-spin text-[var(--color-primary)]" />
+          );
         default:
-          return <Clock className="text-[var(--color-text-tertiary)] w-[14px] h-[14px] flex-shrink-0" />;
+          return (
+            <Clock className="h-[14px] w-[14px] flex-shrink-0 text-[var(--color-text-tertiary)]" />
+          );
       }
     };
 
     return (
       <button
         onClick={onClick}
-        className="flex items-start gap-4 w-full p-4 pl-6 bg-[var(--color-avatar-bg)] border border-[var(--color-border)] rounded-md text-left transition-all duration-200 cursor-pointer hover:bg-[var(--color-subagent-hover)] hover:translate-x-0.5 hover:shadow-lg active:translate-x-0"
+        className="flex w-full cursor-pointer items-start gap-4 rounded-md border border-[var(--color-border)] bg-[var(--color-avatar-bg)] p-4 pl-6 text-left transition-all duration-200 hover:translate-x-0.5 hover:bg-[var(--color-subagent-hover)] hover:shadow-lg active:translate-x-0"
         aria-label={`View ${subAgent.name} details`}
       >
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center justify-start gap-2">
             {getStatusIcon()}
-            <span className="text-lg font-semibold text-[var(--color-text-primary)]">{subAgent.subAgentName}</span>
+            <span className="text-lg font-semibold text-[var(--color-text-primary)]">
+              {subAgent.subAgentName}
+            </span>
           </div>
-          <p className="text-xs text-[var(--color-text-secondary)] leading-normal m-0 overflow-hidden line-clamp-2">
+          <p className="m-0 line-clamp-2 overflow-hidden text-xs leading-normal text-[var(--color-text-secondary)]">
             {typeof subAgent.input === "string"
               ? subAgent.input
               : subAgent.input.description &&
@@ -51,7 +60,3 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
 );
 
 SubAgentIndicator.displayName = "SubAgentIndicator";
-
-
-
-

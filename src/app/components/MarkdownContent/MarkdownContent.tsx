@@ -15,7 +15,12 @@ interface MarkdownContentProps {
 export const MarkdownContent = React.memo<MarkdownContentProps>(
   ({ content, className = "" }) => {
     return (
-      <div className={cn("markdown-content text-sm leading-relaxed text-inherit break-words [&_h1]:mt-6 [&_h1]:mb-4 [&_h1]:font-semibold [&_h1:first-child]:mt-0 [&_h2]:mt-6 [&_h2]:mb-4 [&_h2]:font-semibold [&_h2:first-child]:mt-0 [&_h3]:mt-6 [&_h3]:mb-4 [&_h3]:font-semibold [&_h3:first-child]:mt-0 [&_h4]:mt-6 [&_h4]:mb-4 [&_h4]:font-semibold [&_h4:first-child]:mt-0 [&_h5]:mt-6 [&_h5]:mb-4 [&_h5]:font-semibold [&_h5:first-child]:mt-0 [&_h6]:mt-6 [&_h6]:mb-4 [&_h6]:font-semibold [&_h6:first-child]:mt-0 [&_p]:mb-4 [&_p:last-child]:mb-0", className)}>
+      <div
+        className={cn(
+          "markdown-content text-sm leading-relaxed break-words text-inherit [&_h1]:mt-6 [&_h1]:mb-4 [&_h1]:font-semibold [&_h1:first-child]:mt-0 [&_h2]:mt-6 [&_h2]:mb-4 [&_h2]:font-semibold [&_h2:first-child]:mt-0 [&_h3]:mt-6 [&_h3]:mb-4 [&_h3]:font-semibold [&_h3:first-child]:mt-0 [&_h4]:mt-6 [&_h4]:mb-4 [&_h4]:font-semibold [&_h4:first-child]:mt-0 [&_h5]:mt-6 [&_h5]:mb-4 [&_h5]:font-semibold [&_h5:first-child]:mt-0 [&_h6]:mt-6 [&_h6]:mb-4 [&_h6]:font-semibold [&_h6:first-child]:mt-0 [&_p]:mb-4 [&_p:last-child]:mb-0",
+          className,
+        )}
+      >
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
@@ -35,13 +40,13 @@ export const MarkdownContent = React.memo<MarkdownContentProps>(
                   style={oneDark}
                   language={match[1]}
                   PreTag="div"
-                  className="rounded-md text-sm overflow-x-auto scrollbar-thin scrollbar-h-2 scrollbar-track-[rgba(0,0,0,0.1)] scrollbar-thumb-[rgba(255,255,255,0.2)] scrollbar-thumb-rounded-sm hover:scrollbar-thumb-[rgba(255,255,255,0.3)]"
+                  className="scrollbar-thin scrollbar-h-2 scrollbar-track-[rgba(0,0,0,0.1)] scrollbar-thumb-[rgba(255,255,255,0.2)] scrollbar-thumb-rounded-sm hover:scrollbar-thumb-[rgba(255,255,255,0.3)] overflow-x-auto rounded-md text-sm"
                 >
                   {String(children).replace(/\n$/, "")}
                 </SyntaxHighlighter>
               ) : (
                 <code
-                  className="px-1 py-0.5 bg-[var(--color-surface)] rounded-sm font-mono text-[0.9em]"
+                  className="rounded-sm bg-[var(--color-surface)] px-1 py-0.5 font-mono text-[0.9em]"
                   {...props}
                 >
                   {children}
@@ -71,21 +76,31 @@ export const MarkdownContent = React.memo<MarkdownContentProps>(
             },
             blockquote({ children }: { children?: React.ReactNode }) {
               return (
-                <blockquote className="my-4 pl-4 border-l-4 border-[var(--color-border)] text-[var(--color-text-secondary)] italic">
+                <blockquote className="my-4 border-l-4 border-[var(--color-border)] pl-4 text-[var(--color-text-secondary)] italic">
                   {children}
                 </blockquote>
               );
             },
             ul({ children }: { children?: React.ReactNode }) {
-              return <ul className="my-4 pl-6 [&_li]:mb-1 [&_li:last-child]:mb-0">{children}</ul>;
+              return (
+                <ul className="my-4 pl-6 [&_li]:mb-1 [&_li:last-child]:mb-0">
+                  {children}
+                </ul>
+              );
             },
             ol({ children }: { children?: React.ReactNode }) {
-              return <ol className="my-4 pl-6 [&_li]:mb-1 [&_li:last-child]:mb-0">{children}</ol>;
+              return (
+                <ol className="my-4 pl-6 [&_li]:mb-1 [&_li:last-child]:mb-0">
+                  {children}
+                </ol>
+              );
             },
             table({ children }: { children?: React.ReactNode }) {
               return (
-                <div className="overflow-x-auto my-4">
-                  <table className="w-full border-collapse [&_th]:bg-[var(--color-surface)] [&_th]:font-semibold [&_th]:text-left [&_th]:p-2 [&_th]:border [&_th]:border-[var(--color-border)] [&_td]:p-2 [&_td]:border [&_td]:border-[var(--color-border)]">{children}</table>
+                <div className="my-4 overflow-x-auto">
+                  <table className="w-full border-collapse [&_td]:border [&_td]:border-[var(--color-border)] [&_td]:p-2 [&_th]:border [&_th]:border-[var(--color-border)] [&_th]:bg-[var(--color-surface)] [&_th]:p-2 [&_th]:text-left [&_th]:font-semibold">
+                    {children}
+                  </table>
                 </div>
               );
             },
@@ -99,5 +114,3 @@ export const MarkdownContent = React.memo<MarkdownContentProps>(
 );
 
 MarkdownContent.displayName = "MarkdownContent";
-
-

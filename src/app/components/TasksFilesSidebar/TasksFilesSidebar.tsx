@@ -46,21 +46,21 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
           return (
             <CheckCircle
               size={16}
-              className="text-[var(--color-success)] flex-shrink-0"
+              className="flex-shrink-0 text-[var(--color-success)]"
             />
           );
         case "in_progress":
           return (
             <Clock
               size={16}
-              className="text-[var(--color-warning)] flex-shrink-0"
+              className="flex-shrink-0 text-[var(--color-warning)]"
             />
           );
         default:
           return (
             <Circle
               size={16}
-              className="text-[var(--color-text-tertiary)] flex-shrink-0"
+              className="flex-shrink-0 text-[var(--color-text-tertiary)]"
             />
           );
       }
@@ -75,23 +75,23 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
     }, [todos]);
 
     return (
-      <div className="w-80 h-full relative flex-shrink-0">
-        <div className="w-full h-full bg-[var(--color-surface)] border-r border-[var(--color-border)] flex flex-col relative">
+      <div className="relative h-full w-80 flex-shrink-0">
+        <div className="relative flex h-full w-full flex-col border-r border-[var(--color-border)] bg-[var(--color-surface)]">
           <Tabs
             defaultValue="tasks"
-            className="flex-1 flex flex-col overflow-hidden"
+            className="flex flex-1 flex-col overflow-hidden"
           >
-            <div className="flex justify-between items-center px-4 py-1">
-              <TabsList className="m-4 bg-[var(--color-border-light)] flex gap-1 p-1 rounded-md w-[calc(100%-2rem)] h-auto justify-stretch">
+            <div className="flex items-center justify-between px-4 py-1">
+              <TabsList className="m-4 flex h-auto w-[calc(100%-2rem)] justify-stretch gap-1 rounded-md bg-[var(--color-border-light)] p-1">
                 <TabsTrigger
                   value="tasks"
-                  className="flex-1 text-sm px-4 py-2 rounded-sm bg-transparent transition-all duration-200 data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:text-[var(--color-text-primary)] data-[state=inactive]:hover:bg-[rgba(0,0,0,0.05)]"
+                  className="flex-1 rounded-sm bg-transparent px-4 py-2 text-sm transition-all duration-200 data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:bg-[rgba(0,0,0,0.05)] data-[state=inactive]:hover:text-[var(--color-text-primary)]"
                 >
                   Tasks ({todos.length})
                 </TabsTrigger>
                 <TabsTrigger
                   value="files"
-                  className="flex-1 text-sm px-4 py-2 rounded-sm bg-transparent transition-all duration-200 data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:text-[var(--color-text-primary)] data-[state=inactive]:hover:bg-[rgba(0,0,0,0.05)]"
+                  className="flex-1 rounded-sm bg-transparent px-4 py-2 text-sm transition-all duration-200 data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:bg-[rgba(0,0,0,0.05)] data-[state=inactive]:hover:text-[var(--color-text-primary)]"
                 >
                   Files ({Object.keys(files).length})
                 </TabsTrigger>
@@ -100,7 +100,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                 variant="ghost"
                 size="sm"
                 onClick={openSettings}
-                className="p-1 flex-shrink-0 hover:bg-[var(--color-border-light)]"
+                className="flex-shrink-0 p-1 hover:bg-[var(--color-border-light)]"
                 title="Environment Settings"
               >
                 <Settings size={18} />
@@ -109,7 +109,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 
             <TabsContent
               value="tasks"
-              className="flex-1 p-0 overflow-hidden"
+              className="flex-1 overflow-hidden p-0"
             >
               <ScrollArea className="h-full">
                 {todos.length === 0 ? (
@@ -120,11 +120,13 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                   <div className="p-4">
                     {groupedTodos.in_progress.length > 0 && (
                       <div className="mb-6 last:mb-0">
-                        <h3 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase mb-2">In Progress</h3>
+                        <h3 className="mb-2 text-xs font-semibold text-[var(--color-text-secondary)] uppercase">
+                          In Progress
+                        </h3>
                         {groupedTodos.in_progress.map((todo, index) => (
                           <div
                             key={`in_progress_${todo.id}_${index}`}
-                            className="flex items-start gap-2 p-2 rounded-md mb-1 last:mb-0 transition-colors duration-200"
+                            className="mb-1 flex items-start gap-2 rounded-md p-2 transition-colors duration-200 last:mb-0"
                           >
                             {getStatusIcon(todo.status)}
                             <span className="flex-1 text-sm leading-normal text-[var(--color-text-primary)]">
@@ -137,11 +139,13 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 
                     {groupedTodos.pending.length > 0 && (
                       <div className="mb-6 last:mb-0">
-                        <h3 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase mb-2">Pending</h3>
+                        <h3 className="mb-2 text-xs font-semibold text-[var(--color-text-secondary)] uppercase">
+                          Pending
+                        </h3>
                         {groupedTodos.pending.map((todo, index) => (
                           <div
                             key={`pending_${todo.id}_${index}`}
-                            className="flex items-start gap-2 p-2 rounded-md mb-1 last:mb-0 transition-colors duration-200"
+                            className="mb-1 flex items-start gap-2 rounded-md p-2 transition-colors duration-200 last:mb-0"
                           >
                             {getStatusIcon(todo.status)}
                             <span className="flex-1 text-sm leading-normal text-[var(--color-text-primary)]">
@@ -154,11 +158,13 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 
                     {groupedTodos.completed.length > 0 && (
                       <div className="mb-6 last:mb-0">
-                        <h3 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase mb-2">Completed</h3>
+                        <h3 className="mb-2 text-xs font-semibold text-[var(--color-text-secondary)] uppercase">
+                          Completed
+                        </h3>
                         {groupedTodos.completed.map((todo, index) => (
                           <div
                             key={`completed_${todo.id}_${index}`}
-                            className="flex items-start gap-2 p-2 rounded-md mb-1 last:mb-0 transition-colors duration-200"
+                            className="mb-1 flex items-start gap-2 rounded-md p-2 transition-colors duration-200 last:mb-0"
                           >
                             {getStatusIcon(todo.status)}
                             <span className="flex-1 text-sm leading-normal text-[var(--color-text-primary)]">
@@ -175,7 +181,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 
             <TabsContent
               value="files"
-              className="flex-1 p-0 overflow-hidden"
+              className="flex-1 overflow-hidden p-0"
             >
               <ScrollArea className="h-full">
                 {Object.keys(files).length === 0 ? (
@@ -187,16 +193,18 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                     {Object.keys(files).map((file) => (
                       <div
                         key={file}
-                        className="w-full mb-1 last:mb-0"
+                        className="mb-1 w-full last:mb-0"
                       >
                         <div
-                          className="flex items-center gap-2 px-2 py-1 cursor-pointer transition-colors duration-200 hover:bg-[var(--color-border-light)] [&_svg]:flex-shrink-0 [&_svg]:text-[var(--color-text-secondary)]"
+                          className="flex cursor-pointer items-center gap-2 px-2 py-1 transition-colors duration-200 hover:bg-[var(--color-border-light)] [&_svg]:flex-shrink-0 [&_svg]:text-[var(--color-text-secondary)]"
                           onClick={() =>
                             onFileClick({ path: file, content: files[file] })
                           }
                         >
                           <FileText size={16} />
-                          <span className="flex-1 text-sm text-[var(--color-text-primary)] overflow-hidden text-ellipsis whitespace-nowrap">{file}</span>
+                          <span className="flex-1 overflow-hidden text-sm text-ellipsis whitespace-nowrap text-[var(--color-text-primary)]">
+                            {file}
+                          </span>
                         </div>
                       </div>
                     ))}
@@ -222,18 +230,3 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

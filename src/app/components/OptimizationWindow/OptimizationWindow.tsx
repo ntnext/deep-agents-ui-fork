@@ -305,16 +305,16 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
       <>
         <div
           className={cn(
-            "absolute bottom-0 left-0 right-0 bg-[var(--color-surface)] z-10 flex flex-col transition-[height] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] h-12 overflow-hidden border-2 border-[var(--color-primary)] rounded-t-[10px]",
-            isExpanded && "h-1/2"
+            "absolute right-0 bottom-0 left-0 z-10 flex h-12 flex-col overflow-hidden rounded-t-[10px] border-2 border-[var(--color-primary)] bg-[var(--color-surface)] transition-[height] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
+            isExpanded && "h-1/2",
           )}
         >
-          <div className="h-12 min-h-12 bg-[var(--color-primary)] flex items-center p-0 relative rounded-t-2 m-0 border-none overflow-hidden">
+          <div className="rounded-t-2 relative m-0 flex h-12 min-h-12 items-center overflow-hidden border-none bg-[var(--color-primary)] p-0">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className="flex-1 h-full px-4 bg-transparent border-none text-white text-sm font-medium cursor-pointer flex items-center justify-between transition-colors duration-200 hover:bg-[rgba(255,255,255,0.1)] focus:outline-none focus:bg-[rgba(255,255,255,0.1)]"
+                    className="flex h-full flex-1 cursor-pointer items-center justify-between border-none bg-transparent px-4 text-sm font-medium text-white transition-colors duration-200 hover:bg-[rgba(255,255,255,0.1)] focus:bg-[rgba(255,255,255,0.1)] focus:outline-none"
                     onClick={onToggle}
                     disabled={!optimizerClient}
                     aria-label={
@@ -348,7 +348,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     <TooltipPrimitive.Content
                       side="bottom"
                       sideOffset={5}
-                      className="px-3 py-2 bg-[var(--color-text-primary)] text-white text-sm rounded-md shadow-lg z-50"
+                      className="z-50 rounded-md bg-[var(--color-text-primary)] px-3 py-2 text-sm text-white shadow-lg"
                     >
                       <p>
                         Set Optimizer Agent Environment Variables in FE
@@ -362,7 +362,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
             </TooltipProvider>
             {isExpanded && displayMessages.length > 0 && (
               <button
-                className="absolute right-12 top-1/2 -translate-y-1/2 p-1.5 bg-transparent border-none text-[rgba(255,255,255,0.7)] cursor-pointer rounded flex items-center justify-center transition-all duration-200 z-[1] hover:bg-[rgba(255,255,255,0.1)] hover:text-white active:scale-95"
+                className="absolute top-1/2 right-12 z-[1] flex -translate-y-1/2 cursor-pointer items-center justify-center rounded border-none bg-transparent p-1.5 text-[rgba(255,255,255,0.7)] transition-all duration-200 hover:bg-[rgba(255,255,255,0.1)] hover:text-white active:scale-95"
                 onClick={handleClear}
                 aria-label="Clear conversation"
               >
@@ -373,22 +373,22 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 
           <div
             className={cn(
-              "flex-1 flex flex-col opacity-0 transition-opacity duration-300 delay-100",
-              isExpanded && "opacity-100"
+              "flex flex-1 flex-col opacity-0 transition-opacity delay-100 duration-300",
+              isExpanded && "opacity-100",
             )}
           >
-            <div className="flex-1 flex flex-col overflow-hidden bg-[var(--color-background)]">
-              <div className="flex-1 flex flex-col p-0 overflow-hidden bg-[var(--color-background)]">
-                <div className="flex-1 overflow-hidden m-0 bg-[var(--color-background)] border-none">
-                  <div className="h-full overflow-y-auto p-4 flex flex-col gap-3">
+            <div className="flex flex-1 flex-col overflow-hidden bg-[var(--color-background)]">
+              <div className="flex flex-1 flex-col overflow-hidden bg-[var(--color-background)] p-0">
+                <div className="m-0 flex-1 overflow-hidden border-none bg-[var(--color-background)]">
+                  <div className="flex h-full flex-col gap-3 overflow-y-auto p-4">
                     {displayMessages.map((message, index) => {
                       if (isUserMessage(message)) {
                         return (
                           <div
                             key={`user-${index}`}
-                            className="flex justify-end mb-2"
+                            className="mb-2 flex justify-end"
                           >
-                            <div className="bg-[var(--color-user-message)] text-white py-2.5 px-3.5 rounded-2xl rounded-br-sm max-w-[80%] break-words text-sm leading-[1.4]">
+                            <div className="max-w-[80%] rounded-2xl rounded-br-sm bg-[var(--color-user-message)] px-3.5 py-2.5 text-sm leading-[1.4] break-words text-white">
                               {message.content}
                             </div>
                           </div>
@@ -397,14 +397,17 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         return (
                           <div
                             key={message.id}
-                            className="flex justify-start mb-2"
+                            className="mb-2 flex justify-start"
                           >
                             <button
                               className={cn(
-                                "flex items-center gap-2 py-3 px-4 border-none rounded-lg cursor-pointer text-sm font-medium transition-all duration-200 max-w-[80%]",
-                                message.status === "pending" && "bg-[rgba(251,191,36,0.1)] border border-[rgba(251,191,36,0.3)] text-[#d97706] hover:bg-[rgba(251,191,36,0.2)]",
-                                message.status === "approved" && "bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.3)] text-[#059669] hover:bg-[rgba(34,197,94,0.2)]",
-                                message.status === "rejected" && "bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.3)] text-[#dc2626] hover:bg-[rgba(239,68,68,0.2)]"
+                                "flex max-w-[80%] cursor-pointer items-center gap-2 rounded-lg border-none px-4 py-3 text-sm font-medium transition-all duration-200",
+                                message.status === "pending" &&
+                                  "border border-[rgba(251,191,36,0.3)] bg-[rgba(251,191,36,0.1)] text-[#d97706] hover:bg-[rgba(251,191,36,0.2)]",
+                                message.status === "approved" &&
+                                  "border border-[rgba(34,197,94,0.3)] bg-[rgba(34,197,94,0.1)] text-[#059669] hover:bg-[rgba(34,197,94,0.2)]",
+                                message.status === "rejected" &&
+                                  "border border-[rgba(239,68,68,0.3)] bg-[rgba(239,68,68,0.1)] text-[#dc2626] hover:bg-[rgba(239,68,68,0.2)]",
                               )}
                               onClick={() =>
                                 handleOptimizerMessageClick(message)
@@ -431,8 +434,8 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       return null;
                     })}
                     {isLoading && (
-                      <div className="flex justify-start mb-2">
-                        <div className="flex items-center gap-2 py-2.5 px-3.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg text-sm text-[var(--color-text-secondary)]">
+                      <div className="mb-2 flex justify-start">
+                        <div className="flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-2.5 text-sm text-[var(--color-text-secondary)]">
                           <Loader2
                             size={16}
                             className="animate-spin"
@@ -450,10 +453,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 className="flex gap-2"
                 onSubmit={handleSubmitFeedback}
               >
-                <div className="flex-1 relative">
+                <div className="relative flex-1">
                   <textarea
                     ref={textareaRef}
-                    className="w-full resize-none border border-[var(--color-border)] rounded-lg px-3 py-2 text-sm bg-[var(--color-background)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] min-h-[40px] max-h-[120px]"
+                    className="max-h-[120px] min-h-[40px] w-full resize-none rounded-lg border border-[var(--color-border)] bg-[var(--color-background)] px-3 py-2 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none"
                     value={feedbackInput}
                     onChange={(e) => setFeedbackInput(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -463,7 +466,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   />
                   <button
                     type="submit"
-                    className="px-3 py-2 bg-[var(--color-primary)] text-white border-none rounded-lg cursor-pointer flex items-center justify-center transition-all duration-200 hover:not(:disabled):bg-[var(--color-primary-dark)] disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="hover:not(:disabled):bg-[var(--color-primary-dark)] flex cursor-pointer items-center justify-center rounded-lg border-none bg-[var(--color-primary)] px-3 py-2 text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50"
                     disabled={!feedbackInput.trim()}
                     aria-label="Send feedback"
                   >
@@ -476,17 +479,17 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
         </div>
         {isDiffDialogOpen && selectedOptimizerMessage && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+            className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4"
             onClick={handleCloseDiffDialog}
           >
             <div
-              className="bg-[var(--color-background)] rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] flex flex-col"
+              className="flex max-h-[90vh] w-full max-w-6xl flex-col rounded-lg bg-[var(--color-background)] shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center p-6 border-b border-[var(--color-border)]">
+              <div className="flex items-center justify-between border-b border-[var(--color-border)] p-6">
                 <h2>Configuration Changes</h2>
                 <button
-                  className="p-2 hover:bg-[var(--color-border-light)] rounded-md transition-colors duration-200"
+                  className="rounded-md p-2 transition-colors duration-200 hover:bg-[var(--color-border-light)]"
                   onClick={handleCloseDiffDialog}
                   aria-label="Close dialog"
                 >
@@ -494,11 +497,11 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 </button>
               </div>
               <div className="flex-1 overflow-hidden p-6">
-                <div className="grid grid-cols-2 gap-6 h-full">
+                <div className="grid h-full grid-cols-2 gap-6">
                   <div className="flex flex-col">
                     <h3>Current Configuration</h3>
                     <div className="flex-1 overflow-hidden">
-                      <div className="h-full overflow-auto bg-[var(--color-surface)] border border-[var(--color-border)] rounded-md p-4 font-mono text-sm">
+                      <div className="h-full overflow-auto rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-4 font-mono text-sm">
                         {createSideBySideDiff(
                           selectedOptimizerMessage.old_config,
                           selectedOptimizerMessage.new_config,
@@ -506,8 +509,9 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                           <div
                             key={`old-${index}`}
                             className={cn(
-                              "block py-1 px-2 leading-tight",
-                              line.hasChanges && "bg-[rgba(239,68,68,0.1)] border-l-4 border-[var(--color-error)]"
+                              "block px-2 py-1 leading-tight",
+                              line.hasChanges &&
+                                "border-l-4 border-[var(--color-error)] bg-[rgba(239,68,68,0.1)]",
                             )}
                             dangerouslySetInnerHTML={{ __html: line.oldLine }}
                           />
@@ -518,7 +522,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   <div className="flex flex-col">
                     <h3>Proposed Configuration</h3>
                     <div className="flex-1 overflow-hidden">
-                      <div className="h-full overflow-auto bg-[var(--color-surface)] border border-[var(--color-border)] rounded-md p-4 font-mono text-sm">
+                      <div className="h-full overflow-auto rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-4 font-mono text-sm">
                         {createSideBySideDiff(
                           selectedOptimizerMessage.old_config,
                           selectedOptimizerMessage.new_config,
@@ -526,8 +530,9 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                           <div
                             key={`new-${index}`}
                             className={cn(
-                              "block py-1 px-2 leading-tight",
-                              line.hasChanges && "bg-[rgba(34,197,94,0.1)] border-l-4 border-[var(--color-success)]"
+                              "block px-2 py-1 leading-tight",
+                              line.hasChanges &&
+                                "border-l-4 border-[var(--color-success)] bg-[rgba(34,197,94,0.1)]",
                             )}
                             dangerouslySetInnerHTML={{ __html: line.newLine }}
                           />
@@ -537,15 +542,15 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end gap-3 p-6 border-t border-[var(--color-border)]">
+              <div className="flex justify-end gap-3 border-t border-[var(--color-border)] p-6">
                 <button
-                  className="px-4 py-2 bg-[rgba(239,68,68,0.1)] text-[#dc2626] border border-[rgba(239,68,68,0.3)] rounded-md font-medium transition-all duration-200 hover:bg-[rgba(239,68,68,0.2)]"
+                  className="rounded-md border border-[rgba(239,68,68,0.3)] bg-[rgba(239,68,68,0.1)] px-4 py-2 font-medium text-[#dc2626] transition-all duration-200 hover:bg-[rgba(239,68,68,0.2)]"
                   onClick={handleReject}
                 >
                   Reject Changes
                 </button>
                 <button
-                  className="px-4 py-2 bg-[rgba(34,197,94,0.1)] text-[#059669] border border-[rgba(34,197,94,0.3)] rounded-md font-medium transition-all duration-200 hover:bg-[rgba(34,197,94,0.2)]"
+                  className="rounded-md border border-[rgba(34,197,94,0.3)] bg-[rgba(34,197,94,0.1)] px-4 py-2 font-medium text-[#059669] transition-all duration-200 hover:bg-[rgba(34,197,94,0.2)]"
                   onClick={handleApprove}
                 >
                   Approve Changes
@@ -560,34 +565,3 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

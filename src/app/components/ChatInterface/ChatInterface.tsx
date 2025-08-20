@@ -306,13 +306,13 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     }, [messages]);
 
     return (
-      <div className="flex flex-col h-screen w-full bg-[var(--color-background)]">
-        <div className="flex justify-between items-center px-6 py-4 h-[60px] border-b border-[var(--color-border)] bg-[var(--color-background)] flex-shrink-0">
+      <div className="flex h-screen w-full flex-col bg-[var(--color-background)]">
+        <div className="flex h-[60px] flex-shrink-0 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-background)] px-6 py-4">
           <div className="flex items-center gap-2">
-            <Bot className="w-6 h-6 text-[var(--color-primary)]" />
-            <h1 className="text-xl font-semibold m-0">Deep Agent</h1>
+            <Bot className="h-6 w-6 text-[var(--color-primary)]" />
+            <h1 className="m-0 text-xl font-semibold">Deep Agent</h1>
           </div>
-          <div className="flex items-center gap-2 [&_button:hover:not(:disabled)]:bg-[var(--color-border-light)] [&_button:disabled]:opacity-50 [&_button:disabled]:cursor-not-allowed">
+          <div className="flex items-center gap-2 [&_button:disabled]:cursor-not-allowed [&_button:disabled]:opacity-50 [&_button:hover:not(:disabled)]:bg-[var(--color-border-light)]">
             <Button
               variant="ghost"
               size="icon"
@@ -330,25 +330,27 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             </Button>
           </div>
         </div>
-        <div className="flex-1 flex relative overflow-hidden">
+        <div className="relative flex flex-1 overflow-hidden">
           <ThreadHistorySidebar
             open={isThreadHistoryOpen}
             setOpen={setIsThreadHistoryOpen}
             currentThreadId={threadId}
             onThreadSelect={handleThreadSelect}
           />
-          <div className="flex-1 flex flex-col overflow-hidden relative">
+          <div className="relative flex flex-1 flex-col overflow-hidden">
             {!hasMessages && !isLoading && !isLoadingThreadState && (
-              <div className="flex flex-col items-center justify-center h-full p-12 text-center">
+              <div className="flex h-full flex-col items-center justify-center p-12 text-center">
                 <Bot
                   size={48}
-                  className="text-[var(--color-text-tertiary)] mb-6"
+                  className="mb-6 text-[var(--color-text-tertiary)]"
                 />
-                <h2 className="mb-2 text-[var(--color-text-primary)]">Start a conversation or select a thread from history</h2>
+                <h2 className="mb-2 text-[var(--color-text-primary)]">
+                  Start a conversation or select a thread from history
+                </h2>
               </div>
             )}
             {isLoadingThreadState && (
-              <div className="flex pt-[100px] justify-center h-full w-full absolute top-0 left-0 bg-[var(--color-background)] z-10">
+              <div className="absolute top-0 left-0 z-10 flex h-full w-full justify-center bg-[var(--color-background)] pt-[100px]">
                 <LoaderCircle className="animate-spin" />
               </div>
             )}
@@ -370,16 +372,16 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 </div>
               )}
               {interrupt && debugMode && (
-                <div className="flex items-center gap-2 py-4 ml-10">
+                <div className="ml-10 flex items-center gap-2 py-4">
                   <Button
                     onClick={handleContinue}
-                    className="px-1 py-4 bg-transparent text-[var(--color-success)] border border-[var(--color-success)] font-medium rounded-sm text-sm transition-all duration-200 hover:bg-[rgba(16,185,129,0.1)] hover:text-[var(--color-success)] hover:border-[var(--color-success)] active:bg-[rgba(16,185,129,0.2)]"
+                    className="rounded-sm border border-[var(--color-success)] bg-transparent px-1 py-4 text-sm font-medium text-[var(--color-success)] transition-all duration-200 hover:border-[var(--color-success)] hover:bg-[rgba(16,185,129,0.1)] hover:text-[var(--color-success)] active:bg-[rgba(16,185,129,0.2)]"
                   >
                     Continue
                   </Button>
                   <Button
                     onClick={handleRerunStep}
-                    className="px-1 py-4 bg-transparent text-[#8b5cf6] border border-[#8b5cf6] font-medium rounded-sm text-sm transition-all duration-200 hover:bg-[rgba(139,92,246,0.1)] hover:text-[#8b5cf6] hover:border-[#8b5cf6] active:bg-[rgba(139,92,246,0.2)]"
+                    className="rounded-sm border border-[#8b5cf6] bg-transparent px-1 py-4 text-sm font-medium text-[#8b5cf6] transition-all duration-200 hover:border-[#8b5cf6] hover:bg-[rgba(139,92,246,0.1)] hover:text-[#8b5cf6] active:bg-[rgba(139,92,246,0.2)]"
                   >
                     Re-run step
                   </Button>
@@ -389,12 +391,12 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-[var(--color-background)] border-t border-[var(--color-border)]">
+        <div className="absolute right-0 bottom-0 left-0 border-t border-[var(--color-border)] bg-[var(--color-background)] p-6">
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4 max-w-4xl mx-auto"
+            className="mx-auto flex max-w-4xl flex-col gap-4"
           >
-            <div className="flex items-end gap-4 p-4 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg">
+            <div className="flex items-end gap-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
               <textarea
                 ref={textareaRef}
                 value={input}
@@ -406,16 +408,16 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                     : "Type your message..."
                 }
                 disabled={isLoading || !!interrupt || !!assistantError}
-                className="flex-1 resize-none border-none outline-none bg-transparent text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] min-h-[24px] max-h-[120px] leading-6"
+                className="max-h-[120px] min-h-[24px] flex-1 resize-none border-none bg-transparent leading-6 text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
                 rows={1}
               />
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-border-light)] rounded-md">
+                    <div className="flex items-center gap-2 rounded-md bg-[var(--color-border-light)] px-3 py-2">
                       <label
                         htmlFor="debug-mode"
-                        className="text-sm font-medium text-[var(--color-text-secondary)] cursor-pointer"
+                        className="cursor-pointer text-sm font-medium text-[var(--color-text-secondary)]"
                       >
                         Debug Mode
                       </label>
@@ -430,7 +432,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                     <TooltipPrimitive.Content
                       side="top"
                       sideOffset={5}
-                      className="px-3 py-2 bg-[var(--color-text-primary)] text-white text-sm rounded-md shadow-lg z-50"
+                      className="z-50 rounded-md bg-[var(--color-text-primary)] px-3 py-2 text-sm text-white shadow-lg"
                     >
                       <p>Run the agent step-by-step</p>
                       <TooltipPrimitive.Arrow className="fill-[var(--color-text-primary)]" />
@@ -442,7 +444,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <button
                   type="button"
                   onClick={stopStream}
-                  className="bg-[var(--color-error)] text-white border-none rounded-full cursor-pointer flex items-center justify-center transition-all duration-200 w-8 h-8 flex-shrink-0 hover:opacity-90 hover:scale-105 active:scale-95"
+                  className="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-[var(--color-error)] text-white transition-all duration-200 hover:scale-105 hover:opacity-90 active:scale-95"
                 >
                   <Square size={14} />
                 </button>
@@ -450,7 +452,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <button
                   type="submit"
                   disabled={!input.trim() || !!assistantError}
-                  className="bg-[var(--color-primary)] text-white border-none rounded-full cursor-pointer flex items-center justify-center transition-all duration-200 w-8 h-8 flex-shrink-0 hover:not(:disabled):opacity-90 hover:not(:disabled):scale-105 active:not(:disabled):scale-95 disabled:opacity-40 disabled:cursor-not-allowed [&_svg]:w-4 [&_svg]:h-4"
+                  className="hover:not(:disabled):opacity-90 hover:not(:disabled):scale-105 active:not(:disabled):scale-95 flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-[var(--color-primary)] text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40 [&_svg]:h-4 [&_svg]:w-4"
                 >
                   <Send size={16} />
                 </button>
@@ -464,14 +466,3 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
-
-
-
-
-
-
-
-
-
-
-

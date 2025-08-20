@@ -118,7 +118,7 @@ export default function HomePage() {
   } = useChat(threadId, setThreadId, setTodos, setFiles, activeAssistant);
 
   return (
-    <div className="flex h-screen w-screen bg-[var(--color-surface)] overflow-hidden">
+    <div className="flex h-screen w-screen overflow-hidden bg-[var(--color-surface)]">
       <TasksFilesSidebar
         threadId={threadId}
         messages={messages}
@@ -129,7 +129,7 @@ export default function HomePage() {
         onAssistantUpdate={refreshActiveAssistant}
         assistantError={assistantError}
       />
-      <div className="flex-1 flex min-w-0 relative">
+      <div className="relative flex min-w-0 flex-1">
         <ChatInterface
           threadId={threadId}
           messages={messages}
@@ -165,6 +165,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-
-

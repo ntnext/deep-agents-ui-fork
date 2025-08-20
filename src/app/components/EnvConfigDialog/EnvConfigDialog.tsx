@@ -106,7 +106,7 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
       onOpenChange={canClose ? onClose : undefined}
     >
       <DialogContent
-        className="max-w-[600px] w-[600px] max-h-[80vh] flex flex-col bg-[var(--color-background)] p-6"
+        className="flex max-h-[80vh] w-[600px] max-w-[600px] flex-col bg-[var(--color-background)] p-6"
         showCloseButton={canClose}
         onInteractOutside={(e) => {
           if (!canClose) {
@@ -119,21 +119,23 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
           }
         }}
       >
-        <div className="flex flex-col gap-2 pb-4 mb-4 border-b border-[var(--color-border)]">
+        <div className="mb-4 flex flex-col gap-2 border-b border-[var(--color-border)] pb-4">
           <DialogTitle className="sr-only">
             Deep Agent Configuration
           </DialogTitle>
-          <div className="flex items-center gap-2 min-w-0">
-            <Settings className="w-5 h-5 text-[var(--color-text-secondary)] flex-shrink-0" />
-            <span className="text-lg font-semibold text-[var(--color-text-primary)] overflow-hidden text-ellipsis whitespace-nowrap">Deep Agent Configuration</span>
+          <div className="flex min-w-0 items-center gap-2">
+            <Settings className="h-5 w-5 flex-shrink-0 text-[var(--color-text-secondary)]" />
+            <span className="overflow-hidden text-lg font-semibold text-ellipsis whitespace-nowrap text-[var(--color-text-primary)]">
+              Deep Agent Configuration
+            </span>
           </div>
-          <p className="text-sm text-[var(--color-text-secondary)] m-0 leading-normal">
+          <p className="m-0 text-sm leading-normal text-[var(--color-text-secondary)]">
             {isSettings
               ? "Update your agent configuration settings"
               : "Please configure the required variables to continue"}
           </p>
         </div>
-        <div className="flex-1 flex flex-col gap-4 overflow-y-auto py-2">
+        <div className="flex flex-1 flex-col gap-4 overflow-y-auto py-2">
           {ENV_KEYS.map((key) => (
             <div
               key={key}
@@ -145,7 +147,7 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
               >
                 {ENV_LABELS[key]}
                 {!isSettings && REQUIRED_KEYS.includes(key) && (
-                  <span className="text-red-500 ml-1">*</span>
+                  <span className="ml-1 text-red-500">*</span>
                 )}
               </label>
               <input
@@ -155,12 +157,13 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
                 onChange={(e) => handleInputChange(key, e.target.value)}
                 placeholder={ENV_PLACEHOLDERS[key]}
                 className={cn(
-                  "w-full text-sm rounded-sm px-4 py-2 h-9 bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] transition-all duration-200 font-sans placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:border-[var(--color-primary)] focus:bg-[var(--color-background)] hover:not(:focus):border-[var(--color-text-secondary)]",
-                  errors[key] && "border-[var(--color-error)] focus:border-[var(--color-error)] focus:shadow-[0_0_0_2px_rgba(239,68,68,0.1)]"
+                  "hover:not(:focus):border-[var(--color-text-secondary)] h-9 w-full rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 font-sans text-sm text-[var(--color-text-primary)] transition-all duration-200 placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:bg-[var(--color-background)] focus:outline-none",
+                  errors[key] &&
+                    "border-[var(--color-error)] focus:border-[var(--color-error)] focus:shadow-[0_0_0_2px_rgba(239,68,68,0.1)]",
                 )}
               />
               {errors[key] && (
-                <span className="text-xs text-red-500 mt-1">
+                <span className="mt-1 text-xs text-red-500">
                   This field is required
                 </span>
               )}
@@ -168,7 +171,7 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
           ))}
         </div>
 
-        <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-[var(--color-border)] flex-shrink-0">
+        <div className="mt-4 flex flex-shrink-0 justify-end gap-2 border-t border-[var(--color-border)] pt-4">
           {isSettings && (
             <Button
               variant="outline"
@@ -180,7 +183,7 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
           )}
           <Button
             onClick={handleSave}
-            className="flex items-center gap-1 px-4 py-1 bg-[var(--color-primary)] text-white transition-colors duration-200 hover:bg-[#164545]"
+            className="flex items-center gap-1 bg-[var(--color-primary)] px-4 py-1 text-white transition-colors duration-200 hover:bg-[#164545]"
           >
             Save Configuration
           </Button>
@@ -189,7 +192,3 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
     </Dialog>
   );
 };
-
-
-
-
