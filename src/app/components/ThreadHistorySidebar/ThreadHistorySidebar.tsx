@@ -215,11 +215,14 @@ const ThreadItem = React.memo<{
   return (
     <button
       onClick={onClick}
-      className={`${styles.threadItem} ${isActive ? styles.active : ""}`}
+      className={cn(
+        "flex items-start gap-2 w-full p-2 bg-transparent border-none rounded-md text-left cursor-pointer transition-colors duration-200 hover:bg-[var(--color-border-light)]",
+        isActive && "bg-[var(--color-avatar-bg)] [&_.thread-icon]:text-[var(--color-primary)] [&_.thread-title]:text-[var(--color-primary)]"
+      )}
     >
-      <MessageSquare className={styles.threadIcon} />
-      <div className={styles.threadContent}>
-        <div className={styles.threadTitle}>{thread.title}</div>
+      <MessageSquare className="thread-icon w-4 h-4 text-[var(--color-text-secondary)] flex-shrink-0 mt-0.5" />
+      <div className="flex-1 min-w-0">
+        <div className="thread-title text-sm font-medium text-[var(--color-text-primary)] mb-1 overflow-hidden text-ellipsis whitespace-nowrap">{thread.title}</div>
       </div>
     </button>
   );
@@ -227,6 +230,7 @@ const ThreadItem = React.memo<{
 
 ThreadItem.displayName = "ThreadItem";
 ThreadHistorySidebar.displayName = "ThreadHistorySidebar";
+
 
 
 
