@@ -412,10 +412,10 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className={styles.debugToggle}>
+                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-border-light)] rounded-md">
                       <label
                         htmlFor="debug-mode"
-                        className={styles.debugLabel}
+                        className="text-sm font-medium text-[var(--color-text-secondary)] cursor-pointer"
                       >
                         Debug Mode
                       </label>
@@ -430,10 +430,10 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                     <TooltipPrimitive.Content
                       side="top"
                       sideOffset={5}
-                      className={styles.tooltip}
+                      className="px-3 py-2 bg-[var(--color-text-primary)] text-white text-sm rounded-md shadow-lg z-50"
                     >
                       <p>Run the agent step-by-step</p>
-                      <TooltipPrimitive.Arrow className={styles.tooltipArrow} />
+                      <TooltipPrimitive.Arrow className="fill-[var(--color-text-primary)]" />
                     </TooltipPrimitive.Content>
                   </TooltipPrimitive.Portal>
                 </Tooltip>
@@ -464,6 +464,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 );
 
 ChatInterface.displayName = "ChatInterface";
+
 
 
 
