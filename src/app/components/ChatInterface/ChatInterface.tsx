@@ -27,7 +27,6 @@ import {
 import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { ThreadHistorySidebar } from "../ThreadHistorySidebar/ThreadHistorySidebar";
 import type { SubAgent, ToolCall } from "../../types/types";
-import styles from "./ChatInterface.module.scss";
 import {
   AIMessage,
   Checkpoint,
@@ -306,13 +305,16 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     }, [messages]);
 
     return (
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.headerLeft}>
-            <Bot className={styles.logo} />
-            <h1 className={styles.title}>Deep Agent</h1>
+      <div className="flex h-screen w-full flex-col bg-[var(--color-background)]">
+        <div
+          className="flex h-15 shrink-0 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-background)]"
+          style={{ padding: "1rem 1.5rem" }}
+        >
+          <div className="flex items-center gap-2">
+            <Bot className="h-6 w-6 text-[var(--color-primary)]" />
+            <p className="text-xl font-semibold">Deep Agent</p>
           </div>
-          <div className={styles.headerRight}>
+          <div className="flex items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
@@ -330,29 +332,39 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             </Button>
           </div>
         </div>
-        <div className={styles.content}>
+        <div className="relative flex flex-1 overflow-hidden">
           <ThreadHistorySidebar
             open={isThreadHistoryOpen}
             setOpen={setIsThreadHistoryOpen}
             currentThreadId={threadId}
             onThreadSelect={handleThreadSelect}
           />
-          <div className={styles.messagesContainer}>
+          <div className="relative flex flex-1 flex-col overflow-hidden">
             {!hasMessages && !isLoading && !isLoadingThreadState && (
-              <div className={styles.emptyState}>
+              <div
+                className="flex h-full flex-col items-center justify-center text-center"
+                style={{ padding: "3rem" }}
+              >
                 <Bot
                   size={48}
-                  className={styles.emptyIcon}
+                  className="text-[var(--color-text-tertiary)]"
+                  style={{ marginBottom: "1.5rem" }}
                 />
                 <h2>Start a conversation or select a thread from history</h2>
               </div>
             )}
             {isLoadingThreadState && (
-              <div className={styles.threadLoadingState}>
-                <LoaderCircle className={styles.threadLoadingSpinner} />
+              <div
+                className="absolute top-0 left-0 z-10 flex h-full w-full justify-center bg-[var(--color-background)]"
+                style={{ paddingTop: "100px" }}
+              >
+                <LoaderCircle className="flex h-[50px] w-[50px] animate-spin items-center justify-center text-[var(--color-primary)]" />
               </div>
             )}
-            <div className={styles.messagesList}>
+            <div
+              className="flex-1 overflow-y-auto"
+              style={{ padding: "1.5rem", paddingBottom: "100px" }}
+            >
               {processedMessages.map((data) => (
                 <ChatMessage
                   key={data.message.id}
@@ -364,22 +376,30 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 />
               ))}
               {isLoading && (
-                <div className={styles.loadingMessage}>
-                  <LoaderCircle className={styles.spinner} />
+                <div
+                  className="flex items-center justify-center text-[var(--color-text-secondary)]"
+                  style={{ gap: "0.5rem", padding: "1rem" }}
+                >
+                  <LoaderCircle className="h-4 w-4 animate-spin" />
                   <span>Working...</span>
                 </div>
               )}
               {interrupt && debugMode && (
-                <div className={styles.debugControls}>
+                <div
+                  className="ml-10 flex items-center"
+                  style={{ gap: "0.5rem", padding: "1rem 0" }}
+                >
                   <Button
                     onClick={handleContinue}
-                    className={styles.continueButton}
+                    className="rounded-sm border border-[var(--color-success)] bg-transparent text-sm font-medium text-[var(--color-success)] transition-all duration-200 hover:bg-[rgba(16,185,129,0.1)] active:bg-[rgba(16,185,129,0.2)]"
+                    style={{ padding: "0.25rem 1rem" }}
                   >
                     Continue
                   </Button>
                   <Button
                     onClick={handleRerunStep}
-                    className={styles.rerunButton}
+                    className="rounded-sm border border-[#8b5cf6] bg-transparent text-sm font-medium text-[#8b5cf6] transition-all duration-200 hover:bg-[rgba(139,92,246,0.1)] active:bg-[rgba(139,92,246,0.2)]"
+                    style={{ padding: "0.25rem 1rem" }}
                   >
                     Re-run step
                   </Button>
@@ -389,12 +409,18 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             </div>
           </div>
         </div>
-        <div className={styles.inputContainer}>
+        <div
+          className="pointer-events-none fixed right-0 bottom-0 z-10 bg-transparent"
+          style={{ left: "25vw", padding: "1.5rem" }}
+        >
           <form
             onSubmit={handleSubmit}
-            className={styles.inputForm}
+            className="pointer-events-auto mx-auto w-full max-w-[900px]"
           >
-            <div className={styles.inputWrapper}>
+            <div
+              className="flex items-center rounded-xl border-2 border-[var(--color-border)] bg-[var(--color-background)] shadow-lg transition-all duration-200 focus-within:border-[var(--color-primary)] focus-within:shadow-xl"
+              style={{ gap: "0.5rem", padding: "0.5rem" }}
+            >
               <textarea
                 ref={textareaRef}
                 value={input}
@@ -406,16 +432,19 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                     : "Type your message..."
                 }
                 disabled={isLoading || !!interrupt || !!assistantError}
-                className={styles.input}
+                className="font-inherit h-6 flex-1 border-0 bg-transparent px-2 py-1.5 text-sm leading-6 text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
                 rows={1}
               />
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className={styles.debugToggle}>
+                    <div
+                      className="flex shrink-0 cursor-pointer items-center"
+                      style={{ gap: "0.25rem", padding: "4px" }}
+                    >
                       <label
                         htmlFor="debug-mode"
-                        className={styles.debugLabel}
+                        className="cursor-pointer text-xs whitespace-nowrap text-[var(--color-text-secondary)] select-none"
                       >
                         Debug Mode
                       </label>
@@ -430,10 +459,11 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                     <TooltipPrimitive.Content
                       side="top"
                       sideOffset={5}
-                      className={styles.tooltip}
+                      className="z-50 rounded-md border-none bg-[var(--color-primary)] text-xs text-white shadow-lg"
+                      style={{ padding: "0.5rem 1rem" }}
                     >
                       <p>Run the agent step-by-step</p>
-                      <TooltipPrimitive.Arrow className={styles.tooltipArrow} />
+                      <TooltipPrimitive.Arrow className="fill-[var(--color-primary)] text-[var(--color-primary)]" />
                     </TooltipPrimitive.Content>
                   </TooltipPrimitive.Portal>
                 </Tooltip>
@@ -442,7 +472,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <button
                   type="button"
                   onClick={stopStream}
-                  className={styles.stopButton}
+                  className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-[var(--color-error)] text-white transition-all duration-200 hover:scale-105 hover:opacity-90 active:scale-95"
                 >
                   <Square size={14} />
                 </button>
@@ -450,7 +480,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <button
                   type="submit"
                   disabled={!input.trim() || !!assistantError}
-                  className={styles.sendButton}
+                  className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border-none bg-[var(--color-primary)] text-white transition-all duration-200 hover:scale-105 hover:opacity-90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+                  style={{ padding: "0.5rem" }}
                 >
                   <Send size={16} />
                 </button>

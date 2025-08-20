@@ -5,7 +5,6 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { useEnvConfig } from "@/providers/EnvConfig";
-import styles from "./EnvConfigDialog.module.scss";
 
 interface EnvConfig {
   DEPLOYMENT_URL: string;
@@ -106,7 +105,8 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
       onOpenChange={canClose ? onClose : undefined}
     >
       <DialogContent
-        className={styles.dialog}
+        className="flex max-h-[80vh] w-[600px] max-w-[600px] flex-col bg-[var(--color-background)]"
+        style={{ padding: "1.5rem" }}
         showCloseButton={canClose}
         onInteractOutside={(e) => {
           if (!canClose) {
@@ -119,33 +119,50 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
           }
         }}
       >
-        <div className={styles.header}>
+        <div
+          className="flex flex-col border-b border-[var(--color-border)]"
+          style={{ gap: "0.5rem", paddingBottom: "1rem", marginBottom: "1rem" }}
+        >
           <DialogTitle className="sr-only">
             Deep Agent Configuration
           </DialogTitle>
-          <div className={styles.titleSection}>
-            <Settings className={styles.settingsIcon} />
-            <span className={styles.dialogTitle}>Deep Agent Configuration</span>
+          <div
+            className="flex min-w-0 items-center"
+            style={{ gap: "0.5rem" }}
+          >
+            <Settings className="h-5 w-5 shrink-0 text-[var(--color-text-secondary)]" />
+            <span className="overflow-hidden text-lg font-semibold text-ellipsis whitespace-nowrap text-[var(--color-text-primary)]">
+              Deep Agent Configuration
+            </span>
           </div>
-          <p className={styles.description}>
+          <p className="m-0 text-sm leading-normal text-[var(--color-text-secondary)]">
             {isSettings
               ? "Update your agent configuration settings"
               : "Please configure the required variables to continue"}
           </p>
         </div>
-        <div className={styles.form}>
+        <div
+          className="flex flex-1 flex-col overflow-y-auto"
+          style={{ gap: "1rem", padding: "0.5rem 0" }}
+        >
           {ENV_KEYS.map((key) => (
             <div
               key={key}
-              className={styles.formGroup}
+              className="flex flex-col"
+              style={{ gap: "0.5rem" }}
             >
               <label
                 htmlFor={key}
-                className={styles.label}
+                className="text-sm font-medium"
               >
                 {ENV_LABELS[key]}
                 {!isSettings && REQUIRED_KEYS.includes(key) && (
-                  <span className={styles.required}>*</span>
+                  <span
+                    className="text-[var(--color-error)]"
+                    style={{ marginLeft: "0.25rem" }}
+                  >
+                    *
+                  </span>
                 )}
               </label>
               <input
@@ -154,10 +171,14 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
                 value={config[key]}
                 onChange={(e) => handleInputChange(key, e.target.value)}
                 placeholder={ENV_PLACEHOLDERS[key]}
-                className={`${styles.input} ${errors[key] ? styles.error : ""}`}
+                className={`h-9 w-full rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-primary)] transition-all duration-200 placeholder:text-[var(--color-text-tertiary)] hover:border-[var(--color-text-secondary)] focus:border-[var(--color-primary)] focus:bg-[var(--color-background)] focus:outline-none ${errors[key] ? "border-[var(--color-error)] focus:border-[var(--color-error)] focus:shadow-[0_0_0_2px_rgba(239,68,68,0.1)]" : ""}`}
+                style={{ padding: "0.5rem 1rem", fontFamily: "inherit" }}
               />
               {errors[key] && (
-                <span className={styles.errorMessage}>
+                <span
+                  className="text-xs text-[var(--color-error)]"
+                  style={{ marginTop: "0.25rem" }}
+                >
                   This field is required
                 </span>
               )}
@@ -165,19 +186,24 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
           ))}
         </div>
 
-        <div className={styles.footer}>
+        <div
+          className="flex shrink-0 justify-end border-t border-[var(--color-border)]"
+          style={{ gap: "0.5rem", marginTop: "1rem", paddingTop: "1rem" }}
+        >
           {isSettings && (
             <Button
               variant="outline"
               onClick={onClose}
-              className={styles.cancelButton}
+              className="flex items-center hover:bg-[var(--color-border-light)]"
+              style={{ gap: "0.25rem", padding: "0.25rem 1rem" }}
             >
               Cancel
             </Button>
           )}
           <Button
             onClick={handleSave}
-            className={styles.saveButton}
+            className="flex items-center bg-[var(--color-primary)] text-white transition-colors duration-200 hover:bg-[#164545]"
+            style={{ gap: "0.25rem", padding: "0.25rem 1rem" }}
           >
             Save Configuration
           </Button>
