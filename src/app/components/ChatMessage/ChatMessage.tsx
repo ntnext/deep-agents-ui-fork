@@ -81,9 +81,16 @@ export const ChatMessage = React.memo<ChatMessageProps>(
         </div>
         <div className="flex-[0_1_auto] min-w-0 max-w-[70%]">
           {hasContent && (
-            <div className={styles.bubble}>
+            <div
+              className={cn(
+                "rounded-lg p-2 overflow-hidden break-words w-fit max-w-full mt-4",
+                isUser
+                  ? "bg-[var(--color-user-message)] text-white ml-auto"
+                  : "bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)]"
+              )}
+            >
               {isUser ? (
-                <p className={styles.text}>{messageContent}</p>
+                <p className="text-sm leading-relaxed whitespace-pre-wrap m-0">{messageContent}</p>
               ) : (
                 <MarkdownContent content={messageContent} />
               )}
@@ -120,6 +127,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 );
 
 ChatMessage.displayName = "ChatMessage";
+
 
 
 
