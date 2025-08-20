@@ -66,13 +66,17 @@ export const ChatMessage = React.memo<ChatMessageProps>(
         )}
       >
         <div
-          className={`${styles.avatar} ${!showAvatar ? styles.avatarHidden : ""}`}
+          className={cn(
+            "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-4",
+            !showAvatar && "bg-transparent",
+            isUser ? "bg-[var(--color-user-message)]" : "bg-[var(--color-avatar-bg)]"
+          )}
         >
           {showAvatar &&
             (isUser ? (
-              <User className={styles.avatarIcon} />
+              <User className="w-4 h-4 text-white" />
             ) : (
-              <Bot className={styles.avatarIcon} />
+              <Bot className="w-4 h-4 text-[var(--color-secondary)]" />
             ))}
         </div>
         <div className={styles.content}>
@@ -116,5 +120,6 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 );
 
 ChatMessage.displayName = "ChatMessage";
+
 
 
