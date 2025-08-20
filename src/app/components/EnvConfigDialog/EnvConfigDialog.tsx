@@ -168,19 +168,19 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
           ))}
         </div>
 
-        <div className={styles.footer}>
+        <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-[var(--color-border)] flex-shrink-0">
           {isSettings && (
             <Button
               variant="outline"
               onClick={onClose}
-              className={styles.cancelButton}
+              className="flex items-center gap-1 px-4 py-1 hover:bg-[var(--color-border-light)]"
             >
               Cancel
             </Button>
           )}
           <Button
             onClick={handleSave}
-            className={styles.saveButton}
+            className="flex items-center gap-1 px-4 py-1 bg-[var(--color-primary)] text-white transition-colors duration-200 hover:bg-[#164545]"
           >
             Save Configuration
           </Button>
@@ -189,6 +189,7 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
     </Dialog>
   );
 };
+
 
 
 
