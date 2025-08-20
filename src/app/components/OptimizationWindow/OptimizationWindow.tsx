@@ -435,7 +435,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         <div className="flex items-center gap-2 py-2.5 px-3.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg text-sm text-[var(--color-text-secondary)]">
                           <Loader2
                             size={16}
-                            className={styles.spinner}
+                            className="animate-spin"
                           />
                           <span>Analyzing feedback...</span>
                         </div>
@@ -554,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
