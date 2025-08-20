@@ -97,7 +97,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
             </div>
           )}
           {hasToolCalls && (
-            <div className={styles.toolCalls}>
+            <div className="mt-4 flex flex-col w-fit max-w-full">
               {toolCalls.map((toolCall: ToolCall) => {
                 if (toolCall.name === "task") return null;
                 return (
@@ -127,6 +127,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 );
 
 ChatMessage.displayName = "ChatMessage";
+
 
 
 
