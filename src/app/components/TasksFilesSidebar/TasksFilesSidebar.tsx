@@ -109,9 +109,9 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 
             <TabsContent
               value="tasks"
-              className={styles.tabContent}
+              className="flex-1 p-0 overflow-hidden"
             >
-              <ScrollArea className={styles.scrollArea}>
+              <ScrollArea className="h-full">
                 {todos.length === 0 ? (
                   <div className={styles.emptyState}>
                     <p>No tasks yet</p>
@@ -222,6 +222,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
+
 
 
 
