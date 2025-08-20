@@ -129,7 +129,7 @@ export default function HomePage() {
         onAssistantUpdate={refreshActiveAssistant}
         assistantError={assistantError}
       />
-      <div className={styles.mainContent}>
+      <div className="flex-1 flex min-w-0 relative">
         <ChatInterface
           threadId={threadId}
           messages={messages}
@@ -165,5 +165,6 @@ export default function HomePage() {
     </div>
   );
 }
+
 
 
