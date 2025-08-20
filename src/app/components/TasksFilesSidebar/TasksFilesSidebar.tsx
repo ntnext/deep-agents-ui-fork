@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { OptimizationWindow } from "../OptimizationWindow/OptimizationWindow";
 import type { TodoItem, FileItem } from "../../types/types";
-import { cn } from "@/lib/utils";
+
 import { Assistant, Message } from "@langchain/langgraph-sdk";
 
 interface TasksFilesSidebarProps {
@@ -222,6 +222,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
+
 
 
 
