@@ -400,7 +400,12 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                             className="flex justify-start mb-2"
                           >
                             <button
-                              className={`${styles.optimizerButton} ${styles[message.status]}`}
+                              className={cn(
+                                "flex items-center gap-2 py-3 px-4 border-none rounded-lg cursor-pointer text-sm font-medium transition-all duration-200 max-w-[80%]",
+                                message.status === "pending" && "bg-[rgba(251,191,36,0.1)] border border-[rgba(251,191,36,0.3)] text-[#d97706] hover:bg-[rgba(251,191,36,0.2)]",
+                                message.status === "approved" && "bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.3)] text-[#059669] hover:bg-[rgba(34,197,94,0.2)]",
+                                message.status === "rejected" && "bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.3)] text-[#dc2626] hover:bg-[rgba(239,68,68,0.2)]"
+                              )}
                               onClick={() =>
                                 handleOptimizerMessageClick(message)
                               }
@@ -549,6 +554,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
 
