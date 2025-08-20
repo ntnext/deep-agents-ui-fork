@@ -9,6 +9,12 @@ import React, {
 } from "react";
 import { Expand, X, Send, RotateCcw, Loader2 } from "lucide-react";
 import * as Diff from "diff";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import styles from "./OptimizationWindow.module.scss";
 import { useStream } from "@langchain/langgraph-sdk/react";
 import { createClient, getOptimizerClient } from "@/lib/client";
@@ -304,25 +310,43 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
           className={`${styles.optimizationWindow} ${isExpanded ? styles.expanded : ""}`}
         >
           <div className={styles.paneHeader}>
-            <button
-              className={styles.toggleButton}
-              onClick={onToggle}
-              disabled={!optimizerClient}
-              aria-label={
-                isExpanded ? "Collapse Training Mode" : "Expand Training Mode"
-              }
-            >
-              <span className={styles.toggleText}>
-                {optimizerClient ? "Deep Agent Optimizer" : "(Disabled) Deep Agent Optimizer"}
-              </span>
-              {isExpanded ? (
-                <X size={16} className={styles.toggleIcon} />
-              ) : (
-                optimizerClient && (
-                  <Expand size={16} className={styles.toggleIcon} />
-                )
-              )}
-            </button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className={styles.toggleButton}
+                    onClick={onToggle}
+                    disabled={!optimizerClient}
+                    aria-label={
+                      isExpanded ? "Collapse Training Mode" : "Expand Training Mode"
+                    }
+                  >
+                    <span className={styles.toggleText}>
+                      {optimizerClient ? "Deep Agent Optimizer" : "(Disabled) Deep Agent Optimizer"}
+                    </span>
+                    {isExpanded ? (
+                      <X size={16} className={styles.toggleIcon} />
+                    ) : (
+                      optimizerClient && (
+                        <Expand size={16} className={styles.toggleIcon} />
+                      )
+                    )}
+                  </button>
+                </TooltipTrigger>
+                {!optimizerClient && (
+                  <TooltipPrimitive.Portal>
+                    <TooltipPrimitive.Content
+                      side="bottom"
+                      sideOffset={5}
+                      className={styles.tooltip}
+                    >
+                      <p>Set Optimizer Agent Environment Variables in FE Deployment</p>
+                      <TooltipPrimitive.Arrow className={styles.tooltipArrow} />
+                    </TooltipPrimitive.Content>
+                  </TooltipPrimitive.Portal>
+                )}
+              </Tooltip>
+            </TooltipProvider>
             {isExpanded && displayMessages.length > 0 && (
               <button
                 className={styles.clearButton}
