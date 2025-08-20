@@ -147,8 +147,8 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
             ) : (
               <div className="p-2">
                 {groupedThreads.today.length > 0 && (
-                  <div className={styles.group}>
-                    <h4 className={styles.groupTitle}>Today</h4>
+                  <div className="mb-6 last:mb-0">
+                    <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider p-2 m-0">Today</h4>
                     {groupedThreads.today.map((thread) => (
                       <ThreadItem
                         key={thread.id}
@@ -160,8 +160,8 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
                   </div>
                 )}
                 {groupedThreads.yesterday.length > 0 && (
-                  <div className={styles.group}>
-                    <h4 className={styles.groupTitle}>Yesterday</h4>
+                  <div className="mb-6 last:mb-0">
+                    <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider p-2 m-0">Yesterday</h4>
                     {groupedThreads.yesterday.map((thread) => (
                       <ThreadItem
                         key={thread.id}
@@ -173,8 +173,8 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
                   </div>
                 )}
                 {groupedThreads.week.length > 0 && (
-                  <div className={styles.group}>
-                    <h4 className={styles.groupTitle}>This Week</h4>
+                  <div className="mb-6 last:mb-0">
+                    <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider p-2 m-0">This Week</h4>
                     {groupedThreads.week.map((thread) => (
                       <ThreadItem
                         key={thread.id}
@@ -186,8 +186,8 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
                   </div>
                 )}
                 {groupedThreads.older.length > 0 && (
-                  <div className={styles.group}>
-                    <h4 className={styles.groupTitle}>Older</h4>
+                  <div className="mb-6 last:mb-0">
+                    <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider p-2 m-0">Older</h4>
                     {groupedThreads.older.map((thread) => (
                       <ThreadItem
                         key={thread.id}
@@ -227,6 +227,7 @@ const ThreadItem = React.memo<{
 
 ThreadItem.displayName = "ThreadItem";
 ThreadHistorySidebar.displayName = "ThreadHistorySidebar";
+
 
 
 
