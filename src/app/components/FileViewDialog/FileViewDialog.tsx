@@ -9,7 +9,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { MarkdownContent } from "../MarkdownContent/MarkdownContent";
 import type { FileItem } from "../../types/types";
-import styles from "./FileViewDialog.module.scss";
+import { cn } from "@/lib/utils";
 
 interface FileViewDialogProps {
   file: FileItem;
@@ -152,3 +152,4 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
 );
 
 FileViewDialog.displayName = "FileViewDialog";
+
