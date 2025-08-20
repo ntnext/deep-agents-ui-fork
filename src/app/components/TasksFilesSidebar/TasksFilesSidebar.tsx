@@ -19,6 +19,7 @@ interface TasksFilesSidebarProps {
   activeAssistant: Assistant | null;
   onFileClick: (file: FileItem) => void;
   onAssistantUpdate: () => void;
+  assistantError: string | null;
 }
 
 export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
@@ -30,6 +31,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
     activeAssistant,
     onFileClick,
     onAssistantUpdate,
+    assistantError,
   }) => {
     const [isTrainingModeExpanded, setIsTrainingModeExpanded] = useState(false);
     const { openSettings } = useEnvConfig();
@@ -203,15 +205,16 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
               </ScrollArea>
             </TabsContent>
           </Tabs>
-
-          <OptimizationWindow
-            threadId={threadId}
-            deepAgentMessages={messages}
-            isExpanded={isTrainingModeExpanded}
-            onToggle={handleToggleTrainingMode}
-            activeAssistant={activeAssistant}
-            onAssistantUpdate={onAssistantUpdate}
-          />
+          {activeAssistant && !assistantError && (
+            <OptimizationWindow
+              threadId={threadId}
+              deepAgentMessages={messages}
+              isExpanded={isTrainingModeExpanded}
+              onToggle={handleToggleTrainingMode}
+              activeAssistant={activeAssistant}
+              onAssistantUpdate={onAssistantUpdate}
+            />
+          )}
         </div>
       </div>
     );

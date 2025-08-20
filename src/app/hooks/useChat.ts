@@ -8,7 +8,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import type { TodoItem } from "../types/types";
 import { createClient } from "@/lib/client";
-import { ENV_CONFIG_KEYS, useEnvConfig } from "@/providers/EnvConfig";
+import { useEnvConfig } from "@/providers/EnvConfig";
 
 type StateType = {
   messages: Message[];
@@ -25,15 +25,10 @@ export function useChat(
   onFilesUpdate: (files: Record<string, string>) => void,
   activeAssistant: Assistant | null,
 ) {
-  const { getEnvValue, getLangSmithApiKey } = useEnvConfig();
-  const deploymentUrl = useMemo(
-    () => getEnvValue(ENV_CONFIG_KEYS.DEPLOYMENT_URL),
-    [getEnvValue],
-  );
-  const langsmithApiKey = useMemo(
-    () => getLangSmithApiKey(),
-    [getLangSmithApiKey],
-  );
+  const { config, configVersion } = useEnvConfig();
+  const deploymentUrl = config?.DEPLOYMENT_URL || "";
+  const langsmithApiKey = config?.LANGSMITH_API_KEY || "filler-token";
+  const assistantId = config?.ASSISTANT_ID || "";
 
   const handleUpdateEvent = useCallback(
     (data: { [node: string]: Partial<StateType> }) => {
@@ -49,12 +44,16 @@ export function useChat(
     [onTodosUpdate, onFilesUpdate],
   );
 
+  // Create client with configVersion as dependency to force recreation when config changes
+  const client = useMemo(
+    () => createClient(deploymentUrl, langsmithApiKey),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [deploymentUrl, langsmithApiKey, configVersion],
+  );
+
   const stream = useStream<StateType>({
-    assistantId:
-      activeAssistant?.assistant_id ||
-      getEnvValue(ENV_CONFIG_KEYS.ASSISTANT_ID) ||
-      "",
-    client: createClient(deploymentUrl || "", langsmithApiKey),
+    assistantId: activeAssistant?.assistant_id || assistantId,
+    client: client,
     reconnectOnMount: true,
     threadId: threadId ?? null,
     onUpdateEvent: handleUpdateEvent,
