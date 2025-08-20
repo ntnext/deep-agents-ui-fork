@@ -46,21 +46,21 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
           return (
             <CheckCircle
               size={16}
-              className={styles.completedIcon}
+              className="text-[var(--color-success)] flex-shrink-0"
             />
           );
         case "in_progress":
           return (
             <Clock
               size={16}
-              className={styles.progressIcon}
+              className="text-[var(--color-warning)] flex-shrink-0"
             />
           );
         default:
           return (
             <Circle
               size={16}
-              className={styles.pendingIcon}
+              className="text-[var(--color-text-tertiary)] flex-shrink-0"
             />
           );
       }
@@ -222,6 +222,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 );
 
 TasksFilesSidebar.displayName = "TasksFilesSidebar";
+
 
 
 
