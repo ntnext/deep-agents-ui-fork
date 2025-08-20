@@ -63,11 +63,11 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
         </Button>
       </div>
 
-      <ScrollArea className={styles.messages}>
-        <div className={styles.content}>
-          <div className={styles.section}>
-            <h4 className={styles.sectionTitle}>Input</h4>
-            <div className={styles.sectionContent}>
+      <ScrollArea className="flex-1 overflow-y-auto">
+        <div className="p-6">
+          <div className="mb-12 last:mb-0">
+            <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">Input</h4>
+            <div className="p-4 bg-[var(--color-surface)] rounded-md border border-[var(--color-border-light)] [&_.markdown-content]:text-sm [&_.markdown-content]:leading-relaxed [&_.markdown-content_h1]:mt-0 [&_.markdown-content_h1]:mb-2 [&_.markdown-content_h2]:mt-0 [&_.markdown-content_h2]:mb-2 [&_.markdown-content_h3]:mt-0 [&_.markdown-content_h3]:mb-2 [&_.markdown-content_h4]:mt-0 [&_.markdown-content_h4]:mb-2 [&_.markdown-content_h5]:mt-0 [&_.markdown-content_h5]:mb-2 [&_.markdown-content_h6]:mt-0 [&_.markdown-content_h6]:mb-2 [&_.markdown-content_p]:mb-2 [&_.markdown-content_p:last-child]:mb-0 [&_.markdown-content_ul]:mb-2 [&_.markdown-content_ul]:pl-6 [&_.markdown-content_ol]:mb-2 [&_.markdown-content_ol]:pl-6 [&_.markdown-content_li]:mb-1 [&_.markdown-content_pre]:bg-[var(--color-background)] [&_.markdown-content_pre]:rounded-sm [&_.markdown-content_pre]:p-2 [&_.markdown-content_pre]:overflow-x-auto [&_.markdown-content_pre]:text-xs [&_.markdown-content_code]:bg-[var(--color-background)] [&_.markdown-content_code]:px-1 [&_.markdown-content_code]:py-0.5 [&_.markdown-content_code]:rounded-sm [&_.markdown-content_code]:text-xs">
               <MarkdownContent
                 content={
                   typeof subAgent.input === "string"
@@ -84,9 +84,9 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
             </div>
           </div>
           {subAgent.output && (
-            <div className={styles.section}>
-              <h4 className={styles.sectionTitle}>Output</h4>
-              <div className={styles.sectionContent}>
+            <div className="mb-12 last:mb-0">
+              <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider mb-2">Output</h4>
+              <div className="p-4 bg-[var(--color-surface)] rounded-md border border-[var(--color-border-light)] [&_.markdown-content]:text-sm [&_.markdown-content]:leading-relaxed [&_.markdown-content_h1]:mt-0 [&_.markdown-content_h1]:mb-2 [&_.markdown-content_h2]:mt-0 [&_.markdown-content_h2]:mb-2 [&_.markdown-content_h3]:mt-0 [&_.markdown-content_h3]:mb-2 [&_.markdown-content_h4]:mt-0 [&_.markdown-content_h4]:mb-2 [&_.markdown-content_h5]:mt-0 [&_.markdown-content_h5]:mb-2 [&_.markdown-content_h6]:mt-0 [&_.markdown-content_h6]:mb-2 [&_.markdown-content_p]:mb-2 [&_.markdown-content_p:last-child]:mb-0 [&_.markdown-content_ul]:mb-2 [&_.markdown-content_ul]:pl-6 [&_.markdown-content_ol]:mb-2 [&_.markdown-content_ol]:pl-6 [&_.markdown-content_li]:mb-1 [&_.markdown-content_pre]:bg-[var(--color-background)] [&_.markdown-content_pre]:rounded-sm [&_.markdown-content_pre]:p-2 [&_.markdown-content_pre]:overflow-x-auto [&_.markdown-content_pre]:text-xs [&_.markdown-content_code]:bg-[var(--color-background)] [&_.markdown-content_code]:px-1 [&_.markdown-content_code]:py-0.5 [&_.markdown-content_code]:rounded-sm [&_.markdown-content_code]:text-xs">
                 <MarkdownContent
                   content={
                     typeof subAgent.output === "string"
@@ -126,6 +126,7 @@ export const SubAgentPanel = React.memo(
 );
 
 SubAgentPanel.displayName = "SubAgentPanel";
+
 
 
 
