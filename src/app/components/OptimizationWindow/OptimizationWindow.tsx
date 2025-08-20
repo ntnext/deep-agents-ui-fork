@@ -314,7 +314,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className={styles.toggleButton}
+                    className="flex-1 h-full px-4 bg-transparent border-none text-white text-sm font-medium cursor-pointer flex items-center justify-between transition-colors duration-200 hover:bg-[rgba(255,255,255,0.1)] focus:outline-none focus:bg-[rgba(255,255,255,0.1)]"
                     onClick={onToggle}
                     disabled={!optimizerClient}
                     aria-label={
@@ -323,7 +323,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         : "Expand Training Mode"
                     }
                   >
-                    <span className={styles.toggleText}>
+                    <span className="font-medium">
                       {optimizerClient
                         ? "Deep Agent Optimizer"
                         : "(Disabled) Deep Agent Optimizer"}
@@ -331,13 +331,13 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     {isExpanded ? (
                       <X
                         size={16}
-                        className={styles.toggleIcon}
+                        className="text-[rgba(255,255,255,0.8)] transition-transform duration-200 ease-out hover:text-white"
                       />
                     ) : (
                       optimizerClient && (
                         <Expand
                           size={16}
-                          className={styles.toggleIcon}
+                          className="text-[rgba(255,255,255,0.8)] transition-transform duration-200 ease-out hover:text-white"
                         />
                       )
                     )}
@@ -546,5 +546,6 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
 );
 
 OptimizationWindow.displayName = "OptimizationWindow";
+
 
 
