@@ -6,7 +6,7 @@ import { SubAgentIndicator } from "../SubAgentIndicator/SubAgentIndicator";
 import { ToolCallBox } from "../ToolCallBox/ToolCallBox";
 import { MarkdownContent } from "../MarkdownContent/MarkdownContent";
 import type { SubAgent, ToolCall } from "../../types/types";
-import styles from "./ChatMessage.module.scss";
+import { cn } from "@/lib/utils";
 import { Message } from "@langchain/langgraph-sdk";
 import { extractStringFromMessageContent } from "../../utils/utils";
 
@@ -113,3 +113,4 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 );
 
 ChatMessage.displayName = "ChatMessage";
+
