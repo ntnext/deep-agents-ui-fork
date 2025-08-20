@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { EnvConfigProvider } from "@/providers/EnvConfig";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <EnvConfigProvider>
           <NuqsAdapter>{children}</NuqsAdapter>
+          <Toaster />
         </EnvConfigProvider>
       </body>
     </html>

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
+import { useEnvConfig } from "@/providers/EnvConfig";
 import styles from "./EnvConfigDialog.module.scss";
 
 interface EnvConfig {
@@ -44,6 +45,7 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
   onClose,
   isSettings = false,
 }) => {
+  const { updateConfig } = useEnvConfig();
   const [config, setConfig] = useState<EnvConfig>({
     DEPLOYMENT_URL: "",
     ASSISTANT_ID: "",
@@ -72,7 +74,6 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
         hasErrors = true;
       }
     });
-
     setErrors(newErrors);
     return !hasErrors;
   };
@@ -81,16 +82,10 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
     if (!validateConfig()) {
       return;
     }
-
-    ENV_KEYS.forEach((key) => {
-      localStorage.setItem(key, config[key]);
-    });
-
+    updateConfig(config);
     if (onClose) {
       onClose();
     }
-
-    window.location.reload();
   };
 
   const handleInputChange = (key: keyof EnvConfig, value: string) => {

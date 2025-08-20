@@ -64,6 +64,7 @@ interface ChatInterfaceProps {
   continueStream: (hasTaskToolCall?: boolean) => void;
   interrupt: Interrupt | undefined;
   isLoadingThreadState: boolean;
+  assistantError: string | null;
 }
 
 export const ChatInterface = React.memo<ChatInterfaceProps>(
@@ -84,6 +85,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     continueStream,
     isLoadingThreadState,
     interrupt,
+    assistantError,
   }) => {
     const [input, setInput] = useState("");
     const [isThreadHistoryOpen, setIsThreadHistoryOpen] = useState(false);
@@ -372,7 +374,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={isLoading || !!interrupt ? "Running..." : "Type your message..."}
-                disabled={isLoading || !!interrupt}
+                disabled={isLoading || !!interrupt || !!assistantError}
                 className={styles.input}
                 rows={1}
               />
@@ -413,7 +415,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
               ) : (
                 <button
                   type="submit"
-                  disabled={!input.trim()}
+                  disabled={!input.trim() || !!assistantError}
                   className={styles.sendButton}
                 >
                   <Send size={16} />

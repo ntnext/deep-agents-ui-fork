@@ -19,10 +19,10 @@ interface EnvConfigContextType {
   config: EnvConfig | null;
   isConfigured: boolean;
   showSettings: boolean;
+  configVersion: number;
   openSettings: () => void;
   closeSettings: () => void;
-  getEnvValue: (key: keyof EnvConfig) => string | undefined;
-  getLangSmithApiKey: () => string;
+  updateConfig: (newConfig: EnvConfig) => void;
 }
 
 const EnvConfigContext = createContext<EnvConfigContextType | undefined>(
@@ -45,6 +45,7 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isConfigured, setIsConfigured] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
+  const [configVersion, setConfigVersion] = useState(0);
 
   const checkConfiguration = useCallback(() => {
     const loadedConfig: Partial<EnvConfig> = {};
@@ -84,7 +85,6 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
         }, 100);
       }
     };
-
     window.addEventListener("storage", handleStorageChange);
     return () => {
       clearTimeout(timeoutId);
@@ -92,13 +92,13 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   }, [checkConfiguration]);
 
-  const getEnvValue = useCallback((key: keyof EnvConfig): string | undefined => {
-    return localStorage.getItem(key) || undefined;
-  }, []);
-
-  const getLangSmithApiKey = useCallback(() => {
-    // NOTE: Need to return a non-falsy value for the api key
-    return localStorage.getItem("LANGSMITH_API_KEY") || "filler-token";
+  const updateConfig = useCallback((newConfig: EnvConfig) => {
+    ENV_KEYS.forEach((key) => {
+      localStorage.setItem(key, newConfig[key]);
+    });
+    setConfig(newConfig);
+    setIsConfigured(true);
+    setConfigVersion(prev => prev + 1);
   }, []);
 
   const openSettings = useCallback(() => setShowSettings(true), []);
@@ -109,12 +109,12 @@ export const EnvConfigProvider: React.FC<{ children: React.ReactNode }> = ({
       config,
       isConfigured,
       showSettings,
+      configVersion,
       openSettings,
       closeSettings,
-      getEnvValue,
-      getLangSmithApiKey,
+      updateConfig,
     }),
-    [config, isConfigured, showSettings, openSettings, closeSettings, getEnvValue, getLangSmithApiKey]
+    [config, isConfigured, showSettings, configVersion, openSettings, closeSettings, updateConfig]
   );
 
   if (isChecking) {

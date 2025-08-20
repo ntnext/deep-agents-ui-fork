@@ -5,7 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { MessageSquare, X } from "lucide-react";
 import { createClient } from "@/lib/client";
-import { ENV_CONFIG_KEYS, useEnvConfig } from "@/providers/EnvConfig";
+import { useEnvConfig } from "@/providers/EnvConfig";
 import type { Thread } from "../../types/types";
 import styles from "./ThreadHistorySidebar.module.scss";
 import { extractStringFromMessageContent } from "../../utils/utils";
@@ -22,17 +22,11 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
   ({ open, setOpen, currentThreadId, onThreadSelect }) => {
     const [threads, setThreads] = useState<Thread[]>([]);
     const [isLoadingThreadHistory, setIsLoadingThreadHistory] = useState(true);
-    const { getEnvValue, getLangSmithApiKey } = useEnvConfig();
-    const deploymentUrl = useMemo(
-      () => getEnvValue(ENV_CONFIG_KEYS.DEPLOYMENT_URL),
-      [getEnvValue],
-    );
-    const langsmithApiKey = useMemo(
-      () => getLangSmithApiKey(),
-      [getLangSmithApiKey],
-    );
+    const { config } = useEnvConfig();
+    const deploymentUrl = config?.DEPLOYMENT_URL || "";
+    const langsmithApiKey = config?.LANGSMITH_API_KEY || "filler-token";
     const client = useMemo(
-      () => createClient(deploymentUrl || "", langsmithApiKey),
+      () => createClient(deploymentUrl, langsmithApiKey),
       [deploymentUrl, langsmithApiKey],
     );
 

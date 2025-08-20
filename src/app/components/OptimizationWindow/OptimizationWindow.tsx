@@ -20,7 +20,7 @@ import { useStream } from "@langchain/langgraph-sdk/react";
 import { createClient, getOptimizerClient } from "@/lib/client";
 import { Assistant, type Message } from "@langchain/langgraph-sdk";
 import { v4 as uuidv4 } from "uuid";
-import { ENV_CONFIG_KEYS, useEnvConfig } from "@/providers/EnvConfig";
+import { useEnvConfig } from "@/providers/EnvConfig";
 import { prepareOptimizerMessage } from "@/app/utils/utils";
 
 type StateType = {
@@ -62,7 +62,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
     activeAssistant,
     onAssistantUpdate,
   }) => {
-    const { getEnvValue, getLangSmithApiKey } = useEnvConfig();
+    const { config } = useEnvConfig();
     const [optimizerThreadId, setOptimizerThreadId] = useState<string | null>(
       null,
     );
@@ -75,16 +75,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
       [],
     );
 
-    const deploymentUrl = useMemo(
-      () => getEnvValue(ENV_CONFIG_KEYS.DEPLOYMENT_URL),
-      [getEnvValue],
-    );
-    const langsmithApiKey = useMemo(
-      () => getLangSmithApiKey(),
-      [getLangSmithApiKey],
-    );
+    const deploymentUrl = config?.DEPLOYMENT_URL || "";
+    const langsmithApiKey = config?.LANGSMITH_API_KEY || "filler-token";
     const deploymentClient = useMemo(
-      () => createClient(deploymentUrl || "", langsmithApiKey),
+      () => createClient(deploymentUrl, langsmithApiKey),
       [deploymentUrl, langsmithApiKey],
     );
     const optimizerClient = useMemo(() => getOptimizerClient(), []);
