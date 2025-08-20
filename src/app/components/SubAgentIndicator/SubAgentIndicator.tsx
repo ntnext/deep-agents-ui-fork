@@ -3,7 +3,7 @@
 import React from "react";
 import { CheckCircle, AlertCircle, Clock, Loader } from "lucide-react";
 import type { SubAgent } from "../../types/types";
-import { cn } from "@/lib/utils";
+
 
 interface SubAgentIndicatorProps {
   subAgent: SubAgent;
@@ -51,6 +51,7 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
 );
 
 SubAgentIndicator.displayName = "SubAgentIndicator";
+
 
 
 
