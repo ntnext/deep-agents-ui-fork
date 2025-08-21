@@ -194,16 +194,37 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
             <Button
               variant="outline"
               onClick={onClose}
-              className="flex items-center hover:bg-[var(--color-border-light)]"
-              style={{ gap: "0.25rem", padding: "0.25rem 1rem" }}
+              className="flex items-center bg-transparent text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+              style={{ 
+                border: '1px solid var(--color-error)',
+                color: 'var(--color-error)',
+                gap: "0.25rem", 
+                padding: "0.25rem 1rem" 
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
             >
               Cancel
             </Button>
           )}
           <Button
             onClick={handleSave}
-            className="flex items-center bg-[var(--color-primary)] text-white transition-colors duration-200 hover:bg-[#164545]"
-            style={{ gap: "0.25rem", padding: "0.25rem 1rem" }}
+            className="flex items-center text-white transition-all duration-200 hover:scale-105 active:scale-95"
+            style={{ 
+              backgroundColor: 'var(--color-primary)', 
+              gap: "0.25rem", 
+              padding: "0.25rem 1rem" 
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.9';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
           >
             Save Configuration
           </Button>
