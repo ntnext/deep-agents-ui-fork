@@ -385,24 +385,45 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 </div>
               )}
               {interrupt && debugMode && (
-                <div
-                  className="ml-10 flex items-center"
-                  style={{ gap: "0.5rem", padding: "1rem 0" }}
-                >
+                <div className="flex w-full max-w-full" style={{ gap: "0.5rem" }}>
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center" style={{ marginTop: "1rem" }}>
+                  </div>
+                  <div className="flex items-center" style={{ gap: "0.5rem", marginTop: "1rem" }}>
                   <Button
                     onClick={handleContinue}
-                    className="rounded-sm border border-[var(--color-success)] bg-transparent text-sm font-medium text-[var(--color-success)] transition-all duration-200 hover:bg-[rgba(16,185,129,0.1)] active:bg-[rgba(16,185,129,0.2)]"
-                    style={{ padding: "0.25rem 1rem" }}
+                    className="rounded-sm bg-transparent text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+                    style={{ 
+                      border: '1px solid var(--color-success)',
+                      color: 'var(--color-success)',
+                      padding: "0.25rem 1rem" 
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
                   >
                     Continue
                   </Button>
                   <Button
                     onClick={handleRerunStep}
-                    className="rounded-sm border border-[#8b5cf6] bg-transparent text-sm font-medium text-[#8b5cf6] transition-all duration-200 hover:bg-[rgba(139,92,246,0.1)] active:bg-[rgba(139,92,246,0.2)]"
-                    style={{ padding: "0.25rem 1rem" }}
+                    className="rounded-sm bg-transparent text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+                    style={{ 
+                      border: '1px solid var(--color-warning)',
+                      color: 'var(--color-warning)',
+                      padding: "0.25rem 1rem" 
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(245, 158, 11, 0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
                   >
                     Re-run step
                   </Button>
+                  </div>
                 </div>
               )}
               <div ref={messagesEndRef} />
@@ -419,7 +440,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           >
             <div
               className="flex items-center rounded-xl border-2 border-[var(--color-border)] bg-[var(--color-background)] shadow-lg transition-all duration-200 focus-within:border-[var(--color-primary)] focus-within:shadow-xl"
-              style={{ gap: "0.5rem", padding: "0.5rem" }}
+              style={{ gap: "0.75rem", padding: "0.75rem 1rem" }}
             >
               <textarea
                 ref={textareaRef}
@@ -480,8 +501,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <button
                   type="submit"
                   disabled={!input.trim() || !!assistantError}
-                  className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border-none bg-[var(--color-primary)] text-white transition-all duration-200 hover:scale-105 hover:opacity-90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-                  style={{ padding: "0.5rem" }}
+                  className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border-none text-white transition-all duration-200 hover:scale-105 hover:opacity-90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+                  style={{ backgroundColor: 'var(--color-primary)', padding: "0.5rem" }}
                 >
                   <Send size={16} />
                 </button>

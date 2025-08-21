@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-:root {
+@layer base {
+  :root {
   /* App-specific color variables */
   --color-primary: #1c3c3c;
   --color-user-message: #076699;
@@ -30,8 +31,8 @@
   --destructive: #ef4444;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+  @media (prefers-color-scheme: dark) {
+    :root {
     /* App-specific color variables */
     --color-primary: #2dd4bf;
     --color-user-message: #0ea5e9;
@@ -59,12 +60,30 @@
     --input: #2d2d2d;
     --ring: #2dd4bf;
     --destructive: #f87171;
+    }
   }
 }
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Define theme colors for Tailwind */
+  --color-primary: #1c3c3c;
+  --color-user-message: #076699;
+  --color-avatar-bg: #ebe8fe;
+  --color-secondary: #1c3c3c;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-background: #f9f9f9;
+  --color-subagent-hover: #d0c9fe;
+  --color-surface: #f9fafb;
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
 }
 
 * {
