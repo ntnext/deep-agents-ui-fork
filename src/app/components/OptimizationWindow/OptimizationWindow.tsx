@@ -692,29 +692,104 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
         </div>
         {isDiffDialogOpen && selectedOptimizerMessage && (
           <div
-            className="fixed top-0 left-0 right-0 bottom-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[1000] animate-[fadeIn_0.2s_ease]"
+            className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center animate-[fadeIn_0.2s_ease]"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              backdropFilter: 'blur(4px)',
+              zIndex: 1000
+            }}
             onClick={handleCloseDiffDialog}
           >
             <div
-              className="bg-background rounded-xl w-[95%] max-w-[1200px] max-h-[85vh] flex flex-col shadow-[0_24px_64px_rgba(0,0,0,0.4)] animate-[slideIn_0.3s_cubic-bezier(0.4,0,0.2,1)]"
+              className="flex flex-col animate-[slideIn_0.3s_cubic-bezier(0.4,0,0.2,1)]"
+              style={{
+                backgroundColor: 'var(--color-background)',
+                borderRadius: '12px',
+                width: '95%',
+                maxWidth: '1200px',
+                maxHeight: '85vh',
+                boxShadow: '0 24px 64px rgba(0, 0, 0, 0.4)'
+              }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between py-5 px-6 border-b border-border bg-surface rounded-t-xl">
-                <h2 className="m-0 text-lg font-semibold text-text-primary">Configuration Changes</h2>
+              <div 
+                className="flex items-center justify-between"
+                style={{
+                  padding: '20px 24px',
+                  borderBottom: '1px solid var(--color-border)',
+                  backgroundColor: 'var(--color-surface)',
+                  borderRadius: '12px 12px 0 0'
+                }}
+              >
+                <h2 style={{ 
+                  margin: 0, 
+                  fontSize: '18px', 
+                  fontWeight: '600',
+                  color: 'var(--color-text-primary)'
+                }}>Configuration Changes</h2>
                 <button
-                  className="w-8 h-8 flex items-center justify-center bg-transparent border-none rounded-lg text-text-secondary text-xl cursor-pointer transition-all duration-200 hover:bg-border-light hover:text-text-primary hover:rotate-90"
+                  className="flex items-center justify-center cursor-pointer"
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    borderRadius: '8px',
+                    color: 'var(--color-text-secondary)',
+                    fontSize: '20px',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                    e.currentTarget.style.color = 'var(--color-text-primary)';
+                    e.currentTarget.style.transform = 'rotate(90deg)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = 'var(--color-text-secondary)';
+                    e.currentTarget.style.transform = 'rotate(0deg)';
+                  }}
                   onClick={handleCloseDiffDialog}
                   aria-label="Close dialog"
                 >
                   <X size={20} />
                 </button>
               </div>
-              <div className="flex-1 p-6 overflow-y-auto text-text-primary leading-[1.6]">
-                <div className="grid grid-cols-2 gap-6 h-full">
+              <div 
+                className="flex-1 overflow-y-auto"
+                style={{
+                  padding: '24px',
+                  color: 'var(--color-text-primary)',
+                  lineHeight: '1.6'
+                }}
+              >
+                <div 
+                  className="grid grid-cols-2 h-full"
+                  style={{ gap: '24px' }}
+                >
                   <div className="flex flex-col">
-                    <h3 className="m-0 mb-3 text-base font-semibold text-text-primary pb-2 border-b border-border">Current Configuration</h3>
+                    <h3 style={{
+                      margin: '0 0 12px 0',
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      color: 'var(--color-text-primary)',
+                      paddingBottom: '8px',
+                      borderBottom: '1px solid var(--color-border)'
+                    }}>Current Configuration</h3>
                     <div className="flex-1 overflow-auto">
-                      <div className="bg-[#0d1117] border border-border rounded-lg p-4 font-mono text-[13px] leading-6 text-[#e6edf3] overflow-auto whitespace-pre-wrap break-words">
+                      <div style={{
+                        backgroundColor: '#0d1117',
+                        border: '1px solid var(--color-border)',
+                        borderRadius: '8px',
+                        padding: '16px',
+                        fontFamily: '"Monaco", "Menlo", "Ubuntu Mono", monospace',
+                        fontSize: '13px',
+                        lineHeight: '1.5',
+                        color: '#e6edf3',
+                        overflow: 'auto',
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word'
+                      }}>
                         {createSideBySideDiff(
                           selectedOptimizerMessage.old_config,
                           selectedOptimizerMessage.new_config,
@@ -729,9 +804,28 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     </div>
                   </div>
                   <div className="flex flex-col">
-                    <h3 className="m-0 mb-3 text-base font-semibold text-text-primary pb-2 border-b border-border">Proposed Configuration</h3>
+                    <h3 style={{
+                      margin: '0 0 12px 0',
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      color: 'var(--color-text-primary)',
+                      paddingBottom: '8px',
+                      borderBottom: '1px solid var(--color-border)'
+                    }}>Proposed Configuration</h3>
                     <div className="flex-1 overflow-auto">
-                      <div className="bg-[#0d1117] border border-border rounded-lg p-4 font-mono text-[13px] leading-6 text-[#e6edf3] overflow-auto whitespace-pre-wrap break-words">
+                      <div style={{
+                        backgroundColor: '#0d1117',
+                        border: '1px solid var(--color-border)',
+                        borderRadius: '8px',
+                        padding: '16px',
+                        fontFamily: '"Monaco", "Menlo", "Ubuntu Mono", monospace',
+                        fontSize: '13px',
+                        lineHeight: '1.5',
+                        color: '#e6edf3',
+                        overflow: 'auto',
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word'
+                      }}>
                         {createSideBySideDiff(
                           selectedOptimizerMessage.old_config,
                           selectedOptimizerMessage.new_config,
@@ -747,15 +841,71 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end gap-3 py-5 px-6 border-t border-border bg-surface rounded-b-xl">
+              <div 
+                className="flex justify-end"
+                style={{
+                  gap: '12px',
+                  padding: '20px 24px',
+                  borderTop: '1px solid var(--color-border)',
+                  backgroundColor: 'var(--color-surface)',
+                  borderRadius: '0 0 12px 12px'
+                }}
+              >
                 <button
-                  className="py-2.5 px-5 bg-transparent text-text-secondary border border-border rounded-md text-sm font-medium cursor-pointer transition-all duration-200 hover:bg-border-light hover:text-text-primary hover:border-text-secondary active:translate-y-px"
+                  className="cursor-pointer"
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: 'transparent',
+                    color: 'var(--color-text-secondary)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                    e.currentTarget.style.color = 'var(--color-text-primary)';
+                    e.currentTarget.style.borderColor = 'var(--color-text-secondary)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = 'var(--color-text-secondary)';
+                    e.currentTarget.style.borderColor = 'var(--color-border)';
+                  }}
+                  onMouseDown={(e) => {
+                    e.currentTarget.style.transform = 'translateY(1px)';
+                  }}
+                  onMouseUp={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
                   onClick={handleReject}
                 >
                   Reject Changes
                 </button>
                 <button
-                  className="py-2.5 px-5 bg-emerald-600 text-white border-none rounded-md text-sm font-medium cursor-pointer transition-all duration-200 hover:bg-emerald-700 hover:-translate-y-px active:translate-y-0"
+                  className="cursor-pointer"
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#059669',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#047857';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#059669';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                  onMouseDown={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
                   onClick={handleApprove}
                 >
                   Approve Changes
