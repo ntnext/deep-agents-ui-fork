@@ -356,7 +356,10 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <LoaderCircle className="flex h-[50px] w-[50px] animate-spin items-center justify-center text-[var(--color-primary)]" />
               </div>
             )}
-            <div className="flex-1 overflow-y-auto p-6 pb-[100px]">
+            <div
+              className="flex-1 overflow-y-auto"
+              style={{ padding: "1.5rem", paddingBottom: "100px" }}
+            >
               {processedMessages.map((data) => (
                 <ChatMessage
                   key={data.message.id}
