@@ -169,7 +169,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 
     const handleRerunStep = useCallback(() => {
       const hasTaskToolCall = justCalledTaskTool(messages);
-      let rewindIndex = messages.length - 2;
+      let rewindIndex = messages.length - 1;
       if (hasTaskToolCall) {
         rewindIndex = messages.findLastIndex(
           (message) => message.type === "ai",
