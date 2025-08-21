@@ -371,7 +371,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 />
               ))}
               {isLoading && (
-                <div className="flex items-center justify-center gap-2 p-4 text-[var(--color-text-secondary)]">
+                <div className="flex items-center justify-center gap-2 p-4 text-[var(--color-text-secondary)]" style={{ paddingTop: "2rem" }}>
                   <LoaderCircle className="h-4 w-4 animate-spin" />
                   <span>Working...</span>
                 </div>
