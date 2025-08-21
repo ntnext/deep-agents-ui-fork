@@ -496,11 +496,24 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                     <TooltipPrimitive.Content
                       side="top"
                       sideOffset={5}
-                      className="z-50 rounded-md border-none bg-[var(--color-primary)] text-xs text-white shadow-lg"
-                      style={{ padding: "0.5rem 1rem" }}
+                      style={{
+                        backgroundColor: 'var(--color-primary)',
+                        color: 'white',
+                        border: 'none',
+                        fontSize: '12px',
+                        padding: '8px 12px',
+                        borderRadius: '6px',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                        zIndex: 50
+                      }}
                     >
-                      <p>Run the agent step-by-step</p>
-                      <TooltipPrimitive.Arrow className="fill-[var(--color-primary)] text-[var(--color-primary)]" />
+                      <p style={{ margin: 0 }}>Run the agent step-by-step</p>
+                      <TooltipPrimitive.Arrow 
+                        style={{
+                          fill: 'var(--color-primary)',
+                          color: 'var(--color-primary)'
+                        }}
+                      />
                     </TooltipPrimitive.Content>
                   </TooltipPrimitive.Portal>
                 </Tooltip>

@@ -115,34 +115,68 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
               className="flex shrink-0"
               style={{ gap: "0.25rem" }}
             >
-              <Button
-                variant="ghost"
-                size="sm"
+              <button
                 onClick={handleCopy}
-                className="flex items-center hover:bg-[var(--color-border-light)]"
+                className="flex items-center cursor-pointer"
                 style={{
                   gap: "0.25rem",
                   padding: "0.25rem 0.5rem",
                   marginRight: "0.25rem",
+                  backgroundColor: 'transparent',
+                  border: '1px solid transparent',
+                  borderRadius: '4px',
+                  fontSize: '14px',
+                  color: 'var(--color-text-primary)',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.borderColor = 'transparent';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 <Copy size={16} />
                 Copy
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
+              </button>
+              <button
                 onClick={handleDownload}
-                className="flex items-center hover:bg-[var(--color-border-light)]"
+                className="flex items-center cursor-pointer"
                 style={{
                   gap: "0.25rem",
                   padding: "0.25rem 0.5rem",
                   marginRight: "0.25rem",
+                  backgroundColor: 'transparent',
+                  border: '1px solid transparent',
+                  borderRadius: '4px',
+                  fontSize: '14px',
+                  color: 'var(--color-text-primary)',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.borderColor = 'transparent';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 <Download size={16} />
                 Download
-              </Button>
+              </button>
             </div>
           </div>
 

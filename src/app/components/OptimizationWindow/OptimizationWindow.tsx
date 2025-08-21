@@ -379,13 +379,27 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     <TooltipPrimitive.Content
                       side="bottom"
                       sideOffset={5}
-                      className="bg-primary text-white border-none text-xs px-3 py-2 rounded-md shadow-[0_4px_12px_rgba(0,0,0,0.15)] z-50"
+                      style={{
+                        backgroundColor: 'var(--color-primary)',
+                        color: 'white',
+                        border: 'none',
+                        fontSize: '12px',
+                        padding: '8px 12px',
+                        borderRadius: '6px',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                        zIndex: 50
+                      }}
                     >
-                      <p>
+                      <p style={{ margin: 0 }}>
                         Set Optimizer Agent Environment Variables in FE
                         Deployment
                       </p>
-                      <TooltipPrimitive.Arrow className="fill-primary text-primary" />
+                      <TooltipPrimitive.Arrow 
+                        style={{
+                          fill: 'var(--color-primary)',
+                          color: 'var(--color-primary)'
+                        }}
+                      />
                     </TooltipPrimitive.Content>
                   </TooltipPrimitive.Portal>
                 )}
