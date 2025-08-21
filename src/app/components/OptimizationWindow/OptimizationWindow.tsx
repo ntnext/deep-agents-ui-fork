@@ -21,6 +21,7 @@ import { Assistant, type Message } from "@langchain/langgraph-sdk";
 import { v4 as uuidv4 } from "uuid";
 import { useEnvConfig } from "@/providers/EnvConfig";
 import { prepareOptimizerMessage } from "@/app/utils/utils";
+import { cn } from "@/lib/utils";
 
 type StateType = {
   messages: Message[];
@@ -303,7 +304,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
     return (
       <>
         <div
-          className={`absolute right-0 bottom-0 left-0 z-10 flex flex-col overflow-hidden ${isExpanded ? "h-1/2" : "h-12"}`}
+          className={cn(
+            "absolute right-0 bottom-0 left-0 z-10 flex flex-col overflow-hidden",
+            isExpanded ? "h-1/2" : "h-12",
+          )}
           style={{
             backgroundColor: "var(--color-surface)",
             border: "2px solid var(--color-primary)",
@@ -439,7 +443,10 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
           </div>
 
           <div
-            className={`flex flex-1 flex-col ${isExpanded ? "opacity-100" : "opacity-0"}`}
+            className={cn(
+              "flex flex-1 flex-col",
+              isExpanded ? "opacity-100" : "opacity-0",
+            )}
             style={{
               transition: "opacity 0.3s ease 0.1s",
             }}
@@ -842,7 +849,12 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         ).map((line, index) => (
                           <div
                             key={`old-${index}`}
-                            className={`min-h-[1.5em] ${line.hasChanges ? "-mx-4 bg-white/[0.02] px-4" : ""}`}
+                            className={cn(
+                              "min-h-[1.5em]",
+                              line.hasChanges
+                                ? "-mx-4 bg-white/[0.02] px-4"
+                                : "",
+                            )}
                             dangerouslySetInnerHTML={{ __html: line.oldLine }}
                           />
                         ))}
@@ -885,7 +897,12 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         ).map((line, index) => (
                           <div
                             key={`new-${index}`}
-                            className={`min-h-[1.5em] ${line.hasChanges ? "-mx-4 bg-white/[0.02] px-4" : ""}`}
+                            className={cn(
+                              "min-h-[1.5em]",
+                              line.hasChanges
+                                ? "-mx-4 bg-white/[0.02] px-4"
+                                : "",
+                            )}
                             dangerouslySetInnerHTML={{ __html: line.newLine }}
                           />
                         ))}

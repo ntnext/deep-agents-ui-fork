@@ -8,6 +8,7 @@ import { MarkdownContent } from "../MarkdownContent/MarkdownContent";
 import type { SubAgent, ToolCall } from "../../types/types";
 import { Message } from "@langchain/langgraph-sdk";
 import { extractStringFromMessageContent } from "../../utils/utils";
+import { cn } from "@/lib/utils";
 
 interface ChatMessageProps {
   message: Message;
@@ -59,17 +60,21 @@ export const ChatMessage = React.memo<ChatMessageProps>(
 
     return (
       <div
-        className={`flex w-full max-w-full overflow-x-hidden ${isUser ? "flex-row-reverse" : ""}`}
+        className={cn(
+          "flex w-full max-w-full overflow-x-hidden",
+          isUser ? "flex-row-reverse" : "",
+        )}
         style={{ gap: "0.5rem" }}
       >
         <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
+          className={cn(
+            "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
             !showAvatar
               ? "bg-transparent"
               : isUser
                 ? "bg-[var(--color-user-message)]"
-                : "bg-[var(--color-avatar-bg)]"
-          }`}
+                : "bg-[var(--color-avatar-bg)]",
+          )}
           style={{ marginTop: "1rem" }}
         >
           {showAvatar &&
@@ -82,11 +87,12 @@ export const ChatMessage = React.memo<ChatMessageProps>(
         <div className="max-w-[70%] min-w-0 flex-shrink-0">
           {hasContent && (
             <div
-              className={`w-fit max-w-full overflow-hidden rounded-lg break-words ${
+              className={cn(
+                "w-fit max-w-full overflow-hidden rounded-lg break-words",
                 isUser
                   ? "ml-auto bg-[var(--color-user-message)] text-white"
-                  : "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)]"
-              }`}
+                  : "border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)]",
+              )}
               style={{ padding: "0.5rem", marginTop: "1rem" }}
             >
               {isUser ? (

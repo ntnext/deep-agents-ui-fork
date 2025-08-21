@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { useEnvConfig } from "@/providers/EnvConfig";
+import { cn } from "@/lib/utils";
 
 interface EnvConfig {
   DEPLOYMENT_URL: string;
@@ -171,7 +172,12 @@ export const EnvConfigDialog: React.FC<EnvConfigDialogProps> = ({
                 value={config[key]}
                 onChange={(e) => handleInputChange(key, e.target.value)}
                 placeholder={ENV_PLACEHOLDERS[key]}
-                className={`h-9 w-full rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-primary)] transition-all duration-200 placeholder:text-[var(--color-text-tertiary)] hover:border-[var(--color-text-secondary)] focus:border-[var(--color-primary)] focus:bg-[var(--color-background)] focus:outline-none ${errors[key] ? "border-[var(--color-error)] focus:border-[var(--color-error)] focus:shadow-[0_0_0_2px_rgba(239,68,68,0.1)]" : ""}`}
+                className={cn(
+                  "h-9 w-full rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-primary)] transition-all duration-200 placeholder:text-[var(--color-text-tertiary)] hover:border-[var(--color-text-secondary)] focus:border-[var(--color-primary)] focus:bg-[var(--color-background)] focus:outline-none",
+                  errors[key]
+                    ? "border-[var(--color-error)] focus:border-[var(--color-error)] focus:shadow-[0_0_0_2px_rgba(239,68,68,0.1)]"
+                    : "",
+                )}
                 style={{ padding: "0.5rem 1rem", fontFamily: "inherit" }}
               />
               {errors[key] && (
