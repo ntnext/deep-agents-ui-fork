@@ -90,8 +90,12 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
         onOpenChange={onClose}
       >
         <DialogContent
-          className="flex max-h-[80vh] w-[900px] max-w-[80vw] flex-col bg-[var(--color-background)]"
-          style={{ padding: "1.5rem" }}
+          className="flex max-h-[80vh] flex-col bg-[var(--color-background)]"
+          style={{ 
+            padding: "1.5rem",
+            width: "60vw",
+            maxWidth: "60vw"
+          }}
         >
           <DialogTitle className="sr-only">{file.path}</DialogTitle>
           <div

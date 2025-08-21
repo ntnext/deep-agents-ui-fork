@@ -8,7 +8,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { OptimizationWindow } from "../OptimizationWindow/OptimizationWindow";
 import type { TodoItem, FileItem } from "../../types/types";
-import styles from "./TasksFilesSidebar.module.scss";
 import { Assistant, Message } from "@langchain/langgraph-sdk";
 
 interface TasksFilesSidebarProps {
@@ -46,21 +45,30 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
           return (
             <CheckCircle
               size={16}
-              className={styles.completedIcon}
+              style={{
+                color: 'var(--color-success)',
+                flexShrink: 0
+              }}
             />
           );
         case "in_progress":
           return (
             <Clock
               size={16}
-              className={styles.progressIcon}
+              style={{
+                color: 'var(--color-warning)',
+                flexShrink: 0
+              }}
             />
           );
         default:
           return (
             <Circle
               size={16}
-              className={styles.pendingIcon}
+              style={{
+                color: 'var(--color-text-tertiary)',
+                flexShrink: 0
+              }}
             />
           );
       }
@@ -75,23 +83,80 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
     }, [todos]);
 
     return (
-      <div className={styles.sidebarContainer}>
-        <div className={styles.sidebar}>
+      <div 
+        style={{
+          width: '25vw', // $sidebar-width
+          height: '100%',
+          position: 'relative',
+          flexShrink: 0
+        }}
+      >
+        <div 
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'var(--color-surface)',
+            borderRight: '1px solid var(--color-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative'
+          }}
+        >
           <Tabs
             defaultValue="tasks"
-            className={styles.tabs}
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden'
+            }}
           >
-            <div className={styles.tabsHeader}>
-              <TabsList className={styles.tabsList}>
+            <div 
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '0.25rem 1rem'
+              }}
+            >
+              <TabsList 
+                style={{
+                  margin: '1rem',
+                  backgroundColor: 'var(--color-border-light)',
+                  display: 'flex',
+                  gap: '0.5rem',
+                  padding: '0.25rem',
+                  borderRadius: '0.375rem',
+                  width: 'calc(100% - 2rem)',
+                  height: 'auto',
+                  justifyContent: 'stretch'
+                }}
+              >
                 <TabsTrigger
                   value="tasks"
-                  className={styles.tabTrigger}
+                  style={{
+                    flex: 1,
+                    fontSize: '0.875rem',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.25rem',
+                    background: 'transparent',
+                    transition: 'all 200ms ease'
+                  }}
+                  className="data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:text-[var(--color-text-primary)] data-[state=inactive]:hover:bg-black/5"
                 >
                   Tasks ({todos.length})
                 </TabsTrigger>
                 <TabsTrigger
                   value="files"
-                  className={styles.tabTrigger}
+                  style={{
+                    flex: 1,
+                    fontSize: '0.875rem',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.25rem',
+                    background: 'transparent',
+                    transition: 'all 200ms ease'
+                  }}
+                  className="data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:text-[var(--color-text-primary)] data-[state=inactive]:hover:bg-black/5"
                 >
                   Files ({Object.keys(files).length})
                 </TabsTrigger>
@@ -100,8 +165,17 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                 variant="ghost"
                 size="sm"
                 onClick={openSettings}
-                className={styles.settingsButton}
                 title="Environment Settings"
+                style={{
+                  padding: '0.25rem',
+                  flexShrink: 0
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
               >
                 <Settings size={18} />
               </Button>
@@ -109,25 +183,60 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 
             <TabsContent
               value="tasks"
-              className={styles.tabContent}
+              style={{
+                flex: 1,
+                padding: 0,
+                overflow: 'hidden'
+              }}
             >
-              <ScrollArea className={styles.scrollArea}>
+              <ScrollArea style={{ height: '100%' }}>
                 {todos.length === 0 ? (
-                  <div className={styles.emptyState}>
-                    <p>No tasks yet</p>
+                  <div 
+                    style={{
+                      padding: '2rem',
+                      textAlign: 'center',
+                      color: 'var(--color-text-tertiary)'
+                    }}
+                  >
+                    <p style={{ margin: 0, fontSize: '0.875rem' }}>No tasks yet</p>
                   </div>
                 ) : (
-                  <div className={styles.todoGroups}>
+                  <div style={{ padding: '1rem' }}>
                     {groupedTodos.in_progress.length > 0 && (
-                      <div className={styles.todoGroup}>
-                        <h3 className={styles.groupTitle}>In Progress</h3>
+                      <div style={{ marginBottom: '1.5rem' }}>
+                        <h3 
+                          style={{
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                            color: 'var(--color-text-secondary)',
+                            textTransform: 'uppercase',
+                            marginBottom: '0.5rem'
+                          }}
+                        >
+                          In Progress
+                        </h3>
                         {groupedTodos.in_progress.map((todo, index) => (
                           <div
                             key={`in_progress_${todo.id}_${index}`}
-                            className={styles.todoItem}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'flex-start',
+                              gap: '0.5rem',
+                              padding: '0.5rem',
+                              borderRadius: '0.375rem',
+                              marginBottom: '0.25rem',
+                              transition: 'background-color 200ms ease'
+                            }}
                           >
                             {getStatusIcon(todo.status)}
-                            <span className={styles.todoContent}>
+                            <span 
+                              style={{
+                                flex: 1,
+                                fontSize: '0.875rem',
+                                lineHeight: 1.5,
+                                color: 'var(--color-text-primary)'
+                              }}
+                            >
                               {todo.content}
                             </span>
                           </div>
@@ -136,15 +245,40 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                     )}
 
                     {groupedTodos.pending.length > 0 && (
-                      <div className={styles.todoGroup}>
-                        <h3 className={styles.groupTitle}>Pending</h3>
+                      <div style={{ marginBottom: '1.5rem' }}>
+                        <h3 
+                          style={{
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                            color: 'var(--color-text-secondary)',
+                            textTransform: 'uppercase',
+                            marginBottom: '0.5rem'
+                          }}
+                        >
+                          Pending
+                        </h3>
                         {groupedTodos.pending.map((todo, index) => (
                           <div
                             key={`pending_${todo.id}_${index}`}
-                            className={styles.todoItem}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'flex-start',
+                              gap: '0.5rem',
+                              padding: '0.5rem',
+                              borderRadius: '0.375rem',
+                              marginBottom: '0.25rem',
+                              transition: 'background-color 200ms ease'
+                            }}
                           >
                             {getStatusIcon(todo.status)}
-                            <span className={styles.todoContent}>
+                            <span 
+                              style={{
+                                flex: 1,
+                                fontSize: '0.875rem',
+                                lineHeight: 1.5,
+                                color: 'var(--color-text-primary)'
+                              }}
+                            >
                               {todo.content}
                             </span>
                           </div>
@@ -153,15 +287,40 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                     )}
 
                     {groupedTodos.completed.length > 0 && (
-                      <div className={styles.todoGroup}>
-                        <h3 className={styles.groupTitle}>Completed</h3>
+                      <div style={{ marginBottom: 0 }}>
+                        <h3 
+                          style={{
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                            color: 'var(--color-text-secondary)',
+                            textTransform: 'uppercase',
+                            marginBottom: '0.5rem'
+                          }}
+                        >
+                          Completed
+                        </h3>
                         {groupedTodos.completed.map((todo, index) => (
                           <div
                             key={`completed_${todo.id}_${index}`}
-                            className={styles.todoItem}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'flex-start',
+                              gap: '0.5rem',
+                              padding: '0.5rem',
+                              borderRadius: '0.375rem',
+                              marginBottom: index === groupedTodos.completed.length - 1 ? 0 : '0.25rem',
+                              transition: 'background-color 200ms ease'
+                            }}
                           >
                             {getStatusIcon(todo.status)}
-                            <span className={styles.todoContent}>
+                            <span 
+                              style={{
+                                flex: 1,
+                                fontSize: '0.875rem',
+                                lineHeight: 1.5,
+                                color: 'var(--color-text-primary)'
+                              }}
+                            >
                               {todo.content}
                             </span>
                           </div>
@@ -175,28 +334,71 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
 
             <TabsContent
               value="files"
-              className={styles.tabContent}
+              style={{
+                flex: 1,
+                padding: 0,
+                overflow: 'hidden'
+              }}
             >
-              <ScrollArea className={styles.scrollArea}>
+              <ScrollArea style={{ height: '100%' }}>
                 {Object.keys(files).length === 0 ? (
-                  <div className={styles.emptyState}>
-                    <p>No files yet</p>
+                  <div 
+                    style={{
+                      padding: '2rem',
+                      textAlign: 'center',
+                      color: 'var(--color-text-tertiary)'
+                    }}
+                  >
+                    <p style={{ margin: 0, fontSize: '0.875rem' }}>No files yet</p>
                   </div>
                 ) : (
-                  <div className={styles.fileTree}>
-                    {Object.keys(files).map((file) => (
+                  <div style={{ padding: '1rem' }}>
+                    {Object.keys(files).map((file, index) => (
                       <div
                         key={file}
-                        className={styles.fileItem}
+                        style={{
+                          width: '100%',
+                          marginBottom: index === Object.keys(files).length - 1 ? 0 : '0.25rem'
+                        }}
                       >
                         <div
-                          className={styles.fileRow}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            padding: '0.25rem 0.5rem',
+                            cursor: 'pointer',
+                            transition: 'background-color 200ms ease'
+                          }}
                           onClick={() =>
                             onFileClick({ path: file, content: files[file] })
                           }
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                          }}
                         >
-                          <FileText size={16} />
-                          <span className={styles.fileName}>{file}</span>
+                          <FileText 
+                            size={16} 
+                            style={{
+                              flexShrink: 0,
+                              color: 'var(--color-text-secondary)'
+                            }}
+                          />
+                          <span 
+                            style={{
+                              flex: 1,
+                              fontSize: '0.875rem',
+                              color: 'var(--color-text-primary)',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap'
+                            }}
+                          >
+                            {file}
+                          </span>
                         </div>
                       </div>
                     ))}
