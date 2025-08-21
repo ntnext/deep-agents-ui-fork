@@ -139,10 +139,9 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                     fontSize: "0.875rem",
                     padding: "0.5rem 1rem",
                     borderRadius: "0.25rem",
-                    background: "transparent",
                     transition: "all 200ms ease",
                   }}
-                  className="data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:bg-black/5 data-[state=inactive]:hover:text-[var(--color-text-primary)]"
+                  className="data-[state=active]:!bg-[var(--color-primary)] data-[state=active]:!text-white data-[state=active]:shadow-sm data-[state=inactive]:bg-transparent data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:bg-black/5 data-[state=inactive]:hover:text-[var(--color-text-primary)]"
                 >
                   Tasks ({todos.length})
                 </TabsTrigger>
@@ -153,10 +152,9 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                     fontSize: "0.875rem",
                     padding: "0.5rem 1rem",
                     borderRadius: "0.25rem",
-                    background: "transparent",
                     transition: "all 200ms ease",
                   }}
-                  className="data-[state=active]:bg-[var(--color-background)] data-[state=active]:text-[var(--color-text-primary)] data-[state=active]:shadow-sm data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:bg-black/5 data-[state=inactive]:hover:text-[var(--color-text-primary)]"
+                  className="data-[state=active]:!bg-[var(--color-primary)] data-[state=active]:!text-white data-[state=active]:shadow-sm data-[state=inactive]:bg-transparent data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:bg-black/5 data-[state=inactive]:hover:text-[var(--color-text-primary)]"
                 >
                   Files ({Object.keys(files).length})
                 </TabsTrigger>
