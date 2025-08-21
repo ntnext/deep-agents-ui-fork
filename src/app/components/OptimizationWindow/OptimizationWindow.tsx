@@ -15,7 +15,6 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import styles from "./OptimizationWindow.module.scss";
 import { useStream } from "@langchain/langgraph-sdk/react";
 import { createClient, getOptimizerClient } from "@/lib/client";
 import { Assistant, type Message } from "@langchain/langgraph-sdk";
@@ -304,14 +303,49 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
     return (
       <>
         <div
-          className={`${styles.optimizationWindow} ${isExpanded ? styles.expanded : ""}`}
+          className={`absolute bottom-0 left-0 right-0 z-10 flex flex-col overflow-hidden ${isExpanded ? 'h-1/2' : 'h-12'}`}
+          style={{
+            backgroundColor: 'var(--color-surface)',
+            border: '2px solid var(--color-primary)',
+            borderRadius: '10px 10px 0 0',
+            transition: 'height 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+          }}
         >
-          <div className={styles.paneHeader}>
+          <div 
+            className="flex items-center relative overflow-hidden"
+            style={{
+              height: '48px',
+              minHeight: '48px',
+              backgroundColor: 'var(--color-primary)',
+              borderRadius: '8px 8px 0 0',
+              padding: 0,
+              margin: 0,
+              border: 'none'
+            }}
+          >
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className={styles.toggleButton}
+                    className="flex-1 h-full flex items-center justify-between cursor-pointer"
+                    style={{
+                      paddingLeft: '16px',
+                      paddingRight: '16px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: 'white',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      transition: 'background-color 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!e.currentTarget.disabled) {
+                        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
                     onClick={onToggle}
                     disabled={!optimizerClient}
                     aria-label={
@@ -320,7 +354,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         : "Expand Training Mode"
                     }
                   >
-                    <span className={styles.toggleText}>
+                    <span className="font-medium">
                       {optimizerClient
                         ? "Deep Agent Optimizer"
                         : "(Disabled) Deep Agent Optimizer"}
@@ -328,13 +362,13 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     {isExpanded ? (
                       <X
                         size={16}
-                        className={styles.toggleIcon}
+                        className="text-white/80 transition-transform duration-200 ease-in-out hover:text-white"
                       />
                     ) : (
                       optimizerClient && (
                         <Expand
                           size={16}
-                          className={styles.toggleIcon}
+                          className="text-white/80 transition-transform duration-200 ease-in-out hover:text-white"
                         />
                       )
                     )}
@@ -345,13 +379,13 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     <TooltipPrimitive.Content
                       side="bottom"
                       sideOffset={5}
-                      className={styles.tooltip}
+                      className="bg-primary text-white border-none text-xs px-3 py-2 rounded-md shadow-[0_4px_12px_rgba(0,0,0,0.15)] z-50"
                     >
                       <p>
                         Set Optimizer Agent Environment Variables in FE
                         Deployment
                       </p>
-                      <TooltipPrimitive.Arrow className={styles.tooltipArrow} />
+                      <TooltipPrimitive.Arrow className="fill-primary text-primary" />
                     </TooltipPrimitive.Content>
                   </TooltipPrimitive.Portal>
                 )}
@@ -359,7 +393,27 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
             </TooltipProvider>
             {isExpanded && displayMessages.length > 0 && (
               <button
-                className={styles.clearButton}
+                className="absolute flex items-center justify-center cursor-pointer"
+                style={{
+                  right: '48px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  padding: '6px',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  borderRadius: '4px',
+                  transition: 'all 0.2s',
+                  zIndex: 1
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
+                }}
                 onClick={handleClear}
                 aria-label="Clear conversation"
               >
@@ -369,20 +423,57 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
           </div>
 
           <div
-            className={`${styles.contentWrapper} ${isExpanded ? styles.show : ""}`}
+            className={`flex-1 flex flex-col ${isExpanded ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              transition: 'opacity 0.3s ease 0.1s'
+            }}
           >
-            <div className={styles.content}>
-              <div className={styles.chatContainer}>
-                <div className={styles.messagesArea}>
-                  <div className={styles.messagesScroll}>
+            <div 
+              className="flex-1 flex flex-col overflow-hidden"
+              style={{ backgroundColor: 'var(--color-background)' }}
+            >
+              <div 
+                className="flex-1 flex flex-col overflow-hidden"
+                style={{ 
+                  padding: 0,
+                  backgroundColor: 'var(--color-background)' 
+                }}
+              >
+                <div 
+                  className="flex-1 overflow-hidden"
+                  style={{ 
+                    margin: 0,
+                    backgroundColor: 'var(--color-background)',
+                    border: 'none' 
+                  }}
+                >
+                  <div 
+                    className="h-full overflow-y-auto flex flex-col"
+                    style={{ 
+                      padding: '16px',
+                      gap: '12px' 
+                    }}
+                  >
                     {displayMessages.map((message, index) => {
                       if (isUserMessage(message)) {
                         return (
                           <div
                             key={`user-${index}`}
-                            className={styles.userMessage}
+                            className="flex justify-end"
+                            style={{ marginBottom: '8px' }}
                           >
-                            <div className={styles.messageContent}>
+                            <div 
+                              className="text-white break-words"
+                              style={{
+                                backgroundColor: 'var(--color-user-message)',
+                                padding: '10px 14px',
+                                borderRadius: '16px',
+                                borderBottomRightRadius: '4px',
+                                maxWidth: '80%',
+                                fontSize: '14px',
+                                lineHeight: '1.4'
+                              }}
+                            >
                               {message.content}
                             </div>
                           </div>
@@ -391,21 +482,62 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                         return (
                           <div
                             key={message.id}
-                            className={styles.optimizerMessage}
+                            className="flex justify-start"
+                            style={{ marginBottom: '8px' }}
                           >
                             <button
-                              className={`${styles.optimizerButton} ${styles[message.status]}`}
+                              className="flex items-center cursor-pointer"
+                              style={{
+                                gap: '8px',
+                                padding: '12px 16px',
+                                border: message.status === 'pending' 
+                                  ? '1px solid rgba(251, 191, 36, 0.3)'
+                                  : message.status === 'approved'
+                                  ? '1px solid rgba(34, 197, 94, 0.3)'
+                                  : '1px solid rgba(239, 68, 68, 0.3)',
+                                borderRadius: '8px',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                transition: 'all 0.2s',
+                                maxWidth: '80%',
+                                backgroundColor: message.status === 'pending' 
+                                  ? 'rgba(251, 191, 36, 0.1)'
+                                  : message.status === 'approved'
+                                  ? 'rgba(34, 197, 94, 0.1)'
+                                  : 'rgba(239, 68, 68, 0.1)',
+                                color: message.status === 'pending' 
+                                  ? '#d97706'
+                                  : message.status === 'approved'
+                                  ? '#059669'
+                                  : '#dc2626'
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!e.currentTarget.disabled) {
+                                  e.currentTarget.style.backgroundColor = message.status === 'pending' 
+                                    ? 'rgba(251, 191, 36, 0.2)'
+                                    : message.status === 'approved'
+                                    ? 'rgba(34, 197, 94, 0.2)'
+                                    : 'rgba(239, 68, 68, 0.2)';
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = message.status === 'pending' 
+                                  ? 'rgba(251, 191, 36, 0.1)'
+                                  : message.status === 'approved'
+                                  ? 'rgba(34, 197, 94, 0.1)'
+                                  : 'rgba(239, 68, 68, 0.1)';
+                              }}
                               onClick={() =>
                                 handleOptimizerMessageClick(message)
                               }
                               disabled={message.status !== "pending"}
                             >
-                              <span className={styles.statusIcon}>
+                              <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
                                 {message.status === "approved" && "✓"}
                                 {message.status === "rejected" && "✗"}
                                 {message.status === "pending" && ""}
                               </span>
-                              <span className={styles.statusText}>
+                              <span style={{ fontWeight: '500' }}>
                                 {message.status === "approved" &&
                                   "Configuration Approved"}
                                 {message.status === "rejected" &&
@@ -420,11 +552,25 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       return null;
                     })}
                     {isLoading && (
-                      <div className={styles.loadingMessage}>
-                        <div className={styles.loadingContent}>
+                      <div className="flex justify-start" style={{ marginBottom: '8px' }}>
+                        <div 
+                          className="flex items-center"
+                          style={{
+                            gap: '8px',
+                            padding: '12px 16px',
+                            backgroundColor: 'var(--color-surface)',
+                            border: '1px solid var(--color-border)',
+                            borderRadius: '16px',
+                            borderBottomLeftRadius: '4px',
+                            color: 'var(--color-text-secondary)',
+                            fontSize: '14px',
+                            fontStyle: 'italic'
+                          }}
+                        >
                           <Loader2
                             size={16}
-                            className={styles.spinner}
+                            className="animate-spin"
+                            style={{ color: 'var(--color-primary)' }}
                           />
                           <span>Analyzing feedback...</span>
                         </div>
@@ -434,15 +580,64 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 </div>
               </div>
             </div>
-            <div className={styles.paneFooter}>
+            <div 
+              className="flex items-end"
+              style={{
+                backgroundColor: 'var(--color-surface)',
+                borderTop: '2px solid var(--color-border)',
+                padding: '12px 16px',
+                minHeight: 'auto'
+              }}
+            >
               <form
-                className={styles.inputForm}
+                className="w-full"
                 onSubmit={handleSubmitFeedback}
               >
-                <div className={styles.inputWrapper}>
+                <div 
+                  className="flex items-end"
+                  style={{
+                    gap: '10px',
+                    backgroundColor: 'var(--color-background)',
+                    border: '2px solid var(--color-border)',
+                    borderRadius: '12px',
+                    padding: '10px',
+                    transition: 'border-color 0.2s, box-shadow 0.2s'
+                  }}
+                  onFocus={(e) => {
+                    if (e.currentTarget.contains(e.target)) {
+                      e.currentTarget.style.borderColor = 'var(--color-primary)';
+                      e.currentTarget.style.boxShadow = '0 0 0 2px rgba(28, 60, 60, 0.1)';
+                    }
+                  }}
+                  onBlur={(e) => {
+                    if (!e.currentTarget.contains(e.relatedTarget)) {
+                      e.currentTarget.style.borderColor = 'var(--color-border)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }
+                  }}
+                >
                   <textarea
                     ref={textareaRef}
-                    className={styles.feedbackInput}
+                    className="flex-1 outline-none resize-none overflow-y-auto"
+                    style={{
+                      padding: '8px 12px',
+                      border: 'none',
+                      backgroundColor: 'transparent',
+                      color: 'var(--color-text-primary)',
+                      fontSize: '15px',
+                      fontFamily: 'inherit',
+                      lineHeight: '24px',
+                      minHeight: '40px',
+                      maxHeight: '120px',
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.setProperty('--placeholder-color', 'var(--color-text-tertiary)');
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.setProperty('--placeholder-color', 'var(--color-text-tertiary)');
+                    }}
                     value={feedbackInput}
                     onChange={(e) => setFeedbackInput(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -452,7 +647,39 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   />
                   <button
                     type="submit"
-                    className={styles.sendButton}
+                    className="flex items-center justify-center cursor-pointer flex-shrink-0 self-end"
+                    style={{
+                      padding: '10px',
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      transition: 'all 0.2s',
+                      width: '40px',
+                      height: '40px',
+                      opacity: feedbackInput.trim() ? 1 : 0.4,
+                      cursor: feedbackInput.trim() ? 'pointer' : 'not-allowed'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!e.currentTarget.disabled) {
+                        e.currentTarget.style.opacity = '0.9';
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.opacity = feedbackInput.trim() ? '1' : '0.4';
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
+                    onMouseDown={(e) => {
+                      if (!e.currentTarget.disabled) {
+                        e.currentTarget.style.transform = 'scale(0.95)';
+                      }
+                    }}
+                    onMouseUp={(e) => {
+                      if (!e.currentTarget.disabled) {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                      }
+                    }}
                     disabled={!feedbackInput.trim()}
                     aria-label="Send feedback"
                   >
@@ -465,53 +692,53 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
         </div>
         {isDiffDialogOpen && selectedOptimizerMessage && (
           <div
-            className={styles.dialogOverlay}
+            className="fixed top-0 left-0 right-0 bottom-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[1000] animate-[fadeIn_0.2s_ease]"
             onClick={handleCloseDiffDialog}
           >
             <div
-              className={styles.diffDialog}
+              className="bg-background rounded-xl w-[95%] max-w-[1200px] max-h-[85vh] flex flex-col shadow-[0_24px_64px_rgba(0,0,0,0.4)] animate-[slideIn_0.3s_cubic-bezier(0.4,0,0.2,1)]"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className={styles.dialogHeader}>
-                <h2>Configuration Changes</h2>
+              <div className="flex items-center justify-between py-5 px-6 border-b border-border bg-surface rounded-t-xl">
+                <h2 className="m-0 text-lg font-semibold text-text-primary">Configuration Changes</h2>
                 <button
-                  className={styles.closeButton}
+                  className="w-8 h-8 flex items-center justify-center bg-transparent border-none rounded-lg text-text-secondary text-xl cursor-pointer transition-all duration-200 hover:bg-border-light hover:text-text-primary hover:rotate-90"
                   onClick={handleCloseDiffDialog}
                   aria-label="Close dialog"
                 >
                   <X size={20} />
                 </button>
               </div>
-              <div className={styles.dialogContent}>
-                <div className={styles.sideBySideContainer}>
-                  <div className={styles.diffSection}>
-                    <h3>Current Configuration</h3>
-                    <div className={styles.codeSection}>
-                      <div className={styles.diffCodeBlock}>
+              <div className="flex-1 p-6 overflow-y-auto text-text-primary leading-[1.6]">
+                <div className="grid grid-cols-2 gap-6 h-full">
+                  <div className="flex flex-col">
+                    <h3 className="m-0 mb-3 text-base font-semibold text-text-primary pb-2 border-b border-border">Current Configuration</h3>
+                    <div className="flex-1 overflow-auto">
+                      <div className="bg-[#0d1117] border border-border rounded-lg p-4 font-mono text-[13px] leading-6 text-[#e6edf3] overflow-auto whitespace-pre-wrap break-words">
                         {createSideBySideDiff(
                           selectedOptimizerMessage.old_config,
                           selectedOptimizerMessage.new_config,
                         ).map((line, index) => (
                           <div
                             key={`old-${index}`}
-                            className={`${styles.codeLine} ${line.hasChanges ? styles.changedLine : ""}`}
+                            className={`min-h-[1.5em] ${line.hasChanges ? 'bg-white/[0.02] -mx-4 px-4' : ''}`}
                             dangerouslySetInnerHTML={{ __html: line.oldLine }}
                           />
                         ))}
                       </div>
                     </div>
                   </div>
-                  <div className={styles.diffSection}>
-                    <h3>Proposed Configuration</h3>
-                    <div className={styles.codeSection}>
-                      <div className={styles.diffCodeBlock}>
+                  <div className="flex flex-col">
+                    <h3 className="m-0 mb-3 text-base font-semibold text-text-primary pb-2 border-b border-border">Proposed Configuration</h3>
+                    <div className="flex-1 overflow-auto">
+                      <div className="bg-[#0d1117] border border-border rounded-lg p-4 font-mono text-[13px] leading-6 text-[#e6edf3] overflow-auto whitespace-pre-wrap break-words">
                         {createSideBySideDiff(
                           selectedOptimizerMessage.old_config,
                           selectedOptimizerMessage.new_config,
                         ).map((line, index) => (
                           <div
                             key={`new-${index}`}
-                            className={`${styles.codeLine} ${line.hasChanges ? styles.changedLine : ""}`}
+                            className={`min-h-[1.5em] ${line.hasChanges ? 'bg-white/[0.02] -mx-4 px-4' : ''}`}
                             dangerouslySetInnerHTML={{ __html: line.newLine }}
                           />
                         ))}
@@ -520,15 +747,15 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   </div>
                 </div>
               </div>
-              <div className={styles.dialogActions}>
+              <div className="flex justify-end gap-3 py-5 px-6 border-t border-border bg-surface rounded-b-xl">
                 <button
-                  className={styles.rejectButton}
+                  className="py-2.5 px-5 bg-transparent text-text-secondary border border-border rounded-md text-sm font-medium cursor-pointer transition-all duration-200 hover:bg-border-light hover:text-text-primary hover:border-text-secondary active:translate-y-px"
                   onClick={handleReject}
                 >
                   Reject Changes
                 </button>
                 <button
-                  className={styles.approveButton}
+                  className="py-2.5 px-5 bg-emerald-600 text-white border-none rounded-md text-sm font-medium cursor-pointer transition-all duration-200 hover:bg-emerald-700 hover:-translate-y-px active:translate-y-0"
                   onClick={handleApprove}
                 >
                   Approve Changes

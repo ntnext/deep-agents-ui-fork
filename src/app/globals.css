@@ -231,3 +231,43 @@ button {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* Optimization Window animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Global diff highlighting styles */
+.word-added {
+  background-color: rgba(46, 160, 67, 0.4);
+  color: #ffffff;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.word-removed {
+  background-color: rgba(248, 81, 73, 0.4);
+  color: #ffffff;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+  text-decoration: line-through;
+  text-decoration-color: #f85149;
+}

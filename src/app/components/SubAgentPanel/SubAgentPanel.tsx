@@ -13,7 +13,7 @@ interface SubAgentPanelProps {
 }
 
 const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
-  const statusIcon = useMemo(() => {
+  const statusIcon = useMemo(() => {1
     const iconStyle = { width: '14px', height: '14px' };
     switch (subAgent.status) {
       case "completed":
