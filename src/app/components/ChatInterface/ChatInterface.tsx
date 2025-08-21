@@ -311,7 +311,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           style={{ padding: "1rem 1.5rem" }}
         >
           <div className="flex items-center gap-2">
-            <Bot className="h-6 w-6 text-[var(--color-primary)]" />
+            <Bot className="h-6 w-6 text-[var(--color-text-primary)]" />
             <p className="text-xl font-semibold">Deep Agent</p>
           </div>
           <div className="flex items-center gap-2">

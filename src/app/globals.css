@@ -5,13 +5,13 @@
     /* App-specific color variables */
     --color-primary: #1c3c3c;
     --color-user-message: #076699;
-    --color-avatar-bg: #ebe8fe;
+    --color-avatar-bg: #e8ebeb;
     --color-secondary: #1c3c3c;
     --color-success: #10b981;
     --color-warning: #f59e0b;
     --color-error: #ef4444;
     --color-background: #f9f9f9;
-    --color-subagent-hover: #d0c9fe;
+    --color-subagent-hover: #bbc4c4;
     --color-surface: #f9fafb;
     --color-border: #e5e7eb;
     --color-border-light: #f3f4f6;
@@ -35,14 +35,14 @@
     :root {
       /* App-specific color variables */
       --color-primary: #1c3c3c;
-      --color-user-message: #0ea5e9;
-      --color-avatar-bg: #4c1d95;
-      --color-secondary: #2dd4bf;
+      --color-user-message: #043d5c;
+      --color-avatar-bg: #1c3c3c;
+      --color-secondary: #bbc4c4;
       --color-success: #34d399;
       --color-warning: #fbbf24;
       --color-error: #f87171;
       --color-background: #0f0f0f;
-      --color-subagent-hover: #6d28d9;
+      --color-subagent-hover: #132d2d;
       --color-surface: #1a1a1a;
       --color-border: #2d2d2d;
       --color-border-light: #232323;

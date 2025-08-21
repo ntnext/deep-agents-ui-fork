@@ -367,9 +367,7 @@ const ThreadItem = React.memo<{
         style={{
           width: "16px",
           height: "16px",
-          color: isActive
-            ? "var(--color-primary)"
-            : "var(--color-text-secondary)",
+          color: "var(--color-text-secondary)",
           marginTop: "2px",
         }}
       />
@@ -385,9 +383,7 @@ const ThreadItem = React.memo<{
           className="font-medium"
           style={{
             fontSize: "12px",
-            color: isActive
-              ? "var(--color-primary)"
-              : "var(--color-text-primary)",
+            color: "var(--color-text-primary)",
             marginBottom: "0.25rem",
             overflow: "hidden",
             textOverflow: "ellipsis",

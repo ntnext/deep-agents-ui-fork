@@ -35,9 +35,8 @@ export const SubAgentIndicator = React.memo<SubAgentIndicatorProps>(
     return (
       <button
         onClick={onClick}
-        className="flex w-full cursor-pointer items-start gap-4 rounded-md !px-6 !py-4 text-left transition-all duration-200 ease-in-out hover:translate-x-0.5 hover:shadow-lg active:translate-x-0"
+        className="flex w-full cursor-pointer items-start gap-4 rounded-md !px-6 !py-4 text-left transition-all duration-200 ease-in-out hover:translate-x-0.5 active:translate-x-0"
         style={{
-          border: "2px solid var(--color-avatar-bg)",
           backgroundColor: "var(--color-avatar-bg)",
         }}
         onMouseEnter={(e) => {
