@@ -320,6 +320,15 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
               size="icon"
               onClick={handleNewThread}
               disabled={!hasMessages}
+              className="transition-colors duration-200"
+              onMouseEnter={(e) => {
+                if (!e.currentTarget.disabled) {
+                  e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
             >
               <SquarePen size={20} />
             </Button>
@@ -327,6 +336,13 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
               variant="ghost"
               size="icon"
               onClick={toggleThreadHistory}
+              className="transition-colors duration-200"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
             >
               <History size={20} />
             </Button>

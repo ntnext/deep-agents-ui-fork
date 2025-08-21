@@ -7,7 +7,6 @@ import { MessageSquare, X } from "lucide-react";
 import { createClient } from "@/lib/client";
 import { useEnvConfig } from "@/providers/EnvConfig";
 import type { Thread } from "../../types/types";
-import styles from "./ThreadHistorySidebar.module.scss";
 import { extractStringFromMessageContent } from "../../utils/utils";
 import { Message } from "@langchain/langgraph-sdk";
 
@@ -121,34 +120,126 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
     if (!open) return null;
 
     return (
-      <div className={styles.overlay}>
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <h3 className={styles.title}>Thread History</h3>
-            <div className={styles.headerActions}>
+      <>
+        <style jsx>{`
+          @keyframes slideIn {
+            from {
+              transform: translateX(100%);
+            }
+            to {
+              transform: translateX(0);
+            }
+          }
+        `}</style>
+        <div 
+          className="fixed top-0 right-0 h-screen z-50"
+          style={{ 
+            width: '20vw',
+            animation: 'slideIn 300ms ease-out'
+          }}
+        >
+        <div 
+          className="h-full flex flex-col border-l"
+          style={{
+            width: '100%',
+            maxWidth: '100%',
+            backgroundColor: 'var(--color-background)',
+            borderLeftColor: 'var(--color-border)',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+            overflow: 'hidden'
+          }}
+        >
+          <div 
+            className="flex justify-between items-center border-b"
+            style={{
+              padding: '1rem',
+              borderBottomColor: 'var(--color-border)',
+              backgroundColor: 'var(--color-surface)'
+            }}
+          >
+            <h3 
+              className="text-base font-semibold"
+              style={{
+                margin: '0',
+                color: 'var(--color-text-primary)'
+              }}
+            >
+              Thread History
+            </h3>
+            <div 
+              className="flex items-center"
+              style={{ gap: '0.5rem' }}
+            >
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setOpen(false)}
-                className={styles.closeButton}
+                className="transition-colors duration-200"
+                style={{ padding: '0.25rem' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
               >
                 <X size={20} />
               </Button>
             </div>
           </div>
-          <ScrollArea className={styles.scrollArea}>
+          <ScrollArea className="flex-1 overflow-y-auto">
             {isLoadingThreadHistory ? (
-              <div className={styles.loading}>Loading threads...</div>
+              <div 
+                className="flex flex-col items-center justify-center text-center"
+                style={{
+                  padding: '3rem',
+                  color: 'var(--color-text-tertiary)'
+                }}
+              >
+                Loading threads...
+              </div>
             ) : threads.length === 0 ? (
-              <div className={styles.empty}>
-                <MessageSquare className={styles.emptyIcon} />
+              <div 
+                className="flex flex-col items-center justify-center text-center"
+                style={{
+                  padding: '3rem',
+                  color: 'var(--color-text-tertiary)'
+                }}
+              >
+                <MessageSquare 
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    marginBottom: '0.5rem',
+                    opacity: '0.5'
+                  }}
+                />
                 <p>No threads yet</p>
               </div>
             ) : (
-              <div className={styles.threadList}>
+              <div 
+                style={{ 
+                  padding: '0.5rem',
+                  width: '20vw',
+                  maxWidth: '20vw',
+                  overflow: 'hidden',
+                  boxSizing: 'border-box'
+                }}
+              >
                 {groupedThreads.today.length > 0 && (
-                  <div className={styles.group}>
-                    <h4 className={styles.groupTitle}>Today</h4>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <h4 
+                      className="font-semibold uppercase tracking-wider"
+                      style={{
+                        fontSize: '12px',
+                        color: 'var(--color-text-secondary)',
+                        letterSpacing: '0.05em',
+                        padding: '0.5rem',
+                        margin: '0'
+                      }}
+                    >
+                      Today
+                    </h4>
                     {groupedThreads.today.map((thread) => (
                       <ThreadItem
                         key={thread.id}
@@ -160,8 +251,19 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
                   </div>
                 )}
                 {groupedThreads.yesterday.length > 0 && (
-                  <div className={styles.group}>
-                    <h4 className={styles.groupTitle}>Yesterday</h4>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <h4 
+                      className="font-semibold uppercase tracking-wider"
+                      style={{
+                        fontSize: '12px',
+                        color: 'var(--color-text-secondary)',
+                        letterSpacing: '0.05em',
+                        padding: '0.5rem',
+                        margin: '0'
+                      }}
+                    >
+                      Yesterday
+                    </h4>
                     {groupedThreads.yesterday.map((thread) => (
                       <ThreadItem
                         key={thread.id}
@@ -173,8 +275,19 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
                   </div>
                 )}
                 {groupedThreads.week.length > 0 && (
-                  <div className={styles.group}>
-                    <h4 className={styles.groupTitle}>This Week</h4>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <h4 
+                      className="font-semibold uppercase tracking-wider"
+                      style={{
+                        fontSize: '12px',
+                        color: 'var(--color-text-secondary)',
+                        letterSpacing: '0.05em',
+                        padding: '0.5rem',
+                        margin: '0'
+                      }}
+                    >
+                      This Week
+                    </h4>
                     {groupedThreads.week.map((thread) => (
                       <ThreadItem
                         key={thread.id}
@@ -186,8 +299,19 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
                   </div>
                 )}
                 {groupedThreads.older.length > 0 && (
-                  <div className={styles.group}>
-                    <h4 className={styles.groupTitle}>Older</h4>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <h4 
+                      className="font-semibold uppercase tracking-wider"
+                      style={{
+                        fontSize: '12px',
+                        color: 'var(--color-text-secondary)',
+                        letterSpacing: '0.05em',
+                        padding: '0.5rem',
+                        margin: '0'
+                      }}
+                    >
+                      Older
+                    </h4>
                     {groupedThreads.older.map((thread) => (
                       <ThreadItem
                         key={thread.id}
@@ -202,7 +326,8 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
             )}
           </ScrollArea>
         </div>
-      </div>
+        </div>
+      </>
     );
   },
 );
@@ -215,11 +340,58 @@ const ThreadItem = React.memo<{
   return (
     <button
       onClick={onClick}
-      className={`${styles.threadItem} ${isActive ? styles.active : ""}`}
+      className="flex items-start text-left cursor-pointer border-none rounded-md transition-colors duration-200"
+      style={{
+        width: '100%',
+        maxWidth: '100%',
+        gap: '0.5rem',
+        padding: '0.5rem',
+        backgroundColor: isActive ? 'var(--color-avatar-bg)' : 'transparent',
+        overflow: 'hidden'
+      }}
+      onMouseEnter={(e) => {
+        if (!isActive) {
+          e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!isActive) {
+          e.currentTarget.style.backgroundColor = 'transparent';
+        }
+      }}
     >
-      <MessageSquare className={styles.threadIcon} />
-      <div className={styles.threadContent}>
-        <div className={styles.threadTitle}>{thread.title}</div>
+      <MessageSquare 
+        className="shrink-0"
+        style={{
+          width: '16px',
+          height: '16px',
+          color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+          marginTop: '2px'
+        }}
+      />
+      <div 
+        style={{
+          flex: '1',
+          minWidth: '0',
+          overflow: 'hidden',
+          width: 'calc(20vw - 3rem)' // sidebar width minus padding and icon space
+        }}
+      >
+        <div 
+          className="font-medium"
+          style={{
+            fontSize: '12px',
+            color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)',
+            marginBottom: '0.25rem',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            width: '100%',
+            maxWidth: '100%'
+          }}
+        >
+          {thread.title}
+        </div>
       </div>
     </button>
   );
