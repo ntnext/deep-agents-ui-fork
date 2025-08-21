@@ -655,7 +655,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       fontSize: "15px",
                       fontFamily: "inherit",
                       lineHeight: "24px",
-                      minHeight: "40px",
+                      minHeight: "30px",
                       maxHeight: "120px",
                       display: "flex",
                       alignItems: "center",
@@ -689,8 +689,6 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       border: "none",
                       borderRadius: "8px",
                       transition: "all 0.2s",
-                      width: "40px",
-                      height: "40px",
                       opacity: feedbackInput.trim() ? 1 : 0.4,
                       cursor: feedbackInput.trim() ? "pointer" : "not-allowed",
                     }}

@@ -9,7 +9,6 @@ import { FileViewDialog } from "./components/FileViewDialog/FileViewDialog";
 import { createClient } from "@/lib/client";
 import { useEnvConfig } from "@/providers/EnvConfig";
 import type { SubAgent, FileItem, TodoItem } from "./types/types";
-import styles from "./page.module.scss";
 import { Assistant } from "@langchain/langgraph-sdk";
 import { useChat } from "./hooks/useChat";
 import { toast } from "sonner";
@@ -118,7 +117,15 @@ export default function HomePage() {
   } = useChat(threadId, setThreadId, setTodos, setFiles, activeAssistant);
 
   return (
-    <div className={styles.container}>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        width: "100vw",
+        backgroundColor: "var(--color-surface)",
+        overflow: "hidden",
+      }}
+    >
       <TasksFilesSidebar
         threadId={threadId}
         messages={messages}
@@ -129,7 +136,14 @@ export default function HomePage() {
         onAssistantUpdate={refreshActiveAssistant}
         assistantError={assistantError}
       />
-      <div className={styles.mainContent}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          minWidth: 0,
+          position: "relative",
+        }}
+      >
         <ChatInterface
           threadId={threadId}
           messages={messages}

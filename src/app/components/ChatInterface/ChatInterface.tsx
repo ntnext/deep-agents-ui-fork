@@ -306,8 +306,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 
     return (
       <div className="flex h-screen w-full flex-col bg-[var(--color-background)]">
-        <div
-          className="flex h-15 shrink-0 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-background)]"
+        <div 
+          className="flex shrink-0 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-background)]"
           style={{ padding: "1rem 1.5rem" }}
         >
           <div className="flex items-center gap-2">
@@ -320,16 +320,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
               size="icon"
               onClick={handleNewThread}
               disabled={!hasMessages}
-              className="transition-colors duration-200"
-              onMouseEnter={(e) => {
-                if (!e.currentTarget.disabled) {
-                  e.currentTarget.style.backgroundColor =
-                    "var(--color-border-light)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
+              className="transition-colors duration-200 hover:bg-[var(--color-border-light)] disabled:hover:bg-transparent"
             >
               <SquarePen size={20} />
             </Button>
@@ -337,14 +328,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
               variant="ghost"
               size="icon"
               onClick={toggleThreadHistory}
-              className="transition-colors duration-200"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "var(--color-border-light)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
+              className="transition-colors duration-200 hover:bg-[var(--color-border-light)]"
             >
               <History size={20} />
             </Button>
@@ -359,30 +343,20 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           />
           <div className="relative flex flex-1 flex-col overflow-hidden">
             {!hasMessages && !isLoading && !isLoadingThreadState && (
-              <div
-                className="flex h-full flex-col items-center justify-center text-center"
-                style={{ padding: "3rem" }}
-              >
+              <div className="flex h-full flex-col items-center justify-center text-center p-12">
                 <Bot
                   size={48}
-                  className="text-[var(--color-text-tertiary)]"
-                  style={{ marginBottom: "1.5rem" }}
+                  className="text-[var(--color-text-tertiary)] mb-6"
                 />
                 <h2>Start a conversation or select a thread from history</h2>
               </div>
             )}
             {isLoadingThreadState && (
-              <div
-                className="absolute top-0 left-0 z-10 flex h-full w-full justify-center bg-[var(--color-background)]"
-                style={{ paddingTop: "100px" }}
-              >
+              <div className="absolute top-0 left-0 z-10 flex h-full w-full justify-center bg-[var(--color-background)] pt-[100px]">
                 <LoaderCircle className="flex h-[50px] w-[50px] animate-spin items-center justify-center text-[var(--color-primary)]" />
               </div>
             )}
-            <div
-              className="flex-1 overflow-y-auto"
-              style={{ padding: "1.5rem", paddingBottom: "100px" }}
-            >
+            <div className="flex-1 overflow-y-auto p-6 pb-[100px]">
               {processedMessages.map((data) => (
                 <ChatMessage
                   key={data.message.id}
@@ -394,24 +368,21 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 />
               ))}
               {isLoading && (
-                <div
-                  className="flex items-center justify-center text-[var(--color-text-secondary)]"
-                  style={{ gap: "0.5rem", padding: "1rem" }}
-                >
+                <div className="flex items-center justify-center text-[var(--color-text-secondary)] gap-2 p-4">
                   <LoaderCircle className="h-4 w-4 animate-spin" />
                   <span>Working...</span>
                 </div>
               )}
               {interrupt && debugMode && (
-                <div
+                <div 
                   className="flex w-full max-w-full"
                   style={{ gap: "0.5rem" }}
                 >
-                  <div
+                  <div 
                     className="flex h-8 w-8 shrink-0 items-center justify-center"
                     style={{ marginTop: "1rem" }}
                   ></div>
-                  <div
+                  <div 
                     className="flex items-center"
                     style={{ gap: "0.5rem", marginTop: "1rem" }}
                   >
@@ -424,8 +395,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                         padding: "0.25rem 1rem",
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor =
-                          "rgba(16, 185, 129, 0.1)";
+                        e.currentTarget.style.backgroundColor = "rgba(16, 185, 129, 0.1)";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = "transparent";
@@ -442,8 +412,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                         padding: "0.25rem 1rem",
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor =
-                          "rgba(245, 158, 11, 0.1)";
+                        e.currentTarget.style.backgroundColor = "rgba(245, 158, 11, 0.1)";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = "transparent";
@@ -458,15 +427,19 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             </div>
           </div>
         </div>
-        <div
-          className="pointer-events-none fixed right-0 bottom-0 z-10 bg-transparent"
-          style={{ left: "25vw", padding: "1.5rem" }}
+        <div 
+          className="pointer-events-none fixed bottom-0 z-10 bg-transparent flex justify-center"
+          style={{ 
+            left: "25vw", 
+            right: "0", 
+            padding: "1.5rem" 
+          }}
         >
           <form
             onSubmit={handleSubmit}
-            className="pointer-events-auto mx-auto w-full max-w-[900px]"
+            className="pointer-events-auto w-full max-w-[900px]"
           >
-            <div
+            <div 
               className="flex items-center rounded-xl border-2 border-[var(--color-border)] bg-[var(--color-background)] shadow-lg transition-all duration-200 focus-within:border-[var(--color-primary)] focus-within:shadow-xl"
               style={{ gap: "0.75rem", padding: "0.75rem 1rem" }}
             >
@@ -542,11 +515,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 <button
                   type="submit"
                   disabled={!input.trim() || !!assistantError}
-                  className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border-none text-white transition-all duration-200 hover:scale-105 hover:opacity-90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-                  style={{
-                    backgroundColor: "var(--color-primary)",
-                    padding: "0.5rem",
-                  }}
+                  className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border-none text-white transition-all duration-200 hover:scale-105 hover:opacity-90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 p-2"
+                  style={{ backgroundColor: "var(--color-primary)" }}
                 >
                   <Send size={16} />
                 </button>

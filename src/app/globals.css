@@ -34,7 +34,7 @@
   @media (prefers-color-scheme: dark) {
     :root {
       /* App-specific color variables */
-      --color-primary: #2dd4bf;
+      --color-primary: #1C3C3C;
       --color-user-message: #0ea5e9;
       --color-avatar-bg: #4c1d95;
       --color-secondary: #2dd4bf;
