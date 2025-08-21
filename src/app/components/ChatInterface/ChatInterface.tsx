@@ -323,11 +323,12 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
               className="transition-colors duration-200"
               onMouseEnter={(e) => {
                 if (!e.currentTarget.disabled) {
-                  e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                  e.currentTarget.style.backgroundColor =
+                    "var(--color-border-light)";
                 }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.backgroundColor = "transparent";
               }}
             >
               <SquarePen size={20} />
@@ -338,10 +339,11 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
               onClick={toggleThreadHistory}
               className="transition-colors duration-200"
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+                e.currentTarget.style.backgroundColor =
+                  "var(--color-border-light)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.backgroundColor = "transparent";
               }}
             >
               <History size={20} />
@@ -401,44 +403,54 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                 </div>
               )}
               {interrupt && debugMode && (
-                <div className="flex w-full max-w-full" style={{ gap: "0.5rem" }}>
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center" style={{ marginTop: "1rem" }}>
-                  </div>
-                  <div className="flex items-center" style={{ gap: "0.5rem", marginTop: "1rem" }}>
-                  <Button
-                    onClick={handleContinue}
-                    className="rounded-sm bg-transparent text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
-                    style={{ 
-                      border: '1px solid var(--color-success)',
-                      color: 'var(--color-success)',
-                      padding: "0.25rem 1rem" 
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}
+                <div
+                  className="flex w-full max-w-full"
+                  style={{ gap: "0.5rem" }}
+                >
+                  <div
+                    className="flex h-8 w-8 shrink-0 items-center justify-center"
+                    style={{ marginTop: "1rem" }}
+                  ></div>
+                  <div
+                    className="flex items-center"
+                    style={{ gap: "0.5rem", marginTop: "1rem" }}
                   >
-                    Continue
-                  </Button>
-                  <Button
-                    onClick={handleRerunStep}
-                    className="rounded-sm bg-transparent text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
-                    style={{ 
-                      border: '1px solid var(--color-warning)',
-                      color: 'var(--color-warning)',
-                      padding: "0.25rem 1rem" 
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(245, 158, 11, 0.1)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}
-                  >
-                    Re-run step
-                  </Button>
+                    <Button
+                      onClick={handleContinue}
+                      className="rounded-sm bg-transparent text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+                      style={{
+                        border: "1px solid var(--color-success)",
+                        color: "var(--color-success)",
+                        padding: "0.25rem 1rem",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          "rgba(16, 185, 129, 0.1)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                      }}
+                    >
+                      Continue
+                    </Button>
+                    <Button
+                      onClick={handleRerunStep}
+                      className="rounded-sm bg-transparent text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+                      style={{
+                        border: "1px solid var(--color-warning)",
+                        color: "var(--color-warning)",
+                        padding: "0.25rem 1rem",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          "rgba(245, 158, 11, 0.1)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                      }}
+                    >
+                      Re-run step
+                    </Button>
                   </div>
                 </div>
               )}
@@ -497,21 +509,21 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                       side="top"
                       sideOffset={5}
                       style={{
-                        backgroundColor: 'var(--color-primary)',
-                        color: 'white',
-                        border: 'none',
-                        fontSize: '12px',
-                        padding: '8px 12px',
-                        borderRadius: '6px',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                        zIndex: 50
+                        backgroundColor: "var(--color-primary)",
+                        color: "white",
+                        border: "none",
+                        fontSize: "12px",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                        zIndex: 50,
                       }}
                     >
                       <p style={{ margin: 0 }}>Run the agent step-by-step</p>
-                      <TooltipPrimitive.Arrow 
+                      <TooltipPrimitive.Arrow
                         style={{
-                          fill: 'var(--color-primary)',
-                          color: 'var(--color-primary)'
+                          fill: "var(--color-primary)",
+                          color: "var(--color-primary)",
                         }}
                       />
                     </TooltipPrimitive.Content>
@@ -531,7 +543,10 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                   type="submit"
                   disabled={!input.trim() || !!assistantError}
                   className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border-none text-white transition-all duration-200 hover:scale-105 hover:opacity-90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-                  style={{ backgroundColor: 'var(--color-primary)', padding: "0.5rem" }}
+                  style={{
+                    backgroundColor: "var(--color-primary)",
+                    padding: "0.5rem",
+                  }}
                 >
                   <Send size={16} />
                 </button>

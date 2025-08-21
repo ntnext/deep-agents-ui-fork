@@ -303,48 +303,49 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
     return (
       <>
         <div
-          className={`absolute bottom-0 left-0 right-0 z-10 flex flex-col overflow-hidden ${isExpanded ? 'h-1/2' : 'h-12'}`}
+          className={`absolute right-0 bottom-0 left-0 z-10 flex flex-col overflow-hidden ${isExpanded ? "h-1/2" : "h-12"}`}
           style={{
-            backgroundColor: 'var(--color-surface)',
-            border: '2px solid var(--color-primary)',
-            borderRadius: '10px 10px 0 0',
-            transition: 'height 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+            backgroundColor: "var(--color-surface)",
+            border: "2px solid var(--color-primary)",
+            borderRadius: "10px 10px 0 0",
+            transition: "height 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
-          <div 
-            className="flex items-center relative overflow-hidden"
+          <div
+            className="relative flex items-center overflow-hidden"
             style={{
-              height: '48px',
-              minHeight: '48px',
-              backgroundColor: 'var(--color-primary)',
-              borderRadius: '8px 8px 0 0',
+              height: "48px",
+              minHeight: "48px",
+              backgroundColor: "var(--color-primary)",
+              borderRadius: "8px 8px 0 0",
               padding: 0,
               margin: 0,
-              border: 'none'
+              border: "none",
             }}
           >
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className="flex-1 h-full flex items-center justify-between cursor-pointer"
+                    className="flex h-full flex-1 cursor-pointer items-center justify-between"
                     style={{
-                      paddingLeft: '16px',
-                      paddingRight: '16px',
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      color: 'white',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      transition: 'background-color 0.2s'
+                      paddingLeft: "16px",
+                      paddingRight: "16px",
+                      backgroundColor: "transparent",
+                      border: "none",
+                      color: "white",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      transition: "background-color 0.2s",
                     }}
                     onMouseEnter={(e) => {
                       if (!e.currentTarget.disabled) {
-                        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        e.currentTarget.style.backgroundColor =
+                          "rgba(255, 255, 255, 0.1)";
                       }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.backgroundColor = "transparent";
                     }}
                     onClick={onToggle}
                     disabled={!optimizerClient}
@@ -380,24 +381,24 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       side="bottom"
                       sideOffset={5}
                       style={{
-                        backgroundColor: 'var(--color-primary)',
-                        color: 'white',
-                        border: 'none',
-                        fontSize: '12px',
-                        padding: '8px 12px',
-                        borderRadius: '6px',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                        zIndex: 50
+                        backgroundColor: "var(--color-primary)",
+                        color: "white",
+                        border: "none",
+                        fontSize: "12px",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                        zIndex: 50,
                       }}
                     >
                       <p style={{ margin: 0 }}>
                         Set Optimizer Agent Environment Variables in FE
                         Deployment
                       </p>
-                      <TooltipPrimitive.Arrow 
+                      <TooltipPrimitive.Arrow
                         style={{
-                          fill: 'var(--color-primary)',
-                          color: 'var(--color-primary)'
+                          fill: "var(--color-primary)",
+                          color: "var(--color-primary)",
                         }}
                       />
                     </TooltipPrimitive.Content>
@@ -407,26 +408,27 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
             </TooltipProvider>
             {isExpanded && displayMessages.length > 0 && (
               <button
-                className="absolute flex items-center justify-center cursor-pointer"
+                className="absolute flex cursor-pointer items-center justify-center"
                 style={{
-                  right: '48px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  padding: '6px',
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  borderRadius: '4px',
-                  transition: 'all 0.2s',
-                  zIndex: 1
+                  right: "48px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  padding: "6px",
+                  backgroundColor: "transparent",
+                  border: "none",
+                  color: "rgba(255, 255, 255, 0.7)",
+                  borderRadius: "4px",
+                  transition: "all 0.2s",
+                  zIndex: 1,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.backgroundColor =
+                    "rgba(255, 255, 255, 0.1)";
+                  e.currentTarget.style.color = "white";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)";
                 }}
                 onClick={handleClear}
                 aria-label="Clear conversation"
@@ -437,35 +439,35 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
           </div>
 
           <div
-            className={`flex-1 flex flex-col ${isExpanded ? 'opacity-100' : 'opacity-0'}`}
+            className={`flex flex-1 flex-col ${isExpanded ? "opacity-100" : "opacity-0"}`}
             style={{
-              transition: 'opacity 0.3s ease 0.1s'
+              transition: "opacity 0.3s ease 0.1s",
             }}
           >
-            <div 
-              className="flex-1 flex flex-col overflow-hidden"
-              style={{ backgroundColor: 'var(--color-background)' }}
+            <div
+              className="flex flex-1 flex-col overflow-hidden"
+              style={{ backgroundColor: "var(--color-background)" }}
             >
-              <div 
-                className="flex-1 flex flex-col overflow-hidden"
-                style={{ 
+              <div
+                className="flex flex-1 flex-col overflow-hidden"
+                style={{
                   padding: 0,
-                  backgroundColor: 'var(--color-background)' 
+                  backgroundColor: "var(--color-background)",
                 }}
               >
-                <div 
+                <div
                   className="flex-1 overflow-hidden"
-                  style={{ 
+                  style={{
                     margin: 0,
-                    backgroundColor: 'var(--color-background)',
-                    border: 'none' 
+                    backgroundColor: "var(--color-background)",
+                    border: "none",
                   }}
                 >
-                  <div 
-                    className="h-full overflow-y-auto flex flex-col"
-                    style={{ 
-                      padding: '16px',
-                      gap: '12px' 
+                  <div
+                    className="flex h-full flex-col overflow-y-auto"
+                    style={{
+                      padding: "16px",
+                      gap: "12px",
                     }}
                   >
                     {displayMessages.map((message, index) => {
@@ -474,18 +476,18 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                           <div
                             key={`user-${index}`}
                             className="flex justify-end"
-                            style={{ marginBottom: '8px' }}
+                            style={{ marginBottom: "8px" }}
                           >
-                            <div 
-                              className="text-white break-words"
+                            <div
+                              className="break-words text-white"
                               style={{
-                                backgroundColor: 'var(--color-user-message)',
-                                padding: '10px 14px',
-                                borderRadius: '16px',
-                                borderBottomRightRadius: '4px',
-                                maxWidth: '80%',
-                                fontSize: '14px',
-                                lineHeight: '1.4'
+                                backgroundColor: "var(--color-user-message)",
+                                padding: "10px 14px",
+                                borderRadius: "16px",
+                                borderBottomRightRadius: "4px",
+                                maxWidth: "80%",
+                                fontSize: "14px",
+                                lineHeight: "1.4",
                               }}
                             >
                               {message.content}
@@ -497,61 +499,68 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                           <div
                             key={message.id}
                             className="flex justify-start"
-                            style={{ marginBottom: '8px' }}
+                            style={{ marginBottom: "8px" }}
                           >
                             <button
-                              className="flex items-center cursor-pointer"
+                              className="flex cursor-pointer items-center"
                               style={{
-                                gap: '8px',
-                                padding: '12px 16px',
-                                border: message.status === 'pending' 
-                                  ? '1px solid rgba(251, 191, 36, 0.3)'
-                                  : message.status === 'approved'
-                                  ? '1px solid rgba(34, 197, 94, 0.3)'
-                                  : '1px solid rgba(239, 68, 68, 0.3)',
-                                borderRadius: '8px',
-                                fontSize: '14px',
-                                fontWeight: '500',
-                                transition: 'all 0.2s',
-                                maxWidth: '80%',
-                                backgroundColor: message.status === 'pending' 
-                                  ? 'rgba(251, 191, 36, 0.1)'
-                                  : message.status === 'approved'
-                                  ? 'rgba(34, 197, 94, 0.1)'
-                                  : 'rgba(239, 68, 68, 0.1)',
-                                color: message.status === 'pending' 
-                                  ? '#d97706'
-                                  : message.status === 'approved'
-                                  ? '#059669'
-                                  : '#dc2626'
+                                gap: "8px",
+                                padding: "12px 16px",
+                                border:
+                                  message.status === "pending"
+                                    ? "1px solid rgba(251, 191, 36, 0.3)"
+                                    : message.status === "approved"
+                                      ? "1px solid rgba(34, 197, 94, 0.3)"
+                                      : "1px solid rgba(239, 68, 68, 0.3)",
+                                borderRadius: "8px",
+                                fontSize: "14px",
+                                fontWeight: "500",
+                                transition: "all 0.2s",
+                                maxWidth: "80%",
+                                backgroundColor:
+                                  message.status === "pending"
+                                    ? "rgba(251, 191, 36, 0.1)"
+                                    : message.status === "approved"
+                                      ? "rgba(34, 197, 94, 0.1)"
+                                      : "rgba(239, 68, 68, 0.1)",
+                                color:
+                                  message.status === "pending"
+                                    ? "#d97706"
+                                    : message.status === "approved"
+                                      ? "#059669"
+                                      : "#dc2626",
                               }}
                               onMouseEnter={(e) => {
                                 if (!e.currentTarget.disabled) {
-                                  e.currentTarget.style.backgroundColor = message.status === 'pending' 
-                                    ? 'rgba(251, 191, 36, 0.2)'
-                                    : message.status === 'approved'
-                                    ? 'rgba(34, 197, 94, 0.2)'
-                                    : 'rgba(239, 68, 68, 0.2)';
+                                  e.currentTarget.style.backgroundColor =
+                                    message.status === "pending"
+                                      ? "rgba(251, 191, 36, 0.2)"
+                                      : message.status === "approved"
+                                        ? "rgba(34, 197, 94, 0.2)"
+                                        : "rgba(239, 68, 68, 0.2)";
                                 }
                               }}
                               onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = message.status === 'pending' 
-                                  ? 'rgba(251, 191, 36, 0.1)'
-                                  : message.status === 'approved'
-                                  ? 'rgba(34, 197, 94, 0.1)'
-                                  : 'rgba(239, 68, 68, 0.1)';
+                                e.currentTarget.style.backgroundColor =
+                                  message.status === "pending"
+                                    ? "rgba(251, 191, 36, 0.1)"
+                                    : message.status === "approved"
+                                      ? "rgba(34, 197, 94, 0.1)"
+                                      : "rgba(239, 68, 68, 0.1)";
                               }}
                               onClick={() =>
                                 handleOptimizerMessageClick(message)
                               }
                               disabled={message.status !== "pending"}
                             >
-                              <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                              <span
+                                style={{ fontSize: "16px", fontWeight: "bold" }}
+                              >
                                 {message.status === "approved" && "✓"}
                                 {message.status === "rejected" && "✗"}
                                 {message.status === "pending" && ""}
                               </span>
-                              <span style={{ fontWeight: '500' }}>
+                              <span style={{ fontWeight: "500" }}>
                                 {message.status === "approved" &&
                                   "Configuration Approved"}
                                 {message.status === "rejected" &&
@@ -566,25 +575,28 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                       return null;
                     })}
                     {isLoading && (
-                      <div className="flex justify-start" style={{ marginBottom: '8px' }}>
-                        <div 
+                      <div
+                        className="flex justify-start"
+                        style={{ marginBottom: "8px" }}
+                      >
+                        <div
                           className="flex items-center"
                           style={{
-                            gap: '8px',
-                            padding: '12px 16px',
-                            backgroundColor: 'var(--color-surface)',
-                            border: '1px solid var(--color-border)',
-                            borderRadius: '16px',
-                            borderBottomLeftRadius: '4px',
-                            color: 'var(--color-text-secondary)',
-                            fontSize: '14px',
-                            fontStyle: 'italic'
+                            gap: "8px",
+                            padding: "12px 16px",
+                            backgroundColor: "var(--color-surface)",
+                            border: "1px solid var(--color-border)",
+                            borderRadius: "16px",
+                            borderBottomLeftRadius: "4px",
+                            color: "var(--color-text-secondary)",
+                            fontSize: "14px",
+                            fontStyle: "italic",
                           }}
                         >
                           <Loader2
                             size={16}
                             className="animate-spin"
-                            style={{ color: 'var(--color-primary)' }}
+                            style={{ color: "var(--color-primary)" }}
                           />
                           <span>Analyzing feedback...</span>
                         </div>
@@ -594,63 +606,71 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 </div>
               </div>
             </div>
-            <div 
+            <div
               className="flex items-end"
               style={{
-                backgroundColor: 'var(--color-surface)',
-                borderTop: '2px solid var(--color-border)',
-                padding: '12px 16px',
-                minHeight: 'auto'
+                backgroundColor: "var(--color-surface)",
+                borderTop: "2px solid var(--color-border)",
+                padding: "12px 16px",
+                minHeight: "auto",
               }}
             >
               <form
                 className="w-full"
                 onSubmit={handleSubmitFeedback}
               >
-                <div 
+                <div
                   className="flex items-end"
                   style={{
-                    gap: '10px',
-                    backgroundColor: 'var(--color-background)',
-                    border: '2px solid var(--color-border)',
-                    borderRadius: '12px',
-                    padding: '10px',
-                    transition: 'border-color 0.2s, box-shadow 0.2s'
+                    gap: "10px",
+                    backgroundColor: "var(--color-background)",
+                    border: "2px solid var(--color-border)",
+                    borderRadius: "12px",
+                    padding: "10px",
+                    transition: "border-color 0.2s, box-shadow 0.2s",
                   }}
                   onFocus={(e) => {
                     if (e.currentTarget.contains(e.target)) {
-                      e.currentTarget.style.borderColor = 'var(--color-primary)';
-                      e.currentTarget.style.boxShadow = '0 0 0 2px rgba(28, 60, 60, 0.1)';
+                      e.currentTarget.style.borderColor =
+                        "var(--color-primary)";
+                      e.currentTarget.style.boxShadow =
+                        "0 0 0 2px rgba(28, 60, 60, 0.1)";
                     }
                   }}
                   onBlur={(e) => {
                     if (!e.currentTarget.contains(e.relatedTarget)) {
-                      e.currentTarget.style.borderColor = 'var(--color-border)';
-                      e.currentTarget.style.boxShadow = 'none';
+                      e.currentTarget.style.borderColor = "var(--color-border)";
+                      e.currentTarget.style.boxShadow = "none";
                     }
                   }}
                 >
                   <textarea
                     ref={textareaRef}
-                    className="flex-1 outline-none resize-none overflow-y-auto"
+                    className="flex-1 resize-none overflow-y-auto outline-none"
                     style={{
-                      padding: '8px 12px',
-                      border: 'none',
-                      backgroundColor: 'transparent',
-                      color: 'var(--color-text-primary)',
-                      fontSize: '15px',
-                      fontFamily: 'inherit',
-                      lineHeight: '24px',
-                      minHeight: '40px',
-                      maxHeight: '120px',
-                      display: 'flex',
-                      alignItems: 'center'
+                      padding: "8px 12px",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      color: "var(--color-text-primary)",
+                      fontSize: "15px",
+                      fontFamily: "inherit",
+                      lineHeight: "24px",
+                      minHeight: "40px",
+                      maxHeight: "120px",
+                      display: "flex",
+                      alignItems: "center",
                     }}
                     onFocus={(e) => {
-                      e.target.style.setProperty('--placeholder-color', 'var(--color-text-tertiary)');
+                      e.target.style.setProperty(
+                        "--placeholder-color",
+                        "var(--color-text-tertiary)",
+                      );
                     }}
                     onBlur={(e) => {
-                      e.target.style.setProperty('--placeholder-color', 'var(--color-text-tertiary)');
+                      e.target.style.setProperty(
+                        "--placeholder-color",
+                        "var(--color-text-tertiary)",
+                      );
                     }}
                     value={feedbackInput}
                     onChange={(e) => setFeedbackInput(e.target.value)}
@@ -661,37 +681,39 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   />
                   <button
                     type="submit"
-                    className="flex items-center justify-center cursor-pointer flex-shrink-0 self-end"
+                    className="flex flex-shrink-0 cursor-pointer items-center justify-center self-end"
                     style={{
-                      padding: '10px',
-                      backgroundColor: 'var(--color-primary)',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '8px',
-                      transition: 'all 0.2s',
-                      width: '40px',
-                      height: '40px',
+                      padding: "10px",
+                      backgroundColor: "var(--color-primary)",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "8px",
+                      transition: "all 0.2s",
+                      width: "40px",
+                      height: "40px",
                       opacity: feedbackInput.trim() ? 1 : 0.4,
-                      cursor: feedbackInput.trim() ? 'pointer' : 'not-allowed'
+                      cursor: feedbackInput.trim() ? "pointer" : "not-allowed",
                     }}
                     onMouseEnter={(e) => {
                       if (!e.currentTarget.disabled) {
-                        e.currentTarget.style.opacity = '0.9';
-                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.opacity = "0.9";
+                        e.currentTarget.style.transform = "scale(1.05)";
                       }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.opacity = feedbackInput.trim() ? '1' : '0.4';
-                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.opacity = feedbackInput.trim()
+                        ? "1"
+                        : "0.4";
+                      e.currentTarget.style.transform = "scale(1)";
                     }}
                     onMouseDown={(e) => {
                       if (!e.currentTarget.disabled) {
-                        e.currentTarget.style.transform = 'scale(0.95)';
+                        e.currentTarget.style.transform = "scale(0.95)";
                       }
                     }}
                     onMouseUp={(e) => {
                       if (!e.currentTarget.disabled) {
-                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.transform = "scale(1.05)";
                       }
                     }}
                     disabled={!feedbackInput.trim()}
@@ -706,62 +728,67 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
         </div>
         {isDiffDialogOpen && selectedOptimizerMessage && (
           <div
-            className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center animate-[fadeIn_0.2s_ease]"
+            className="fixed top-0 right-0 bottom-0 left-0 flex animate-[fadeIn_0.2s_ease] items-center justify-center"
             style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              backdropFilter: 'blur(4px)',
-              zIndex: 1000
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              backdropFilter: "blur(4px)",
+              zIndex: 1000,
             }}
             onClick={handleCloseDiffDialog}
           >
             <div
-              className="flex flex-col animate-[slideIn_0.3s_cubic-bezier(0.4,0,0.2,1)]"
+              className="flex animate-[slideIn_0.3s_cubic-bezier(0.4,0,0.2,1)] flex-col"
               style={{
-                backgroundColor: 'var(--color-background)',
-                borderRadius: '12px',
-                width: '95%',
-                maxWidth: '1200px',
-                maxHeight: '85vh',
-                boxShadow: '0 24px 64px rgba(0, 0, 0, 0.4)'
+                backgroundColor: "var(--color-background)",
+                borderRadius: "12px",
+                width: "95%",
+                maxWidth: "1200px",
+                maxHeight: "85vh",
+                boxShadow: "0 24px 64px rgba(0, 0, 0, 0.4)",
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div 
+              <div
                 className="flex items-center justify-between"
                 style={{
-                  padding: '20px 24px',
-                  borderBottom: '1px solid var(--color-border)',
-                  backgroundColor: 'var(--color-surface)',
-                  borderRadius: '12px 12px 0 0'
+                  padding: "20px 24px",
+                  borderBottom: "1px solid var(--color-border)",
+                  backgroundColor: "var(--color-surface)",
+                  borderRadius: "12px 12px 0 0",
                 }}
               >
-                <h2 style={{ 
-                  margin: 0, 
-                  fontSize: '18px', 
-                  fontWeight: '600',
-                  color: 'var(--color-text-primary)'
-                }}>Configuration Changes</h2>
-                <button
-                  className="flex items-center justify-center cursor-pointer"
+                <h2
                   style={{
-                    width: '32px',
-                    height: '32px',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    borderRadius: '8px',
-                    color: 'var(--color-text-secondary)',
-                    fontSize: '20px',
-                    transition: 'all 0.2s'
+                    margin: 0,
+                    fontSize: "18px",
+                    fontWeight: "600",
+                    color: "var(--color-text-primary)",
+                  }}
+                >
+                  Configuration Changes
+                </h2>
+                <button
+                  className="flex cursor-pointer items-center justify-center"
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    backgroundColor: "transparent",
+                    border: "none",
+                    borderRadius: "8px",
+                    color: "var(--color-text-secondary)",
+                    fontSize: "20px",
+                    transition: "all 0.2s",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
-                    e.currentTarget.style.color = 'var(--color-text-primary)';
-                    e.currentTarget.style.transform = 'rotate(90deg)';
+                    e.currentTarget.style.backgroundColor =
+                      "var(--color-border-light)";
+                    e.currentTarget.style.color = "var(--color-text-primary)";
+                    e.currentTarget.style.transform = "rotate(90deg)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = 'var(--color-text-secondary)';
-                    e.currentTarget.style.transform = 'rotate(0deg)';
+                    e.currentTarget.style.backgroundColor = "transparent";
+                    e.currentTarget.style.color = "var(--color-text-secondary)";
+                    e.currentTarget.style.transform = "rotate(0deg)";
                   }}
                   onClick={handleCloseDiffDialog}
                   aria-label="Close dialog"
@@ -769,48 +796,55 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   <X size={20} />
                 </button>
               </div>
-              <div 
+              <div
                 className="flex-1 overflow-y-auto"
                 style={{
-                  padding: '24px',
-                  color: 'var(--color-text-primary)',
-                  lineHeight: '1.6'
+                  padding: "24px",
+                  color: "var(--color-text-primary)",
+                  lineHeight: "1.6",
                 }}
               >
-                <div 
-                  className="grid grid-cols-2 h-full"
-                  style={{ gap: '24px' }}
+                <div
+                  className="grid h-full grid-cols-2"
+                  style={{ gap: "24px" }}
                 >
                   <div className="flex flex-col">
-                    <h3 style={{
-                      margin: '0 0 12px 0',
-                      fontSize: '16px',
-                      fontWeight: '600',
-                      color: 'var(--color-text-primary)',
-                      paddingBottom: '8px',
-                      borderBottom: '1px solid var(--color-border)'
-                    }}>Current Configuration</h3>
+                    <h3
+                      style={{
+                        margin: "0 0 12px 0",
+                        fontSize: "16px",
+                        fontWeight: "600",
+                        color: "var(--color-text-primary)",
+                        paddingBottom: "8px",
+                        borderBottom: "1px solid var(--color-border)",
+                      }}
+                    >
+                      Current Configuration
+                    </h3>
                     <div className="flex-1 overflow-auto">
-                      <div style={{
-                        backgroundColor: '#0d1117',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: '8px',
-                        padding: '16px',
-                        fontFamily: '"Monaco", "Menlo", "Ubuntu Mono", monospace',
-                        fontSize: '13px',
-                        lineHeight: '1.5',
-                        color: '#e6edf3',
-                        overflow: 'auto',
-                        whiteSpace: 'pre-wrap',
-                        wordBreak: 'break-word'
-                      }}>
+                      <div
+                        style={{
+                          backgroundColor: "#0d1117",
+                          border: "1px solid var(--color-border)",
+                          borderRadius: "8px",
+                          padding: "16px",
+                          fontFamily:
+                            '"Monaco", "Menlo", "Ubuntu Mono", monospace',
+                          fontSize: "13px",
+                          lineHeight: "1.5",
+                          color: "#e6edf3",
+                          overflow: "auto",
+                          whiteSpace: "pre-wrap",
+                          wordBreak: "break-word",
+                        }}
+                      >
                         {createSideBySideDiff(
                           selectedOptimizerMessage.old_config,
                           selectedOptimizerMessage.new_config,
                         ).map((line, index) => (
                           <div
                             key={`old-${index}`}
-                            className={`min-h-[1.5em] ${line.hasChanges ? 'bg-white/[0.02] -mx-4 px-4' : ''}`}
+                            className={`min-h-[1.5em] ${line.hasChanges ? "-mx-4 bg-white/[0.02] px-4" : ""}`}
                             dangerouslySetInnerHTML={{ __html: line.oldLine }}
                           />
                         ))}
@@ -818,35 +852,42 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                     </div>
                   </div>
                   <div className="flex flex-col">
-                    <h3 style={{
-                      margin: '0 0 12px 0',
-                      fontSize: '16px',
-                      fontWeight: '600',
-                      color: 'var(--color-text-primary)',
-                      paddingBottom: '8px',
-                      borderBottom: '1px solid var(--color-border)'
-                    }}>Proposed Configuration</h3>
+                    <h3
+                      style={{
+                        margin: "0 0 12px 0",
+                        fontSize: "16px",
+                        fontWeight: "600",
+                        color: "var(--color-text-primary)",
+                        paddingBottom: "8px",
+                        borderBottom: "1px solid var(--color-border)",
+                      }}
+                    >
+                      Proposed Configuration
+                    </h3>
                     <div className="flex-1 overflow-auto">
-                      <div style={{
-                        backgroundColor: '#0d1117',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: '8px',
-                        padding: '16px',
-                        fontFamily: '"Monaco", "Menlo", "Ubuntu Mono", monospace',
-                        fontSize: '13px',
-                        lineHeight: '1.5',
-                        color: '#e6edf3',
-                        overflow: 'auto',
-                        whiteSpace: 'pre-wrap',
-                        wordBreak: 'break-word'
-                      }}>
+                      <div
+                        style={{
+                          backgroundColor: "#0d1117",
+                          border: "1px solid var(--color-border)",
+                          borderRadius: "8px",
+                          padding: "16px",
+                          fontFamily:
+                            '"Monaco", "Menlo", "Ubuntu Mono", monospace',
+                          fontSize: "13px",
+                          lineHeight: "1.5",
+                          color: "#e6edf3",
+                          overflow: "auto",
+                          whiteSpace: "pre-wrap",
+                          wordBreak: "break-word",
+                        }}
+                      >
                         {createSideBySideDiff(
                           selectedOptimizerMessage.old_config,
                           selectedOptimizerMessage.new_config,
                         ).map((line, index) => (
                           <div
                             key={`new-${index}`}
-                            className={`min-h-[1.5em] ${line.hasChanges ? 'bg-white/[0.02] -mx-4 px-4' : ''}`}
+                            className={`min-h-[1.5em] ${line.hasChanges ? "-mx-4 bg-white/[0.02] px-4" : ""}`}
                             dangerouslySetInnerHTML={{ __html: line.newLine }}
                           />
                         ))}
@@ -855,43 +896,45 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                   </div>
                 </div>
               </div>
-              <div 
+              <div
                 className="flex justify-end"
                 style={{
-                  gap: '12px',
-                  padding: '20px 24px',
-                  borderTop: '1px solid var(--color-border)',
-                  backgroundColor: 'var(--color-surface)',
-                  borderRadius: '0 0 12px 12px'
+                  gap: "12px",
+                  padding: "20px 24px",
+                  borderTop: "1px solid var(--color-border)",
+                  backgroundColor: "var(--color-surface)",
+                  borderRadius: "0 0 12px 12px",
                 }}
               >
                 <button
                   className="cursor-pointer"
                   style={{
-                    padding: '10px 20px',
-                    backgroundColor: 'transparent',
-                    color: 'var(--color-text-secondary)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    transition: 'all 0.2s'
+                    padding: "10px 20px",
+                    backgroundColor: "transparent",
+                    color: "var(--color-text-secondary)",
+                    border: "1px solid var(--color-border)",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    transition: "all 0.2s",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
-                    e.currentTarget.style.color = 'var(--color-text-primary)';
-                    e.currentTarget.style.borderColor = 'var(--color-text-secondary)';
+                    e.currentTarget.style.backgroundColor =
+                      "var(--color-border-light)";
+                    e.currentTarget.style.color = "var(--color-text-primary)";
+                    e.currentTarget.style.borderColor =
+                      "var(--color-text-secondary)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = 'var(--color-text-secondary)';
-                    e.currentTarget.style.borderColor = 'var(--color-border)';
+                    e.currentTarget.style.backgroundColor = "transparent";
+                    e.currentTarget.style.color = "var(--color-text-secondary)";
+                    e.currentTarget.style.borderColor = "var(--color-border)";
                   }}
                   onMouseDown={(e) => {
-                    e.currentTarget.style.transform = 'translateY(1px)';
+                    e.currentTarget.style.transform = "translateY(1px)";
                   }}
                   onMouseUp={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.transform = "translateY(0)";
                   }}
                   onClick={handleReject}
                 >
@@ -900,25 +943,25 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
                 <button
                   className="cursor-pointer"
                   style={{
-                    padding: '10px 20px',
-                    backgroundColor: '#059669',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    transition: 'all 0.2s'
+                    padding: "10px 20px",
+                    backgroundColor: "#059669",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    transition: "all 0.2s",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#047857';
-                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.backgroundColor = "#047857";
+                    e.currentTarget.style.transform = "translateY(-1px)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#059669';
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.backgroundColor = "#059669";
+                    e.currentTarget.style.transform = "translateY(0)";
                   }}
                   onMouseDown={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.transform = "translateY(0)";
                   }}
                   onClick={handleApprove}
                 >

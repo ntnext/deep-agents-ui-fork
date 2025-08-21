@@ -15,7 +15,7 @@ export const MarkdownContent = React.memo<MarkdownContentProps>(
   ({ content, className = "" }) => {
     return (
       <div
-        className={`min-w-0 max-w-full overflow-hidden text-sm leading-relaxed break-words text-inherit [&_h1]:mt-6 [&_h1]:mb-4 [&_h1]:font-semibold [&_h1:first-child]:mt-0 [&_h2]:mt-6 [&_h2]:mb-4 [&_h2]:font-semibold [&_h2:first-child]:mt-0 [&_h3]:mt-6 [&_h3]:mb-4 [&_h3]:font-semibold [&_h3:first-child]:mt-0 [&_h4]:mt-6 [&_h4]:mb-4 [&_h4]:font-semibold [&_h4:first-child]:mt-0 [&_h5]:mt-6 [&_h5]:mb-4 [&_h5]:font-semibold [&_h5:first-child]:mt-0 [&_h6]:mt-6 [&_h6]:mb-4 [&_h6]:font-semibold [&_h6:first-child]:mt-0 [&_p]:mb-4 [&_p:last-child]:mb-0 ${className}`}
+        className={`max-w-full min-w-0 overflow-hidden text-sm leading-relaxed break-words text-inherit [&_h1]:mt-6 [&_h1]:mb-4 [&_h1]:font-semibold [&_h1:first-child]:mt-0 [&_h2]:mt-6 [&_h2]:mb-4 [&_h2]:font-semibold [&_h2:first-child]:mt-0 [&_h3]:mt-6 [&_h3]:mb-4 [&_h3]:font-semibold [&_h3:first-child]:mt-0 [&_h4]:mt-6 [&_h4]:mb-4 [&_h4]:font-semibold [&_h4:first-child]:mt-0 [&_h5]:mt-6 [&_h5]:mb-4 [&_h5]:font-semibold [&_h5:first-child]:mt-0 [&_h6]:mt-6 [&_h6]:mb-4 [&_h6]:font-semibold [&_h6:first-child]:mt-0 [&_p]:mb-4 [&_p:last-child]:mb-0 ${className}`}
       >
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
@@ -36,21 +36,21 @@ export const MarkdownContent = React.memo<MarkdownContentProps>(
                   style={oneDark}
                   language={match[1]}
                   PreTag="div"
-                  className="rounded-md text-sm max-w-full"
+                  className="max-w-full rounded-md text-sm"
                   wrapLines={true}
                   wrapLongLines={true}
                   lineProps={{
                     style: {
-                      wordBreak: 'break-all',
-                      whiteSpace: 'pre-wrap',
-                      overflowWrap: 'break-word'
-                    }
+                      wordBreak: "break-all",
+                      whiteSpace: "pre-wrap",
+                      overflowWrap: "break-word",
+                    },
                   }}
                   customStyle={{
                     margin: 0,
-                    maxWidth: '100%',
-                    overflowX: 'auto',
-                    fontSize: '0.875rem'
+                    maxWidth: "100%",
+                    overflowX: "auto",
+                    fontSize: "0.875rem",
                   }}
                 >
                   {String(children).replace(/\n$/, "")}
@@ -65,7 +65,11 @@ export const MarkdownContent = React.memo<MarkdownContentProps>(
               );
             },
             pre({ children }: { children?: React.ReactNode }) {
-              return <div className="my-4 last:mb-0 overflow-hidden max-w-full">{children}</div>;
+              return (
+                <div className="my-4 max-w-full overflow-hidden last:mb-0">
+                  {children}
+                </div>
+              );
             },
             a({
               href,

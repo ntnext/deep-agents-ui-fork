@@ -41,16 +41,31 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
   }, [toolCall]);
 
   const statusIcon = useMemo(() => {
-    const iconStyle = { width: '14px', height: '14px' };
+    const iconStyle = { width: "14px", height: "14px" };
     switch (status) {
       case "completed":
-        return <CheckCircle style={{ ...iconStyle, color: 'var(--color-success)' }} />;
+        return (
+          <CheckCircle
+            style={{ ...iconStyle, color: "var(--color-success)" }}
+          />
+        );
       case "error":
-        return <AlertCircle style={{ ...iconStyle, color: 'var(--color-error)' }} />;
+        return (
+          <AlertCircle style={{ ...iconStyle, color: "var(--color-error)" }} />
+        );
       case "pending":
-        return <Loader style={{ ...iconStyle, color: 'var(--color-primary)' }} className="animate-spin" />;
+        return (
+          <Loader
+            style={{ ...iconStyle, color: "var(--color-primary)" }}
+            className="animate-spin"
+          />
+        );
       default:
-        return <Terminal style={{ ...iconStyle, color: 'var(--color-text-secondary)' }} />;
+        return (
+          <Terminal
+            style={{ ...iconStyle, color: "var(--color-text-secondary)" }}
+          />
+        );
     }
   }, [status]);
 
@@ -61,46 +76,52 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
   const hasContent = result || Object.keys(args).length > 0;
 
   return (
-    <div 
-      className="border rounded-md overflow-hidden w-fit"
+    <div
+      className="w-fit overflow-hidden rounded-md border"
       style={{
-        backgroundColor: 'var(--color-surface)',
-        borderColor: 'var(--color-border)',
-        maxWidth: '70vw'
+        backgroundColor: "var(--color-surface)",
+        borderColor: "var(--color-border)",
+        maxWidth: "70vw",
       }}
     >
       <Button
         variant="ghost"
         size="sm"
         onClick={toggleExpanded}
-        className="w-full flex justify-between items-center text-left transition-colors duration-200 disabled:cursor-default"
+        className="flex w-full items-center justify-between text-left transition-colors duration-200 disabled:cursor-default"
         style={{
-          padding: '0.5rem 1rem',
-          gap: '0.5rem'
+          padding: "0.5rem 1rem",
+          gap: "0.5rem",
         }}
         disabled={!hasContent}
         onMouseEnter={(e) => {
           if (hasContent) {
-            e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+            e.currentTarget.style.backgroundColor = "var(--color-border-light)";
           }
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = 'transparent';
+          e.currentTarget.style.backgroundColor = "transparent";
         }}
       >
-        <div 
+        <div
           className="flex items-center"
-          style={{ gap: '0.5rem' }}
+          style={{ gap: "0.5rem" }}
         >
           {hasContent && isExpanded ? (
-            <ChevronDown size={14} className="shrink-0" />
+            <ChevronDown
+              size={14}
+              className="shrink-0"
+            />
           ) : (
-            <ChevronRight size={14} className="shrink-0" />
+            <ChevronRight
+              size={14}
+              className="shrink-0"
+            />
           )}
           {statusIcon}
-          <span 
+          <span
             className="text-sm font-medium"
-            style={{ color: 'var(--color-text-primary)' }}
+            style={{ color: "var(--color-text-primary)" }}
           >
             {name}
           </span>
@@ -108,36 +129,37 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
       </Button>
 
       {isExpanded && hasContent && (
-        <div 
+        <div
           className="border-t"
           style={{
-            padding: '0 1rem 1rem',
-            borderTopColor: 'var(--color-border-light)'
+            padding: "0 1rem 1rem",
+            borderTopColor: "var(--color-border-light)",
           }}
         >
           {Object.keys(args).length > 0 && (
-            <div style={{ marginTop: '1rem' }}>
-              <h4 
-                className="font-semibold uppercase tracking-wider"
+            <div style={{ marginTop: "1rem" }}>
+              <h4
+                className="font-semibold tracking-wider uppercase"
                 style={{
-                  fontSize: '12px',
-                  color: 'var(--color-text-secondary)',
-                  letterSpacing: '0.05em',
-                  marginBottom: '0.25rem'
+                  fontSize: "12px",
+                  color: "var(--color-text-secondary)",
+                  letterSpacing: "0.05em",
+                  marginBottom: "0.25rem",
                 }}
               >
                 Arguments
               </h4>
-              <pre 
-                className="border rounded-sm font-mono overflow-x-auto whitespace-pre-wrap break-all"
+              <pre
+                className="overflow-x-auto rounded-sm border font-mono break-all whitespace-pre-wrap"
                 style={{
-                  fontSize: '12px',
-                  padding: '0.5rem',
-                  backgroundColor: 'var(--color-background)',
-                  borderColor: 'var(--color-border-light)',
-                  lineHeight: '1.75',
-                  margin: '0',
-                  fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace'
+                  fontSize: "12px",
+                  padding: "0.5rem",
+                  backgroundColor: "var(--color-background)",
+                  borderColor: "var(--color-border-light)",
+                  lineHeight: "1.75",
+                  margin: "0",
+                  fontFamily:
+                    '"SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace',
                 }}
               >
                 {JSON.stringify(args, null, 2)}
@@ -145,28 +167,29 @@ export const ToolCallBox = React.memo<ToolCallBoxProps>(({ toolCall }) => {
             </div>
           )}
           {result && (
-            <div style={{ marginTop: '1rem' }}>
-              <h4 
-                className="font-semibold uppercase tracking-wider"
+            <div style={{ marginTop: "1rem" }}>
+              <h4
+                className="font-semibold tracking-wider uppercase"
                 style={{
-                  fontSize: '12px',
-                  color: 'var(--color-text-secondary)',
-                  letterSpacing: '0.05em',
-                  marginBottom: '0.25rem'
+                  fontSize: "12px",
+                  color: "var(--color-text-secondary)",
+                  letterSpacing: "0.05em",
+                  marginBottom: "0.25rem",
                 }}
               >
                 Result
               </h4>
-              <pre 
-                className="border rounded-sm font-mono overflow-x-auto whitespace-pre-wrap break-all"
+              <pre
+                className="overflow-x-auto rounded-sm border font-mono break-all whitespace-pre-wrap"
                 style={{
-                  fontSize: '12px',
-                  padding: '0.5rem',
-                  backgroundColor: 'var(--color-background)',
-                  borderColor: 'var(--color-border-light)',
-                  lineHeight: '1.75',
-                  margin: '0',
-                  fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace'
+                  fontSize: "12px",
+                  padding: "0.5rem",
+                  backgroundColor: "var(--color-background)",
+                  borderColor: "var(--color-border-light)",
+                  lineHeight: "1.75",
+                  margin: "0",
+                  fontFamily:
+                    '"SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace',
                 }}
               >
                 {typeof result === "string"

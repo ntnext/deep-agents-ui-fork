@@ -3,7 +3,6 @@
 import React, { useMemo, useCallback } from "react";
 import { FileText, Copy, Download } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -91,10 +90,10 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
       >
         <DialogContent
           className="flex max-h-[80vh] flex-col bg-[var(--color-background)]"
-          style={{ 
+          style={{
             padding: "1.5rem",
             width: "60vw",
-            maxWidth: "60vw"
+            maxWidth: "60vw",
           }}
         >
           <DialogTitle className="sr-only">{file.path}</DialogTitle>
@@ -117,30 +116,31 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
             >
               <button
                 onClick={handleCopy}
-                className="flex items-center cursor-pointer"
+                className="flex cursor-pointer items-center"
                 style={{
                   gap: "0.25rem",
                   padding: "0.25rem 0.5rem",
                   marginRight: "0.25rem",
-                  backgroundColor: 'transparent',
-                  border: '1px solid transparent',
-                  borderRadius: '4px',
-                  fontSize: '14px',
-                  color: 'var(--color-text-primary)',
-                  transition: 'all 0.2s'
+                  backgroundColor: "transparent",
+                  border: "1px solid transparent",
+                  borderRadius: "4px",
+                  fontSize: "14px",
+                  color: "var(--color-text-primary)",
+                  transition: "all 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.backgroundColor =
+                    "var(--color-border-light)";
+                  e.currentTarget.style.borderColor = "var(--color-border)";
+                  e.currentTarget.style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.borderColor = 'transparent';
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.borderColor = "transparent";
+                  e.currentTarget.style.transform = "translateY(0)";
                 }}
                 onMouseDown={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
                 <Copy size={16} />
@@ -148,30 +148,31 @@ export const FileViewDialog = React.memo<FileViewDialogProps>(
               </button>
               <button
                 onClick={handleDownload}
-                className="flex items-center cursor-pointer"
+                className="flex cursor-pointer items-center"
                 style={{
                   gap: "0.25rem",
                   padding: "0.25rem 0.5rem",
                   marginRight: "0.25rem",
-                  backgroundColor: 'transparent',
-                  border: '1px solid transparent',
-                  borderRadius: '4px',
-                  fontSize: '14px',
-                  color: 'var(--color-text-primary)',
-                  transition: 'all 0.2s'
+                  backgroundColor: "transparent",
+                  border: "1px solid transparent",
+                  borderRadius: "4px",
+                  fontSize: "14px",
+                  color: "var(--color-text-primary)",
+                  transition: "all 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.backgroundColor =
+                    "var(--color-border-light)";
+                  e.currentTarget.style.borderColor = "var(--color-border)";
+                  e.currentTarget.style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.borderColor = 'transparent';
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.borderColor = "transparent";
+                  e.currentTarget.style.transform = "translateY(0)";
                 }}
                 onMouseDown={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
                 <Download size={16} />

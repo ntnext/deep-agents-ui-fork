@@ -131,201 +131,203 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
             }
           }
         `}</style>
-        <div 
-          className="fixed top-0 right-0 h-screen z-50"
-          style={{ 
-            width: '20vw',
-            animation: 'slideIn 300ms ease-out'
-          }}
-        >
-        <div 
-          className="h-full flex flex-col border-l"
+        <div
+          className="fixed top-0 right-0 z-50 h-screen"
           style={{
-            width: '100%',
-            maxWidth: '100%',
-            backgroundColor: 'var(--color-background)',
-            borderLeftColor: 'var(--color-border)',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-            overflow: 'hidden'
+            width: "20vw",
+            animation: "slideIn 300ms ease-out",
           }}
         >
-          <div 
-            className="flex justify-between items-center border-b"
+          <div
+            className="flex h-full flex-col border-l"
             style={{
-              padding: '1rem',
-              borderBottomColor: 'var(--color-border)',
-              backgroundColor: 'var(--color-surface)'
+              width: "100%",
+              maxWidth: "100%",
+              backgroundColor: "var(--color-background)",
+              borderLeftColor: "var(--color-border)",
+              boxShadow:
+                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              overflow: "hidden",
             }}
           >
-            <h3 
-              className="text-base font-semibold"
+            <div
+              className="flex items-center justify-between border-b"
               style={{
-                margin: '0',
-                color: 'var(--color-text-primary)'
+                padding: "1rem",
+                borderBottomColor: "var(--color-border)",
+                backgroundColor: "var(--color-surface)",
               }}
             >
-              Thread History
-            </h3>
-            <div 
-              className="flex items-center"
-              style={{ gap: '0.5rem' }}
-            >
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setOpen(false)}
-                className="transition-colors duration-200"
-                style={{ padding: '0.25rem' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
-              >
-                <X size={20} />
-              </Button>
-            </div>
-          </div>
-          <ScrollArea className="flex-1 overflow-y-auto">
-            {isLoadingThreadHistory ? (
-              <div 
-                className="flex flex-col items-center justify-center text-center"
+              <h3
+                className="text-base font-semibold"
                 style={{
-                  padding: '3rem',
-                  color: 'var(--color-text-tertiary)'
+                  margin: "0",
+                  color: "var(--color-text-primary)",
                 }}
               >
-                Loading threads...
-              </div>
-            ) : threads.length === 0 ? (
-              <div 
-                className="flex flex-col items-center justify-center text-center"
-                style={{
-                  padding: '3rem',
-                  color: 'var(--color-text-tertiary)'
-                }}
+                Thread History
+              </h3>
+              <div
+                className="flex items-center"
+                style={{ gap: "0.5rem" }}
               >
-                <MessageSquare 
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    marginBottom: '0.5rem',
-                    opacity: '0.5'
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setOpen(false)}
+                  className="transition-colors duration-200"
+                  style={{ padding: "0.25rem" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      "var(--color-border-light)";
                   }}
-                />
-                <p>No threads yet</p>
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                  }}
+                >
+                  <X size={20} />
+                </Button>
               </div>
-            ) : (
-              <div 
-                style={{ 
-                  padding: '0.5rem',
-                  width: '20vw',
-                  maxWidth: '20vw',
-                  overflow: 'hidden',
-                  boxSizing: 'border-box'
-                }}
-              >
-                {groupedThreads.today.length > 0 && (
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <h4 
-                      className="font-semibold uppercase tracking-wider"
-                      style={{
-                        fontSize: '12px',
-                        color: 'var(--color-text-secondary)',
-                        letterSpacing: '0.05em',
-                        padding: '0.5rem',
-                        margin: '0'
-                      }}
-                    >
-                      Today
-                    </h4>
-                    {groupedThreads.today.map((thread) => (
-                      <ThreadItem
-                        key={thread.id}
-                        thread={thread}
-                        isActive={thread.id === currentThreadId}
-                        onClick={() => onThreadSelect(thread.id)}
-                      />
-                    ))}
-                  </div>
-                )}
-                {groupedThreads.yesterday.length > 0 && (
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <h4 
-                      className="font-semibold uppercase tracking-wider"
-                      style={{
-                        fontSize: '12px',
-                        color: 'var(--color-text-secondary)',
-                        letterSpacing: '0.05em',
-                        padding: '0.5rem',
-                        margin: '0'
-                      }}
-                    >
-                      Yesterday
-                    </h4>
-                    {groupedThreads.yesterday.map((thread) => (
-                      <ThreadItem
-                        key={thread.id}
-                        thread={thread}
-                        isActive={thread.id === currentThreadId}
-                        onClick={() => onThreadSelect(thread.id)}
-                      />
-                    ))}
-                  </div>
-                )}
-                {groupedThreads.week.length > 0 && (
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <h4 
-                      className="font-semibold uppercase tracking-wider"
-                      style={{
-                        fontSize: '12px',
-                        color: 'var(--color-text-secondary)',
-                        letterSpacing: '0.05em',
-                        padding: '0.5rem',
-                        margin: '0'
-                      }}
-                    >
-                      This Week
-                    </h4>
-                    {groupedThreads.week.map((thread) => (
-                      <ThreadItem
-                        key={thread.id}
-                        thread={thread}
-                        isActive={thread.id === currentThreadId}
-                        onClick={() => onThreadSelect(thread.id)}
-                      />
-                    ))}
-                  </div>
-                )}
-                {groupedThreads.older.length > 0 && (
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <h4 
-                      className="font-semibold uppercase tracking-wider"
-                      style={{
-                        fontSize: '12px',
-                        color: 'var(--color-text-secondary)',
-                        letterSpacing: '0.05em',
-                        padding: '0.5rem',
-                        margin: '0'
-                      }}
-                    >
-                      Older
-                    </h4>
-                    {groupedThreads.older.map((thread) => (
-                      <ThreadItem
-                        key={thread.id}
-                        thread={thread}
-                        isActive={thread.id === currentThreadId}
-                        onClick={() => onThreadSelect(thread.id)}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </ScrollArea>
-        </div>
+            </div>
+            <ScrollArea className="flex-1 overflow-y-auto">
+              {isLoadingThreadHistory ? (
+                <div
+                  className="flex flex-col items-center justify-center text-center"
+                  style={{
+                    padding: "3rem",
+                    color: "var(--color-text-tertiary)",
+                  }}
+                >
+                  Loading threads...
+                </div>
+              ) : threads.length === 0 ? (
+                <div
+                  className="flex flex-col items-center justify-center text-center"
+                  style={{
+                    padding: "3rem",
+                    color: "var(--color-text-tertiary)",
+                  }}
+                >
+                  <MessageSquare
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      marginBottom: "0.5rem",
+                      opacity: "0.5",
+                    }}
+                  />
+                  <p>No threads yet</p>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    padding: "0.5rem",
+                    width: "20vw",
+                    maxWidth: "20vw",
+                    overflow: "hidden",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  {groupedThreads.today.length > 0 && (
+                    <div style={{ marginBottom: "1.5rem" }}>
+                      <h4
+                        className="font-semibold tracking-wider uppercase"
+                        style={{
+                          fontSize: "12px",
+                          color: "var(--color-text-secondary)",
+                          letterSpacing: "0.05em",
+                          padding: "0.5rem",
+                          margin: "0",
+                        }}
+                      >
+                        Today
+                      </h4>
+                      {groupedThreads.today.map((thread) => (
+                        <ThreadItem
+                          key={thread.id}
+                          thread={thread}
+                          isActive={thread.id === currentThreadId}
+                          onClick={() => onThreadSelect(thread.id)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  {groupedThreads.yesterday.length > 0 && (
+                    <div style={{ marginBottom: "1.5rem" }}>
+                      <h4
+                        className="font-semibold tracking-wider uppercase"
+                        style={{
+                          fontSize: "12px",
+                          color: "var(--color-text-secondary)",
+                          letterSpacing: "0.05em",
+                          padding: "0.5rem",
+                          margin: "0",
+                        }}
+                      >
+                        Yesterday
+                      </h4>
+                      {groupedThreads.yesterday.map((thread) => (
+                        <ThreadItem
+                          key={thread.id}
+                          thread={thread}
+                          isActive={thread.id === currentThreadId}
+                          onClick={() => onThreadSelect(thread.id)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  {groupedThreads.week.length > 0 && (
+                    <div style={{ marginBottom: "1.5rem" }}>
+                      <h4
+                        className="font-semibold tracking-wider uppercase"
+                        style={{
+                          fontSize: "12px",
+                          color: "var(--color-text-secondary)",
+                          letterSpacing: "0.05em",
+                          padding: "0.5rem",
+                          margin: "0",
+                        }}
+                      >
+                        This Week
+                      </h4>
+                      {groupedThreads.week.map((thread) => (
+                        <ThreadItem
+                          key={thread.id}
+                          thread={thread}
+                          isActive={thread.id === currentThreadId}
+                          onClick={() => onThreadSelect(thread.id)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  {groupedThreads.older.length > 0 && (
+                    <div style={{ marginBottom: "1.5rem" }}>
+                      <h4
+                        className="font-semibold tracking-wider uppercase"
+                        style={{
+                          fontSize: "12px",
+                          color: "var(--color-text-secondary)",
+                          letterSpacing: "0.05em",
+                          padding: "0.5rem",
+                          margin: "0",
+                        }}
+                      >
+                        Older
+                      </h4>
+                      {groupedThreads.older.map((thread) => (
+                        <ThreadItem
+                          key={thread.id}
+                          thread={thread}
+                          isActive={thread.id === currentThreadId}
+                          onClick={() => onThreadSelect(thread.id)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </ScrollArea>
+          </div>
         </div>
       </>
     );
@@ -340,54 +342,58 @@ const ThreadItem = React.memo<{
   return (
     <button
       onClick={onClick}
-      className="flex items-start text-left cursor-pointer border-none rounded-md transition-colors duration-200"
+      className="flex cursor-pointer items-start rounded-md border-none text-left transition-colors duration-200"
       style={{
-        width: '100%',
-        maxWidth: '100%',
-        gap: '0.5rem',
-        padding: '0.5rem',
-        backgroundColor: isActive ? 'var(--color-avatar-bg)' : 'transparent',
-        overflow: 'hidden'
+        width: "100%",
+        maxWidth: "100%",
+        gap: "0.5rem",
+        padding: "0.5rem",
+        backgroundColor: isActive ? "var(--color-avatar-bg)" : "transparent",
+        overflow: "hidden",
       }}
       onMouseEnter={(e) => {
         if (!isActive) {
-          e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+          e.currentTarget.style.backgroundColor = "var(--color-border-light)";
         }
       }}
       onMouseLeave={(e) => {
         if (!isActive) {
-          e.currentTarget.style.backgroundColor = 'transparent';
+          e.currentTarget.style.backgroundColor = "transparent";
         }
       }}
     >
-      <MessageSquare 
+      <MessageSquare
         className="shrink-0"
         style={{
-          width: '16px',
-          height: '16px',
-          color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-          marginTop: '2px'
+          width: "16px",
+          height: "16px",
+          color: isActive
+            ? "var(--color-primary)"
+            : "var(--color-text-secondary)",
+          marginTop: "2px",
         }}
       />
-      <div 
+      <div
         style={{
-          flex: '1',
-          minWidth: '0',
-          overflow: 'hidden',
-          width: 'calc(20vw - 3rem)' // sidebar width minus padding and icon space
+          flex: "1",
+          minWidth: "0",
+          overflow: "hidden",
+          width: "calc(20vw - 3rem)", // sidebar width minus padding and icon space
         }}
       >
-        <div 
+        <div
           className="font-medium"
           style={{
-            fontSize: '12px',
-            color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)',
-            marginBottom: '0.25rem',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            width: '100%',
-            maxWidth: '100%'
+            fontSize: "12px",
+            color: isActive
+              ? "var(--color-primary)"
+              : "var(--color-text-primary)",
+            marginBottom: "0.25rem",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            width: "100%",
+            maxWidth: "100%",
           }}
         >
           {thread.title}

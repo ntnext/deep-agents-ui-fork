@@ -13,17 +13,32 @@ interface SubAgentPanelProps {
 }
 
 const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
-  const statusIcon = useMemo(() => {1
-    const iconStyle = { width: '14px', height: '14px' };
+  const statusIcon = useMemo(() => {
+    const iconStyle = { width: "14px", height: "14px" };
     switch (subAgent.status) {
       case "completed":
-        return <CheckCircle style={{ ...iconStyle, color: 'var(--color-success)' }} />;
+        return (
+          <CheckCircle
+            style={{ ...iconStyle, color: "var(--color-success)" }}
+          />
+        );
       case "error":
-        return <AlertCircle style={{ ...iconStyle, color: 'var(--color-error)' }} />;
+        return (
+          <AlertCircle style={{ ...iconStyle, color: "var(--color-error)" }} />
+        );
       case "pending":
-        return <Loader style={{ ...iconStyle, color: 'var(--color-primary)' }} className="animate-spin" />;
+        return (
+          <Loader
+            style={{ ...iconStyle, color: "var(--color-primary)" }}
+            className="animate-spin"
+          />
+        );
       default:
-        return <Clock style={{ ...iconStyle, color: 'var(--color-text-tertiary)' }} />;
+        return (
+          <Clock
+            style={{ ...iconStyle, color: "var(--color-text-tertiary)" }}
+          />
+        );
     }
   }, [subAgent.status]);
 
@@ -41,50 +56,51 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
   }, [subAgent.status]);
 
   return (
-    <div 
-      className="flex h-full flex-col absolute right-0 top-0 z-10"
+    <div
+      className="absolute top-0 right-0 z-10 flex h-full flex-col"
       style={{
-        width: '40vw',
-        backgroundColor: 'var(--color-background)',
-        borderLeft: '1px solid var(--color-border)',
-        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+        width: "40vw",
+        backgroundColor: "var(--color-background)",
+        borderLeft: "1px solid var(--color-border)",
+        boxShadow:
+          "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
       }}
     >
-      <div 
-        className="flex justify-between items-start border-b"
+      <div
+        className="flex items-start justify-between border-b"
         style={{
-          padding: '1rem',
-          borderBottomColor: 'var(--color-border)',
-          backgroundColor: 'var(--color-surface)'
+          padding: "1rem",
+          borderBottomColor: "var(--color-border)",
+          backgroundColor: "var(--color-surface)",
         }}
       >
-        <div 
+        <div
           className="flex flex-1"
-          style={{ gap: '0.5rem' }}
+          style={{ gap: "0.5rem" }}
         >
-          <Bot 
+          <Bot
             className="shrink-0"
             style={{
-              width: '32px',
-              height: '32px',
-              color: 'var(--color-secondary)'
+              width: "32px",
+              height: "32px",
+              color: "var(--color-secondary)",
             }}
           />
           <div>
-            <h3 
+            <h3
               className="text-lg font-semibold"
               style={{
-                margin: '0 0 0.25rem 0',
-                color: 'var(--color-text-primary)'
+                margin: "0 0 0.25rem 0",
+                color: "var(--color-text-primary)",
               }}
             >
               {subAgent.subAgentName}
             </h3>
-            <div 
+            <div
               className="flex items-center text-sm"
               style={{
-                gap: '0.25rem',
-                color: 'var(--color-text-secondary)'
+                gap: "0.25rem",
+                color: "var(--color-text-secondary)",
               }}
             >
               {statusIcon}
@@ -97,14 +113,14 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
           size="sm"
           onClick={onClose}
           className="transition-colors duration-200"
-          style={{ 
-            padding: '0.25rem',
+          style={{
+            padding: "0.25rem",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'var(--color-border-light)';
+            e.currentTarget.style.backgroundColor = "var(--color-border-light)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.backgroundColor = "transparent";
           }}
         >
           <X size={20} />
@@ -112,24 +128,24 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
       </div>
 
       <ScrollArea className="flex-1 overflow-y-auto">
-        <div style={{ padding: '1.5rem' }}>
-          <div style={{ marginBottom: '2rem' }}>
-            <h4 
-              className="text-xs font-semibold uppercase tracking-wider"
+        <div style={{ padding: "1.5rem" }}>
+          <div style={{ marginBottom: "2rem" }}>
+            <h4
+              className="text-xs font-semibold tracking-wider uppercase"
               style={{
-                color: 'var(--color-text-secondary)',
-                letterSpacing: '0.05em',
-                marginBottom: '0.5rem'
+                color: "var(--color-text-secondary)",
+                letterSpacing: "0.05em",
+                marginBottom: "0.5rem",
               }}
             >
               Input
             </h4>
-            <div 
-              className="border rounded-md"
+            <div
+              className="rounded-md border"
               style={{
-                padding: '1rem',
-                backgroundColor: 'var(--color-surface)',
-                borderColor: 'var(--color-border-light)'
+                padding: "1rem",
+                backgroundColor: "var(--color-surface)",
+                borderColor: "var(--color-border-light)",
               }}
             >
               <MarkdownContent
@@ -148,23 +164,23 @@ const SubAgentPanelComponent = ({ subAgent, onClose }: SubAgentPanelProps) => {
             </div>
           </div>
           {subAgent.output && (
-            <div style={{ marginBottom: '0' }}>
-              <h4 
-                className="font-semibold uppercase tracking-wider"
+            <div style={{ marginBottom: "0" }}>
+              <h4
+                className="font-semibold tracking-wider uppercase"
                 style={{
-                  color: 'var(--color-text-secondary)',
-                  letterSpacing: '0.05em',
-                  marginBottom: '0.5rem'
+                  color: "var(--color-text-secondary)",
+                  letterSpacing: "0.05em",
+                  marginBottom: "0.5rem",
                 }}
               >
                 Output
               </h4>
-              <div 
-                className="border rounded-md"
+              <div
+                className="rounded-md border"
                 style={{
-                  padding: '1rem',
-                  backgroundColor: 'var(--color-surface)',
-                  borderColor: 'var(--color-border-light)'
+                  padding: "1rem",
+                  backgroundColor: "var(--color-surface)",
+                  borderColor: "var(--color-border-light)",
                 }}
               >
                 <MarkdownContent
