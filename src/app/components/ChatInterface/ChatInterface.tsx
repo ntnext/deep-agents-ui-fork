@@ -174,6 +174,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
         rewindIndex = messages.findLastIndex(
           (message) => message.type === "ai",
         );
+        // Replay the Tool Call, not the AI Message
+        rewindIndex += 1;
         // Clear selected subAgent when replaying deletes it
         const aiMessageToUnwind = messages[rewindIndex] as AIMessage;
         if (
