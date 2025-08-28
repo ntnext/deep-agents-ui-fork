@@ -105,6 +105,13 @@ export default function HomePage() {
     setFiles({});
   }, [setThreadId]);
 
+  const handleCreateFile = useCallback((fileName: string, content: string) => {
+    setFiles(prev => ({
+      ...prev,
+      [fileName]: content
+    }));
+  }, []);
+
   const {
     messages,
     isLoading,
@@ -114,7 +121,7 @@ export default function HomePage() {
     runSingleStep,
     continueStream,
     stopStream,
-  } = useChat(threadId, setThreadId, setTodos, setFiles, activeAssistant);
+  } = useChat(threadId, setThreadId, setTodos, setFiles, activeAssistant, files);
 
   return (
     <div
@@ -135,6 +142,7 @@ export default function HomePage() {
         onFileClick={setSelectedFile}
         onAssistantUpdate={refreshActiveAssistant}
         assistantError={assistantError}
+        onCreateFile={handleCreateFile}
       />
       <div
         style={{

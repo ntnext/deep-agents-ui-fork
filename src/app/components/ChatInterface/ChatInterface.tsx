@@ -167,38 +167,41 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
       continueStream(preparingToCallTaskTool);
     }, [continueStream, messages]);
 
-    const handleRerunStep = useCallback(() => {
-      const hasTaskToolCall = justCalledTaskTool(messages);
-      let rewindIndex = messages.length - 1;
-      if (hasTaskToolCall) {
-        rewindIndex = messages.findLastIndex(
-          (message) => message.type === "ai",
+    const handleRestartFromAIMessage = useCallback(
+      (message: Message) => {
+        if (!debugMode) return;
+        const meta = getMessagesMetadata(message);
+        const { parent_checkpoint: parentCheckpoint } =
+          meta?.firstSeenState ?? {};
+        const msgIndex = messages.findIndex((m) => m.id === message.id);
+        runSingleStep(
+          [],
+          parentCheckpoint ?? undefined,
+          false,
+          messages.slice(0, msgIndex),
         );
-        // Replay the Tool Call, not the AI Message
-        rewindIndex += 1;
-        // Clear selected subAgent when replaying deletes it
-        const aiMessageToUnwind = messages[rewindIndex] as AIMessage;
-        if (
-          aiMessageToUnwind &&
-          aiMessageToUnwind.tool_calls &&
-          aiMessageToUnwind.tool_calls.some(
-            (toolCall) => toolCall.id === selectedSubAgent?.id,
-          )
-        ) {
-          onSelectSubAgent(null);
-        }
-      }
-      const meta = getMessagesMetadata(messages[rewindIndex]);
-      const firstSeenState = meta?.firstSeenState;
-      const { parent_checkpoint: parentCheckpoint } = firstSeenState ?? {};
-      runSingleStep([], parentCheckpoint ?? undefined, hasTaskToolCall);
-    }, [
-      messages,
-      runSingleStep,
-      getMessagesMetadata,
-      onSelectSubAgent,
-      selectedSubAgent,
-    ]);
+      },
+      [debugMode, runSingleStep, messages],
+    );
+
+    const handleRestartFromSubTask = useCallback(
+      (toolCallId: string) => {
+        if (!debugMode) return;
+        const msgIndex = messages.findIndex(
+          (m) => m.type === "tool" && m.tool_call_id === toolCallId,
+        );
+        const meta = getMessagesMetadata(messages[msgIndex]);
+        const { parent_checkpoint: parentCheckpoint } =
+          meta?.firstSeenState ?? {};
+        runSingleStep(
+          [],
+          parentCheckpoint ?? undefined,
+          true,
+          messages.slice(0, msgIndex),
+        );
+      },
+      [debugMode, runSingleStep, messages],
+    );
 
     const hasMessages = messages.length > 0;
     const processedMessages = useMemo(() => {
@@ -362,7 +365,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
               className="flex-1 overflow-y-auto"
               style={{ padding: "1.5rem", paddingBottom: "100px" }}
             >
-              {processedMessages.map((data) => (
+              {processedMessages.map((data, index) => (
                 <ChatMessage
                   key={data.message.id}
                   message={data.message}
@@ -370,6 +373,11 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                   showAvatar={data.showAvatar}
                   onSelectSubAgent={onSelectSubAgent}
                   selectedSubAgent={selectedSubAgent}
+                  onRestartFromAIMessage={handleRestartFromAIMessage}
+                  onRestartFromSubTask={handleRestartFromSubTask}
+                  debugMode={debugMode}
+                  isLoading={isLoading}
+                  isLastMessage={index === processedMessages.length - 1}
                 />
               ))}
               {isLoading && (
@@ -412,24 +420,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                     >
                       Continue
                     </Button>
-                    <Button
-                      onClick={handleRerunStep}
-                      className="rounded-sm bg-transparent text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
-                      style={{
-                        border: "1px solid var(--color-warning)",
-                        color: "var(--color-warning)",
-                        padding: "0.25rem 1rem",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor =
-                          "rgba(245, 158, 11, 0.1)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                      }}
-                    >
-                      Re-run step
-                    </Button>
+                    
                   </div>
                 </div>
               )}

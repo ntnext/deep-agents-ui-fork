@@ -24,6 +24,7 @@ export function useChat(
   onTodosUpdate: (todos: TodoItem[]) => void,
   onFilesUpdate: (files: Record<string, string>) => void,
   activeAssistant: Assistant | null,
+  currentFiles: Record<string, string>,
 ) {
   const { config, configVersion } = useEnvConfig();
   const deploymentUrl = config?.DEPLOYMENT_URL || "";
@@ -71,7 +72,10 @@ export function useChat(
         content: message,
       };
       stream.submit(
-        { messages: [humanMessage] },
+        { 
+          messages: [humanMessage],
+          files: currentFiles
+        },
         {
           optimisticValues(prev) {
             const prevMessages = prev.messages ?? [];
@@ -85,7 +89,7 @@ export function useChat(
         },
       );
     },
-    [stream, activeAssistant?.config],
+    [stream, activeAssistant?.config, currentFiles],
   );
 
   const runSingleStep = useCallback(
@@ -93,9 +97,13 @@ export function useChat(
       messages: Message[],
       checkpoint?: Checkpoint,
       isRerunningSubagent?: boolean,
+      optimisticMessages?: Message[],
     ) => {
       if (checkpoint) {
         stream.submit(undefined, {
+          ...(optimisticMessages
+            ? { optimisticValues: { messages: optimisticMessages } }
+            : {}),
           config: {
             ...(activeAssistant?.config || {}),
           },
@@ -106,7 +114,10 @@ export function useChat(
         });
       } else {
         stream.submit(
-          { messages: messages },
+          { 
+            messages: messages,
+            files: currentFiles
+          },
           {
             config: {
               ...(activeAssistant?.config || {}),
@@ -116,7 +127,7 @@ export function useChat(
         );
       }
     },
-    [stream, activeAssistant?.config],
+    [stream, activeAssistant?.config, currentFiles],
   );
 
   const continueStream = useCallback(

@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useMemo, useCallback, useState } from "react";
-import { FileText, CheckCircle, Circle, Clock, Settings } from "lucide-react";
+import { FileText, CheckCircle, Circle, Clock, Settings, Plus } from "lucide-react";
 import { useEnvConfig } from "@/providers/EnvConfig";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { OptimizationWindow } from "../OptimizationWindow/OptimizationWindow";
+import { FileCreationDialog } from "../FileCreationDialog/FileCreationDialog";
 import type { TodoItem, FileItem } from "../../types/types";
 import { Assistant, Message } from "@langchain/langgraph-sdk";
 
@@ -19,6 +20,7 @@ interface TasksFilesSidebarProps {
   onFileClick: (file: FileItem) => void;
   onAssistantUpdate: () => void;
   assistantError: string | null;
+  onCreateFile: (fileName: string, content: string) => void;
 }
 
 export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
@@ -31,12 +33,22 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
     onFileClick,
     onAssistantUpdate,
     assistantError,
+    onCreateFile,
   }) => {
     const [isTrainingModeExpanded, setIsTrainingModeExpanded] = useState(false);
+    const [isFileCreationDialogOpen, setIsFileCreationDialogOpen] = useState(false);
     const { openSettings } = useEnvConfig();
 
     const handleToggleTrainingMode = useCallback(() => {
       setIsTrainingModeExpanded((prev) => !prev);
+    }, []);
+
+    const handleOpenFileCreationDialog = useCallback(() => {
+      setIsFileCreationDialogOpen(true);
+    }, []);
+
+    const handleCloseFileCreationDialog = useCallback(() => {
+      setIsFileCreationDialogOpen(false);
     }, []);
 
     const getStatusIcon = useCallback((status: TodoItem["status"]) => {
@@ -342,9 +354,41 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                 flex: 1,
                 padding: 0,
                 overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
-              <ScrollArea style={{ height: "100%" }}>
+              <div style={{ padding: "1rem", paddingBottom: "0.5rem" }}>
+                <Button
+                  onClick={handleOpenFileCreationDialog}
+                  style={{
+                    width: "100%",
+                    backgroundColor: "var(--color-primary)",
+                    color: "white",
+                    border: "none",
+                    fontSize: "0.875rem",
+                    padding: "0.5rem 1rem",
+                    borderRadius: "0.375rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.5rem",
+                    transition: "all 200ms ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = "0.9";
+                    e.currentTarget.style.transform = "translateY(-1px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = "1";
+                    e.currentTarget.style.transform = "translateY(0)";
+                  }}
+                >
+                  <Plus size={16} />
+                  Create New File
+                </Button>
+              </div>
+              <ScrollArea style={{ flex: 1 }}>
                 {Object.keys(files).length === 0 ? (
                   <div
                     style={{
@@ -358,7 +402,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                     </p>
                   </div>
                 ) : (
-                  <div style={{ padding: "1rem" }}>
+                  <div style={{ padding: "1rem", paddingTop: "0.5rem" }}>
                     {Object.keys(files).map((file, index) => (
                       <div
                         key={file}
@@ -375,8 +419,9 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                             display: "flex",
                             alignItems: "center",
                             gap: "0.5rem",
-                            padding: "0.25rem 0.5rem",
+                            padding: "0.5rem",
                             cursor: "pointer",
+                            borderRadius: "0.375rem",
                             transition: "background-color 200ms ease",
                           }}
                           onClick={() =>
@@ -429,6 +474,11 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
             />
           )}
         </div>
+        <FileCreationDialog
+          isOpen={isFileCreationDialogOpen}
+          onClose={handleCloseFileCreationDialog}
+          onCreateFile={onCreateFile}
+        />
       </div>
     );
   },
