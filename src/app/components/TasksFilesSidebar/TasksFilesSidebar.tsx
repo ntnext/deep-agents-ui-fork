@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useCallback, useState } from "react";
-import { FileText, CheckCircle, Circle, Clock, Settings, Plus } from "lucide-react";
+import { FileText, CheckCircle, Circle, Clock, Settings, Plus, Copy } from "lucide-react";
 import { useEnvConfig } from "@/providers/EnvConfig";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -50,6 +50,25 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
     const handleCloseFileCreationDialog = useCallback(() => {
       setIsFileCreationDialogOpen(false);
     }, []);
+
+    const handleCopyConfig = useCallback(async () => {
+      if (!activeAssistant?.config?.configurable) return;
+      
+      const configText = JSON.stringify(activeAssistant.config.configurable, null, 2);
+      try {
+        await navigator.clipboard.writeText(configText);
+        // Could add a toast notification here if desired
+      } catch (err) {
+        console.error('Failed to copy config:', err);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = configText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
+    }, [activeAssistant]);
 
     const getStatusIcon = useCallback((status: TodoItem["status"]) => {
       switch (status) {
@@ -169,6 +188,19 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                   className="data-[state=active]:!bg-[var(--color-primary)] data-[state=active]:!text-white data-[state=active]:shadow-sm data-[state=inactive]:bg-transparent data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:bg-black/5 data-[state=inactive]:hover:text-[var(--color-text-primary)]"
                 >
                   Files ({Object.keys(files).length})
+                </TabsTrigger>
+                <TabsTrigger
+                  value="config"
+                  style={{
+                    flex: 1,
+                    fontSize: "0.875rem",
+                    padding: "0.5rem 1rem",
+                    borderRadius: "0.25rem",
+                    transition: "all 200ms ease",
+                  }}
+                  className="data-[state=active]:!bg-[var(--color-primary)] data-[state=active]:!text-white data-[state=active]:shadow-sm data-[state=inactive]:bg-transparent data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:hover:bg-black/5 data-[state=inactive]:hover:text-[var(--color-text-primary)]"
+                >
+                  Config
                 </TabsTrigger>
               </TabsList>
               <Button
@@ -461,6 +493,115 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                   </div>
                 )}
               </ScrollArea>
+            </TabsContent>
+
+            <TabsContent
+              value="config"
+              style={{
+                flex: 1,
+                padding: 0,
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div style={{ padding: "1rem", paddingBottom: "0.5rem" }}>
+                <Button
+                  onClick={handleCopyConfig}
+                  style={{
+                    width: "100%",
+                    backgroundColor: "var(--color-primary)",
+                    color: "white",
+                    border: "none",
+                    fontSize: "0.875rem",
+                    padding: "0.5rem 1rem",
+                    borderRadius: "0.375rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.5rem",
+                    transition: "all 200ms ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = "0.9";
+                    e.currentTarget.style.transform = "translateY(-1px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = "1";
+                    e.currentTarget.style.transform = "translateY(0)";
+                  }}
+                  disabled={!activeAssistant || assistantError}
+                >
+                  <Copy size={16} />
+                  Copy Configuration
+                </Button>
+              </div>
+              <div style={{ flex: 1, minHeight: 0 }}>
+                <ScrollArea 
+                  style={{ 
+                    height: "100%",
+                    width: "100%"
+                  }}
+                >
+                  {!activeAssistant || assistantError ? (
+                    <div
+                      style={{
+                        padding: "2rem",
+                        textAlign: "center",
+                        color: "var(--color-text-tertiary)",
+                      }}
+                    >
+                      <p style={{ margin: 0, fontSize: "0.875rem" }}>
+                        {assistantError ? "Failed to load agent config" : "No agent loaded"}
+                      </p>
+                    </div>
+                  ) : (
+                    <div style={{ padding: "1rem", paddingTop: "0.5rem" }}>
+                      <div
+                        style={{
+                          backgroundColor: "#0d1117",
+                          border: "1px solid var(--color-border)",
+                          borderRadius: "0.5rem",
+                          padding: "1rem",
+                          fontFamily: '"Monaco", "Menlo", "Ubuntu Mono", monospace',
+                          fontSize: "0.75rem",
+                          lineHeight: "1.4",
+                          color: "#e6edf3",
+                          whiteSpace: "pre-wrap",
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        {JSON.stringify(activeAssistant.config.configurable || {}, null, 2)}
+                      </div>
+                      <div
+                        style={{
+                          marginTop: "1rem",
+                          padding: "0.75rem",
+                          backgroundColor: "var(--color-border-light)",
+                          borderRadius: "0.375rem",
+                          fontSize: "0.75rem",
+                          color: "var(--color-text-secondary)",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        <p style={{ margin: 0, fontSize: "0.75rem", fontWeight: 500 }}>
+                          Agent: {activeAssistant.name || activeAssistant.assistant_id}
+                        </p>
+                        {activeAssistant.metadata?.created_at && (
+                          <p style={{ margin: "0.25rem 0 0 0", fontSize: "0.75rem" }}>
+                            Created: {new Date(activeAssistant.metadata.created_at).toLocaleString()}
+                          </p>
+                        )}
+                        {activeAssistant.metadata?.updated_at && (
+                          <p style={{ margin: "0.25rem 0 0 0", fontSize: "0.75rem" }}>
+                            Updated: {new Date(activeAssistant.metadata.updated_at).toLocaleString()}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </ScrollArea>
+              </div>
             </TabsContent>
           </Tabs>
           {activeAssistant && !assistantError && (
