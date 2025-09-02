@@ -2,6 +2,7 @@
 
 import React, { useMemo, useCallback, useState } from "react";
 import { FileText, CheckCircle, Circle, Clock, Settings, Plus, Copy } from "lucide-react";
+import * as yaml from 'js-yaml';
 import { useEnvConfig } from "@/providers/EnvConfig";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -54,7 +55,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
     const handleCopyConfig = useCallback(async () => {
       if (!activeAssistant?.config?.configurable) return;
       
-      const configText = JSON.stringify(activeAssistant.config.configurable, null, 2);
+      const configText = yaml.dump(activeAssistant.config.configurable || {}, { indent: 2, lineWidth: -1 });
       try {
         await navigator.clipboard.writeText(configText);
         // Could add a toast notification here if desired
@@ -571,7 +572,7 @@ export const TasksFilesSidebar = React.memo<TasksFilesSidebarProps>(
                           wordBreak: "break-word",
                         }}
                       >
-                        {JSON.stringify(activeAssistant.config.configurable || {}, null, 2)}
+                        {yaml.dump(activeAssistant.config.configurable || {}, { indent: 2, lineWidth: -1 })}
                       </div>
                       <div
                         style={{

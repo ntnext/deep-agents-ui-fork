@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { Expand, X, Send, RotateCcw, Loader2 } from "lucide-react";
 import * as Diff from "diff";
+import * as yaml from "js-yaml";
 import {
   Tooltip,
   TooltipTrigger,
@@ -20,7 +21,7 @@ import { createClient, getOptimizerClient } from "@/lib/client";
 import { Assistant, type Message } from "@langchain/langgraph-sdk";
 import { v4 as uuidv4 } from "uuid";
 import { useEnvConfig } from "@/providers/EnvConfig";
-import { prepareOptimizerMessage } from "@/app/utils/utils";
+import { prepareOptimizerMessage, formatConversationForLLM } from "@/app/utils/utils";
 import { cn } from "@/lib/utils";
 
 type StateType = {
@@ -90,7 +91,7 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
           id: uuidv4(),
           status: "pending",
           old_config: activeAssistant?.config.configurable || {},
-          new_config: JSON.parse(state.values.files["config.json"]),
+          new_config: yaml.load(state.values.files["config.yaml"]) as Record<string, unknown>,
         };
         setDisplayMessages((prev) => [...prev, optimizerMessage]);
       },
@@ -128,12 +129,8 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
         stream.submit({
           messages: [humanMessage],
           files: {
-            "config.json": JSON.stringify(
-              activeAssistant?.config.configurable || {},
-              null,
-              2,
-            ),
-            "conversation.json": JSON.stringify(deepAgentMessages, null, 2),
+            "config.yaml": yaml.dump(activeAssistant?.config.configurable || {}),
+            "conversation.txt": formatConversationForLLM(deepAgentMessages),
           },
         });
       },
@@ -254,8 +251,8 @@ export const OptimizationWindow = React.memo<OptimizationWindowProps>(
         oldConfig: Record<string, unknown>,
         newConfig: Record<string, unknown>,
       ) => {
-        const oldStr = JSON.stringify(oldConfig, null, 2);
-        const newStr = JSON.stringify(newConfig, null, 2);
+        const oldStr = yaml.dump(oldConfig);
+        const newStr = yaml.dump(newConfig);
 
         const oldLines = oldStr.split("\n");
         const newLines = newStr.split("\n");
