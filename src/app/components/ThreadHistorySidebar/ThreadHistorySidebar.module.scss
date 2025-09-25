@@ -52,6 +52,7 @@
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -120,7 +121,7 @@
   }
 
   &.active {
-    background-color: var(--color-avatar-bg);
+    background-color: var(--color-secondary);
 
     .threadIcon {
       color: var(--color-primary);

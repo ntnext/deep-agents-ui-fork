@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from 'react';
 import React, { useState, useCallback, useEffect } from "react";
 import { useQueryState } from "nuqs";
 import { ChatInterface } from "./components/ChatInterface/ChatInterface";
@@ -11,7 +12,17 @@ import { useAuthContext } from "@/providers/Auth";
 import type { SubAgent, FileItem, TodoItem } from "./types/types";
 import styles from "./page.module.scss";
 
-export default function HomePage() {
+export const dynamic = 'force-dynamic'; // ← evita il prerender su "/"
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomePageInner />
+    </Suspense>
+  );
+}
+
+function HomePageInner() {
   const { session } = useAuthContext();
   const [threadId, setThreadId] = useQueryState("threadId");
   const [selectedSubAgent, setSelectedSubAgent] = useState<SubAgent | null>(

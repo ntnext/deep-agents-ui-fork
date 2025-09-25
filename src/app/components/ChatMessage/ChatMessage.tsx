@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect, useMemo } from "react";
-import { User, Bot } from "lucide-react";
+import { User } from "lucide-react";
+import Image from "next/image";
 import { SubAgentIndicator } from "../SubAgentIndicator/SubAgentIndicator";
 import { ToolCallBox } from "../ToolCallBox/ToolCallBox";
 import { MarkdownContent } from "../MarkdownContent/MarkdownContent";
@@ -75,7 +77,7 @@ export const ChatMessage = React.memo<ChatMessageProps>(
             (isUser ? (
               <User className={styles.avatarIcon} />
             ) : (
-              <Bot className={styles.avatarIcon} />
+              <Image src="/m.png" alt="Logo" width={0} height={0} className={styles.avatarIcon} />
             ))}
         </div>
         <div className={styles.content}>

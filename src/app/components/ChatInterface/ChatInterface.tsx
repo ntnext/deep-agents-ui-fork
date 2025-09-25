@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, {
@@ -10,7 +11,7 @@ import React, {
 } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Bot, LoaderCircle, SquarePen, History, X } from "lucide-react";
+import { Send, LoaderCircle, SquarePen, History } from "lucide-react";
 import { ChatMessage } from "../ChatMessage/ChatMessage";
 import { ThreadHistorySidebar } from "../ThreadHistorySidebar/ThreadHistorySidebar";
 import type { SubAgent, TodoItem, ToolCall } from "../../types/types";
@@ -18,6 +19,7 @@ import { useChat } from "../../hooks/useChat";
 import styles from "./ChatInterface.module.scss";
 import { Message } from "@langchain/langgraph-sdk";
 import { extractStringFromMessageContent } from "../../utils/utils";
+import Image from "next/image";
 
 interface ChatInterfaceProps {
   threadId: string | null;
@@ -185,8 +187,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <Bot className={styles.logo} />
-            <h1 className={styles.title}>Deep Agents</h1>
+            <Image src="/logo.webp" alt="Logo" width={100} height={64} />
+            <h1 className={styles.title}>Agents</h1>
           </div>
           <div className={styles.headerRight}>
             <Button
@@ -212,7 +214,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
           <div className={styles.messagesContainer}>
             {!hasMessages && !isLoading && !isLoadingThreadState && (
               <div className={styles.emptyState}>
-                <Bot size={48} className={styles.emptyIcon} />
+                <Image src="/m.png" alt="Logo" width={48} height={48} className={styles.emptyIcon} />
                 <h2>Start a conversation or select a thread from history</h2>
               </div>
             )}

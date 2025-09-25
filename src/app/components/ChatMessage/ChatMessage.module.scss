@@ -11,19 +11,19 @@
     flex-direction: row-reverse;
 
     .bubble {
-      background-color: var(--color-user-message);
-      color: white;
+      background: var(--color-user-message);
       margin-left: auto;
       margin-top: $spacing-md;
     }
 
     .avatar {
+      background: var(--color-user-message);
       margin-top: $spacing-md;
       background-color: var(--color-user-message);
     }
 
     .avatarIcon {
-      color: white;
+      color: black;
     }
   }
 
@@ -42,6 +42,10 @@
 
     .avatarIcon {
       color: var(--color-secondary);
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 4px;
     }
   }
 }

@@ -34,6 +34,7 @@ export function useChat(
 
   const handleUpdateEvent = useCallback(
     (data: { [node: string]: Partial<StateType> }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       Object.entries(data).forEach(([_, nodeData]) => {
         if (nodeData?.todos) {
           onTodosUpdate(nodeData.todos);

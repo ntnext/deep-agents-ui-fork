@@ -3,9 +3,10 @@
 :root {
   /* App-specific color variables */
   --color-primary: #1c3c3c;
-  --color-user-message: #076699;
-  --color-avatar-bg: #ebe8fe;
-  --color-secondary: #1c3c3c;
+  --color-user-message: linear-gradient(180deg, #E8FCE1, #F0FEEC, #F9FEF8);
+  --color-header: #000000;
+  --color-avatar-bg: #000;
+  --color-secondary: #97F175;
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
@@ -101,18 +102,23 @@ h6 {
 h1 {
   font-size: 1.875rem;
 }
+
 h2 {
   font-size: 1.5rem;
 }
+
 h3 {
   font-size: 1.25rem;
 }
+
 h4 {
   font-size: 1.125rem;
 }
+
 h5 {
   font-size: 1rem;
 }
+
 h6 {
   font-size: 0.875rem;
 }
