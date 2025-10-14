@@ -11,6 +11,7 @@ type StateType = {
   messages: Message[];
   todos: TodoItem[];
   files: Record<string, string>;
+  ui?: [unknown]; // Adjust type as needed
 };
 
 export function useChat(
@@ -91,5 +92,7 @@ export function useChat(
     isLoading: stream.isLoading,
     sendMessage,
     stopStream,
+    ui: stream.values.ui,
+    stream: stream,
   };
 }

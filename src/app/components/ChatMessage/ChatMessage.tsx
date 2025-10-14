@@ -9,6 +9,9 @@ import type { SubAgent, ToolCall } from "../../types/types";
 import styles from "./ChatMessage.module.scss";
 import { Message } from "@langchain/langgraph-sdk";
 import { extractStringFromMessageContent } from "../../utils/utils";
+import { LoadExternalComponent } from "@langchain/langgraph-sdk/react-ui";
+import type { UIMessage } from "@langchain/langgraph-sdk/react-ui";
+import components from "@/components/ui/ui";
 
 interface ChatMessageProps {
   message: Message;
@@ -16,10 +19,12 @@ interface ChatMessageProps {
   showAvatar: boolean;
   onSelectSubAgent: (subAgent: SubAgent) => void;
   selectedSubAgent: SubAgent | null;
+  ui?: unknown;
+  stream: any;
 }
 
 export const ChatMessage = React.memo<ChatMessageProps>(
-  ({ message, toolCalls, showAvatar, onSelectSubAgent, selectedSubAgent }) => {
+  ({ message, toolCalls, showAvatar, onSelectSubAgent, selectedSubAgent, ui, stream }) => {
     const isUser = message.type === "human";
     const messageContent = extractStringFromMessageContent(message);
     const hasContent = messageContent && messageContent.trim() !== "";
@@ -107,6 +112,19 @@ export const ChatMessage = React.memo<ChatMessageProps>(
               ))}
             </div>
           )}
+
+          {Array.isArray(ui) &&
+            ui
+              .filter((ui: UIMessage) => ui.metadata?.message_id === message.id)
+              .map((ui: UIMessage) => (
+                <LoadExternalComponent
+                  key={ui.id}
+                  stream={stream}
+                  message={ui}
+                  fallback={<div className="text-gray-500">Loading component...</div>}
+                  components={components}
+                />
+              ))}
         </div>
       </div>
     );

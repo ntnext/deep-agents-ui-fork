@@ -18,6 +18,8 @@ import { useChat } from "../../hooks/useChat";
 import styles from "./ChatInterface.module.scss";
 import { Message } from "@langchain/langgraph-sdk";
 import { extractStringFromMessageContent } from "../../utils/utils";
+import Image from "next/image";
+import type { UIMessage } from "@langchain/langgraph-sdk/react-ui";
 
 interface ChatInterfaceProps {
   threadId: string | null;
@@ -47,7 +49,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     const [isThreadHistoryOpen, setIsThreadHistoryOpen] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const { messages, isLoading, sendMessage, stopStream } = useChat(
+    const { messages, isLoading, sendMessage, stopStream, ui, stream } = useChat(
       threadId,
       setThreadId,
       onTodosUpdate,
@@ -56,7 +58,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
 
     useEffect(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
+    }, [messages, ui]);
 
     const handleSubmit = useCallback(
       (e: FormEvent) => {
@@ -93,6 +95,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
     const hasMessages = messages.length > 0;
 
     const processedMessages = useMemo(() => {
+      //console.log("UI state in ChatInterface:", ui);
+      //console.log("Messages:", messages);
       /* 
     1. Loop through all messages
     2. For each AI message, add the AI message, and any tool calls to the messageMap
@@ -163,13 +167,29 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             };
             break;
           }
+
+
+
         } else if (message.type === "human") {
           messageMap.set(message.id!, {
             message,
             toolCalls: [],
           });
         }
+        const msgId = message.id;
+        if (msgId) {
+          const entry = messageMap.get(msgId);
+          if (entry) {
+            entry.ui = ui
+              ? ui.filter((ui1: UIMessage) => ui1.metadata?.message_id === msgId)
+              : [];
+          }
+        }
       });
+
+
+      console.log("Processed Messages:", Array.from(messageMap.values()));
+
       const processedArray = Array.from(messageMap.values());
       return processedArray.map((data, index) => {
         const prevMessage =
@@ -230,6 +250,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
                   showAvatar={data.showAvatar}
                   onSelectSubAgent={onSelectSubAgent}
                   selectedSubAgent={selectedSubAgent}
+                  ui={data.ui || []}
+                  stream={stream}
                 />
               ))}
               {isLoading && (
