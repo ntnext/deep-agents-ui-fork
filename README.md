@@ -1,13 +1,3 @@
-# Deep Agents UI
-
-Deep Agents are generic AI agents that are capable of handling tasks of varying complexity. This is a UI intended to be used alongside the [`deep-agents`](https://github.com/hwchase17/deepagents?ref=blog.langchain.com) package from LangChain.
-
-If the term "Deep Agents" is new to you, check out these videos!
-[What are Deep Agents?](https://www.youtube.com/watch?v=433SmtTc0TA)
-[Implementing Deep Agents](https://www.youtube.com/watch?v=TTMYJAw5tiA&t=701s)
-
-And check out this [video](https://youtu.be/0CE_BhdnZZI) for a walkthrough of this UI.
-
 ### Connecting to a Local LangGraph Server
 
 Create a `.env.local` file and set two variables
@@ -35,21 +25,3 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to test out your deep agent!
-
-```
-python3 --version
-brew install python@3.11
-```
-
-### Create an environment and install dependencies
-
-#### Mac/Linux/WSL
-
-```
-python3.11 -m venv lc-academy-env
-source lc-academy-env/bin/activate
-pip install -r requirements.txt
-langgraph dev
-```
-
-langgraph dev

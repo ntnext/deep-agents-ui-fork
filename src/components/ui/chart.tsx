@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -16,7 +16,6 @@ import {
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { useStreamContext } from "@langchain/langgraph-sdk/react-ui";
-import { Button } from './button';
 
 
 // Registra i componenti Chart.js
@@ -211,14 +210,7 @@ export const ChartViewerComponent: React.FC<ChartViewerProps> = ({
                         }
                     }}
                 />
-
-
             </div>
-            <div className="mb-4">
-                <Button variant="destructive" >Default</Button>
-            </div>
-
-
             {/* Description */}
             {/* {description && (
                 <div className="p-4 bg-white bg-opacity-5 rounded-lg border-l-4 border-blue-500">
