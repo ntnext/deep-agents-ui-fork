@@ -16,7 +16,7 @@
   --color-border: #e5e7eb;
   --color-border-light: #f3f4f6;
   --color-text-primary: #111827;
-  --color-text-secondary: #6b7280;
+  --color-text-secondary: #ffffff;
   --color-text-tertiary: #9ca3af;
 
   /* Tailwind/Radix UI component variables */
@@ -47,7 +47,7 @@
     --color-border: #2d2d2d;
     --color-border-light: #232323;
     --color-text-primary: #f3f4f6;
-    --color-text-secondary: #9ca3af;
+    --color-text-secondary: #ffffff;
     --color-text-tertiary: #6b7280;
 
     /* Tailwind/Radix UI component variables for dark mode */
