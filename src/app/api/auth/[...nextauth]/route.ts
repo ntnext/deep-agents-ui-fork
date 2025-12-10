@@ -3,8 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 // Credenziali hardcodate
 const validCredentials = {
-  email: "xxx",
-  password: "xxxx",
+  email: process.env.NEXTAUTH_USER_EMAIL || "",
+  password: process.env.NEXTAUTH_USER_PASSWORD || "",
 };
 
 const handler = NextAuth({
