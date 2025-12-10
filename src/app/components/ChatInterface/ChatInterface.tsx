@@ -20,6 +20,7 @@ import styles from "./ChatInterface.module.scss";
 import { Message } from "@langchain/langgraph-sdk";
 import { extractStringFromMessageContent } from "../../utils/utils";
 import Image from "next/image";
+import { UserMenu } from "@/components/UserMenu";
 
 interface ChatInterfaceProps {
   threadId: string | null;
@@ -202,6 +203,9 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(
             <Button variant="ghost" size="icon" onClick={toggleThreadHistory}>
               <History size={20} />
             </Button>
+            <div className={styles.userMenuWrapper}>
+              <UserMenu />
+            </div>
           </div>
         </div>
         <div className={styles.content}>

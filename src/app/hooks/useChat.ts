@@ -5,7 +5,7 @@ import { getDeployment } from "@/lib/environment/deployments";
 import { v4 as uuidv4 } from "uuid";
 import type { TodoItem } from "../types/types";
 import { createClient } from "@/lib/client";
-import { useAuthContext } from "@/providers/Auth";
+import { useSession } from "next-auth/react";
 
 type StateType = {
   messages: Message[];
@@ -22,8 +22,8 @@ export function useChat(
   onFilesUpdate: (files: Record<string, string>) => void,
 ) {
   const deployment = useMemo(() => getDeployment(), []);
-  const { session } = useAuthContext();
-  const accessToken = session?.accessToken;
+  const { data: session } = useSession();
+  const accessToken = process.env.NEXT_PUBLIC_LANGSMITH_API_KEY || "";
 
   const agentId = useMemo(() => {
     if (!deployment?.agentId) {

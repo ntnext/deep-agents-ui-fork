@@ -3,12 +3,14 @@
 import { Suspense } from 'react';
 import React, { useState, useCallback, useEffect } from "react";
 import { useQueryState } from "nuqs";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { ChatInterface } from "./components/ChatInterface/ChatInterface";
 import { TasksFilesSidebar } from "./components/TasksFilesSidebar/TasksFilesSidebar";
 import { SubAgentPanel } from "./components/SubAgentPanel/SubAgentPanel";
 import { FileViewDialog } from "./components/FileViewDialog/FileViewDialog";
+import { UserMenu } from "@/components/UserMenu";
 import { createClient } from "@/lib/client";
-import { useAuthContext } from "@/providers/Auth";
 import type { SubAgent, FileItem, TodoItem } from "./types/types";
 import styles from "./page.module.scss";
 
@@ -23,7 +25,8 @@ export default function Page() {
 }
 
 function HomePageInner() {
-  const { session } = useAuthContext();
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [threadId, setThreadId] = useQueryState("threadId");
   const [selectedSubAgent, setSelectedSubAgent] = useState<SubAgent | null>(
     null,
@@ -34,6 +37,13 @@ function HomePageInner() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isLoadingThreadState, setIsLoadingThreadState] = useState(false);
 
+  // Redirect se non autenticato
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
   const toggleSidebar = useCallback(() => {
     setSidebarCollapsed((prev) => !prev);
   }, []);
@@ -41,7 +51,7 @@ function HomePageInner() {
   // When the threadId changes, grab the thread state from the graph server
   useEffect(() => {
     const fetchThreadState = async () => {
-      if (!threadId || !session?.accessToken) {
+      if (!threadId || !session?.user) {
         setTodos([]);
         setFiles({});
         setIsLoadingThreadState(false);
@@ -49,7 +59,7 @@ function HomePageInner() {
       }
       setIsLoadingThreadState(true);
       try {
-        const client = createClient(session.accessToken);
+        const client = createClient(process.env.NEXT_PUBLIC_LANGSMITH_API_KEY || "");
         const state = await client.threads.getState(threadId);
 
         if (state.values) {
@@ -69,7 +79,7 @@ function HomePageInner() {
       }
     };
     fetchThreadState();
-  }, [threadId, session?.accessToken]);
+  }, [threadId, session?.user]);
 
   const handleNewThread = useCallback(() => {
     setThreadId(null);
@@ -77,6 +87,14 @@ function HomePageInner() {
     setTodos([]);
     setFiles({});
   }, [setThreadId]);
+
+  if (status === "loading") {
+    return <div>Caricamento...</div>;
+  }
+
+  if (!session) {
+    return null;
+  }
 
   return (
     <div className={styles.container}>

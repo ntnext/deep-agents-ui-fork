@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { MessageSquare, X } from "lucide-react";
 import { createClient } from "@/lib/client";
-import { useAuthContext } from "@/providers/Auth";
+import { useSession } from "next-auth/react";
 import { getDeployment } from "@/lib/environment/deployments";
 import type { Thread } from "../../types/types";
 import styles from "./ThreadHistorySidebar.module.scss";
@@ -23,14 +23,15 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
   ({ open, setOpen, currentThreadId, onThreadSelect }) => {
     const [threads, setThreads] = useState<Thread[]>([]);
     const [isLoadingThreadHistory, setIsLoadingThreadHistory] = useState(true);
-    const { session } = useAuthContext();
+    const { data: session } = useSession();
     const deployment = useMemo(() => getDeployment(), []);
+    const accessToken = process.env.NEXT_PUBLIC_LANGSMITH_API_KEY || "";
 
     const fetchThreads = useCallback(async () => {
-      if (!deployment?.deploymentUrl || !session?.accessToken) return;
+      if (!deployment?.deploymentUrl || !accessToken) return;
       setIsLoadingThreadHistory(true);
       try {
-        const client = createClient(session.accessToken);
+        const client = createClient(accessToken);
         const response = await client.threads.search({
           limit: 30,
           sortBy: "created_at",
@@ -72,7 +73,7 @@ export const ThreadHistorySidebar = React.memo<ThreadHistorySidebarProps>(
       } finally {
         setIsLoadingThreadHistory(false);
       }
-    }, [deployment?.deploymentUrl, session?.accessToken]);
+    }, [deployment?.deploymentUrl, accessToken]);
 
     useEffect(() => {
       fetchThreads();
